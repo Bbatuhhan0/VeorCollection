@@ -57,8 +57,8 @@
 :root {
 	
 	/* #ED1D24 in decimal RGB */
-  --main-color: #f27092;
-  --main-color-rgb:237,29,36;
+  --main-color: #dabd82;
+  --main-color-rgb:218, 189, 130;
   
   /* #828A8D in decimal RGB */
   --color-two: rgb(130,138,141);

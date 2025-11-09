@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+	<meta charset="utf-8">
+	<title>Veor Collection</title>
+
+	<!-- Responsive -->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+	<!-- Favicons Icon -->
+	<link rel="shortcut icon" href="~/logo/favicon.png" type="image/x-icon">
+	<link rel="icon" href="~/logo/favicon.png" type="image/x-icon">
+
+	<!-- Stylesheets -->
+	<link href="~/html/assets/css/bootstrap.css" rel="stylesheet">
+	<link href="~/html/assets/css/style.css" rel="stylesheet">
+	<link href="~/html/assets/css/responsive.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+	<div class="page-wrapper">
+
+		<!-- Preloader -->
+		<div class="loader-wrap">
+			<div class="preloader">
+				<div class="preloader-close">x</div>
+				<div id="handle-preloader" class="handle-preloader">
+					<div class="animation-preloader">
+						<div class="spinner"></div>
+						<div class="txt-loading">
+							<span data-text-preloader="V" class="letters-loading">
+								V
+							</span>
+							<span data-text-preloader="E" class="letters-loading">
+								E
+							</span>
+							<span data-text-preloader="O" class="letters-loading">
+								O
+							</span>
+							<span data-text-preloader="R" class="letters-loading">
+								R
+							</span>
+							<br />
+							<span data-text-preloader="C" class="letters-loading">
+								C
+							</span>
+							<span data-text-preloader="O" class="letters-loading">
+								O
+							</span>
+							<span data-text-preloader="L" class="letters-loading">
+								L
+							</span>
+							<span data-text-preloader="L" class="letters-loading">
+								L
+							</span>
+							<span data-text-preloader="E" class="letters-loading">
+								E
+							</span>
+							<span data-text-preloader="C" class="letters-loading">
+								C
+							</span>
+							<span data-text-preloader="T" class="letters-loading">
+								T
+							</span>
+							<span data-text-preloader="İ" class="letters-loading">
+								İ
+							</span>
+							<span data-text-preloader="O" class="letters-loading">
+								O
+							</span>
+							<span data-text-preloader="N" class="letters-loading">
+								N
+							</span>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Preloader End -->
+		<!-- Main Header -->
+		<header class="main-header">
+
+			<!-- Header Lower -->
+			<div class="header-lower">
+
+				<div class="auto-container">
+					<div class="inner-container d-flex justify-content-between align-items-center">
+
+						<div class="logo-box d-flex align-items-center">
+							<!-- Logo -->
+							<div class="logo"><a asp-controller="VeorCollection" asp-action="Index"><img src="~/logo/logo.png" width="243" height="72" alt="logo"></a></div>
+						</div>
+						<div class="nav-outer clearfix">
+
+							<!-- Main Menu -->
+							<nav class="main-menu show navbar-expand-md">
+								<div class="navbar-header">
+									<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</button>
+								</div>
+
+								<div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+									<ul class="navigation clearfix">
+										<li>
+											<a asp-controller="VeorCollection" asp-action="Index">AnaSayfa</a>
+										</li>
+										<li>
+											<a asp-controller="VeorCollection" asp-action="About">Hakkımızda</a>
+										</li>
+										<li class="dropdown">
+											<a asp-controller="VeorCollection" asp-action="Products">Ürünler</a>
+											<ul>
+												<li><a asp-controller="VeorCollection" asp-action="Products">Tüm Ürünler</a></li>
+												<li><a href="#">Erkek Parfüm</a></li>
+												<li><a href="#">Kadın Parfüm</a></li>
+											</ul>
+										</li>
+										
+										
+										<li>
+											
+											<a asp-controller="VeorCollection" asp-action="Blog">Blog</a>
+									
+										</li>
+										<li><a asp-controller="VeorCollection" asp-action="Contact" >İletişim</a></li>
+									</ul>
+								</div>
+
+							</nav>
+							<!-- Main Menu End-->
+
+						</div>
+
+						<!-- Outer Box -->
+						<div class="outer-box d-flex align-items-center">
+
+@* 							<!-- Options Box -->
+							<div class="options-box d-flex align-items-center">
+
+								<!-- Search Box -->
+								<div class="search-box-outer">
+									<div class="search-box-btn"><span class="flaticon-search-1"></span></div>
+								</div>
+
+								<!-- User Box -->
+								<a class="user-box flaticon-user-3" data-bs-toggle="modal" data-bs-target="#loginmodal" href="javascript:void(0)"></a>
+
+								<!-- Like Box -->
+								<div class="like-box">
+									<a class="user-box flaticon-heart" href="contact.html"></a>
+									<span class="total-like">0</span>
+								</div>
+
+							</div> *@
+
+							<!-- Cart Box -->
+							<div class="cart-box">
+@* 									<a href="shop-detail.html" class="icon-box">
+										<span class="icon flaticon-bag"></span>
+										<i class="total-cart">0</i>
+									</a> *@
+									Telefon<br>
+									<a class="phone" href="tel:+905531748355">+90 553 174 83 55</a>
+							</div>
+							<!-- End Cart Box -->
+							<!-- Mobile Navigation Toggler -->
+							<div class="mobile-nav-toggler"><span class="icon flaticon-menu"></span></div>
+
+						</div>
+						<!-- End Outer Box -->
+
+					</div>
+
+				</div>
+			</div>
+			<!-- End Header Lower -->
+			<!-- Sticky Header  -->
+			<div class="sticky-header">
+				<div class="auto-container">
+					<div class="d-flex justify-content-between align-items-center">
+						<!-- Logo -->
+						<div class="logo">
+							<a asp-controller="VeorCollection" asp-action="Index"><img src="~/logo/logo.png" width="121" height="36" alt="logo"></a>
+						</div>
+
+						<!-- Right Col -->
+						<div class="right-box">
+							<!-- Main Menu -->
+							<nav class="main-menu">
+								<!--Keep This Empty / Menu will come through Javascript-->
+							</nav>
+							<!-- Main Menu End-->
+							<!-- Mobile Navigation Toggler -->
+							<div class="mobile-nav-toggler"><span class="icon flaticon-menu"></span></div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- End Sticky Menu -->
+			<!-- Mobile Menu  -->
+			<div class="mobile-menu">
+				<div class="menu-backdrop"></div>
+				<div class="close-btn"><span class="icon flaticon-multiply"></span></div>
+				<nav class="menu-box">
+					<div class="nav-logo"><a asp-controller="VeorCollection" asp-action="Index"><img src="~/logo/logo.png" alt="logo"></a></div>
+					<!-- Search -->
+@* 					<div class="search-box">
+						<form method="post" action="contact.html">
+							<div class="form-group">
+								<input type="search" name="search-field" value="" placeholder="SEARCH HERE" required>
+								<button type="submit"><span class="icon flaticon-search-1"></span></button>
+							</div>
+						</form>
+					</div> *@
+					<div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
+				</nav>
+			</div>
+			<!-- End Mobile Menu -->
+
+		</header>
+		<!-- End Main Header -->
+
+    <div>
+        @RenderBody()
+    </div>
+
+
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<div class="pattern-layer-one" style="background-image: url(~/html/assets/images/icons/pattern-3.png)"></div>
+			<div class="pattern-layer-two" style="background-image: url(~/html/assets/images/icons/vector-2.png)"></div>
+			<div class="auto-container">
+
+				<!-- Widgets Section -->
+				<div class="widgets-section">
+					<div class="row clearfix">
+						<!-- Column -->
+						<div class="big-column col-lg-7 col-md-12 col-sm-12">
+							<div class="row clearfix">
+
+								<!-- Footer Column -->
+								<div class="footer-column col-lg-7 col-md-6 col-sm-12">
+									<div class="footer-widget links-widget">
+										<!-- Logo -->
+										<div class="logo"><a asp-controller="VeorCollection" asp-action="Index"><img src="~/logo/logo.png" width="243" height="72" alt="logo"></a></div>
+										@* <ul class="contact-list">
+											<li><span class="icon flaticon-call"></span>+90 554 174 83 55</li>
+
+											<li><span class="icon flaticon-mail"></span>info@veorcollection.com</li>
+										</ul> *@
+									</div>
+								</div>
+
+								<!-- Footer Column -->
+								<div class="footer-column col-lg-5 col-md-6 col-sm-12">
+									<div class="footer-widget links-widget">
+										<h5>Hızlı Bağlantılar</h5>
+										<ul class="page-list-two">
+											<li>
+												<a asp-controller="VeorCollection" asp-action="Index">AnaSayfa</a>
+											</li>
+											<li>
+												<a asp-controller="VeorCollection" asp-action="About">Hakkımızda</a>
+											</li>
+											<li >
+												<a asp-controller="VeorCollection" asp-action="Products">Ürünler</a>
+											</li>
+
+
+										</ul>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<!-- Column -->
+						<div class="big-column col-lg-5 col-md-12 col-sm-12">
+							<div class="row clearfix">
+
+								<!-- Footer Column -->
+								<div class="footer-column col-lg-7 col-md-6 col-sm-12">
+									<div class="footer-widget links-widget">
+										<h5>Destek</h5>
+										<ul class="page-list-two">
+
+											<li>
+
+												<a asp-controller="VeorCollection" asp-action="Blog">Blog</a>
+
+											</li>
+											<li><a asp-controller="VeorCollection" asp-action="Contact">İletişim</a></li>
+										</ul>
+									</div>
+								</div>
+
+								<!-- Footer Column -->
+								<div class="footer-column col-lg-5 col-md-6 col-sm-12">
+									<div class="footer-widget instagram-widget">
+										<h5>Politikalarımız</h5>
+										<ul class="page-list-two">
+											<li><a href="#">Gizlilik Politikası</a></li>
+											<li><a href="#">Çerez Politikası</a></li>
+											<li><a href="#">Kullanım Koşulları</a></li>
+										</ul>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- Footer Bottom -->
+				<div class="footer-bottom">
+					<div class="d-flex justify-content-between align-items-center flex-wrap">
+						<div class="copyright"><span>&copy; 2025</span> All Rights Reserved.</div>
+						<div class="email-box">
+							<a href="mailto:info@veorcollection.com"><span class="icon flaticon-mail"></span>info@veorcollection.com</a>
+						</div>
+						@* <div class="cards"><img src="~/html/assets/images/icons/cards.png" alt="24short-img"></div> *@
+					</div>
+				</div>
+
+			</div>
+		</footer>
+		<!-- End Main Footer -->
+
+
+	</div>
+	<!-- End PageWrapper -->
+
+
+
+	<!-- Scroll To Top -->
+	<div class="scroll-to-top" id="scroll-to-top" data-target="html"><span class="fa fa-arrow-up"></span></div>
+
+
+	<script src="~/html/assets/js/jquery.js"></script>
+	<script src="~/html/assets/js/popper.min.js"></script>
+	<script src="~/html/assets/js/bootstrap.min.js"></script>
+	<script src="~/html/assets/js/magnific-popup.min.js"></script>
+	<script src="~/html/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="~/html/assets/js/appear.js"></script>
+	<script src="~/html/assets/js/parallax.min.js"></script>
+	<script src="~/html/assets/js/tilt.jquery.min.js"></script>
+	<script src="~/html/assets/js/jquery.paroller.min.js"></script>
+	<script src="~/html/assets/js/owl.js"></script>
+	<script src="~/html/assets/js/wow.js"></script>
+	<script src="~/html/assets/js/swiper.min.js"></script>
+	<script src="~/html/assets/js/touchspin.js"></script>
+	<script src="~/html/assets/js/odometer.js"></script>
+	<script src="~/html/assets/js/mixitup.js"></script>
+	<script src="~/html/assets/js/jquery.marquee.min.js"></script>
+	<script src="~/html/assets/js/nav-tool.js"></script>
+	<script src="~/html/assets/js/jquery-ui.js"></script>
+	<script src="~/html/assets/js/script.js"></script>
+</body>
+</html>
