@@ -1,0 +1,597 @@
+﻿@{
+    Layout = "AnaLayout";
+}
+
+<!-- SHOP DETAIL SAYFASI ÖZEL STİLLERİ (BLACK & GOLD) -->
+<style>
+    /* 1. Genel Sayfa Arka Planı */
+    body, html, .page-wrapper, .shop-detail-section, .products-section-six {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    /* 2. Page Title (Başlık Alanı) */
+    .page-title {
+        background-color: #dabd82 !important; /* Gold */
+        background-image: none !important;
+    }
+
+        .page-title h2 {
+            color: #000000 !important;
+        }
+
+        .page-title .bread-crumb li, .page-title .bread-crumb li a {
+            color: #000000 !important;
+        }
+
+            .page-title .bread-crumb li a:hover {
+                color: #ffffff !important;
+            }
+
+    /* 3. Ürün Detay Alanı (Sol Galeri, Sağ İçerik) */
+    .shop-detail-section .inner-column h3 {
+        color: #ffffff !important; /* Ürün Başlığı */
+    }
+
+    .shop-detail-section .inner-column .text {
+        color: #cccccc !important; /* Açıklama gri */
+    }
+
+    .shop-detail-section .inner-column .price {
+        color: #dabd82 !important; /* Fiyat Gold */
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+        .shop-detail-section .inner-column .price span {
+            color: #666666 !important; /* Eski fiyat */
+            text-decoration: line-through;
+        }
+
+    /* Rating Yıldızları */
+    .rating .fa {
+        color: #dabd82 !important;
+    }
+
+    .rating .light {
+        color: #444 !important;
+    }
+
+    /* Radyo Butonları (Beden/Model Seçimi) */
+    .select-box input[type="radio"] {
+        display: none; /* Standart radyoyu gizle */
+    }
+
+    .select-box label {
+        cursor: pointer;
+        border: 1px solid #333;
+        padding: 5px 15px;
+        background-color: #0a0a0a;
+        color: #fff;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .select-box input[type="radio"]:checked + label {
+        background-color: #dabd82;
+        color: #000;
+        border-color: #dabd82;
+    }
+
+    .select-box label:hover {
+        border-color: #dabd82;
+    }
+
+    /* Kategoriler ve Etiketler */
+    .shop-detail-section .categories {
+        color: #999 !important;
+    }
+
+        .shop-detail-section .categories span {
+            color: #dabd82 !important;
+            font-weight: bold;
+        }
+
+    /* Sosyal Medya İkonları */
+    .social-box li a {
+        background-color: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+        .social-box li a:hover {
+            background-color: #dabd82 !important;
+            color: #000 !important;
+        }
+
+    /* Miktar Kutusu (Quantity Spinner) */
+    .quantity-box .item-quantity input.qty-spinner {
+        background-color: #0a0a0a !important;
+        border: 1px solid #333 !important;
+        color: #fff !important;
+    }
+
+    /* Buton (Add to Cart) */
+    .theme-btn.btn-style-one {
+        background-color: #fff !important;
+        color: #000 !important;
+        border: 1px solid #fff;
+    }
+
+        .theme-btn.btn-style-one:hover {
+            background-color: #dabd82 !important;
+            border-color: #dabd82 !important;
+            color: #000 !important;
+        }
+
+    /* 4. Tablar (Product Info Tabs) */
+    .product-info-tabs {
+        margin-top: 50px;
+    }
+
+    .tab-btns .tab-btn {
+        background-color: #0a0a0a !important;
+        color: #fff !important;
+        border: 1px solid #333;
+        border-bottom: none;
+    }
+
+        .tab-btns .tab-btn.active-btn {
+            background-color: #dabd82 !important;
+            color: #000 !important;
+            border-color: #dabd82;
+        }
+
+    .tabs-content {
+        border: 1px solid #333;
+        padding: 30px;
+        background-color: #0a0a0a;
+    }
+
+        .tabs-content h3, .tabs-content h5, .tabs-content h2 {
+            color: #fff !important;
+        }
+
+        .tabs-content p, .tabs-content li {
+            color: #ccc !important;
+        }
+
+    /* Yorumlar (Reviews) */
+    .comment-box {
+        background-color: #000 !important;
+        border: 1px solid #333;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .comment-info {
+        color: #dabd82 !important;
+    }
+
+    /* Yorum Formu */
+    .shop-comment-form input,
+    .shop-comment-form textarea {
+        background-color: #1a1a1a !important;
+        border: 1px solid #333 !important;
+        color: #fff !important;
+    }
+
+        .shop-comment-form input:focus,
+        .shop-comment-form textarea:focus {
+            border-color: #dabd82 !important;
+        }
+
+    .shop-comment-form label {
+        color: #ccc;
+    }
+
+    /* 5. Önerilen Ürünler (Products Section Six) */
+    .sec-title h4 {
+        color: #fff !important;
+    }
+
+        .sec-title h4 span {
+            color: #dabd82 !important;
+            border-bottom: 2px solid #dabd82;
+        }
+
+    .shop-item-two .inner-box {
+        background-color: #0a0a0a !important;
+        border: 1px solid #333 !important;
+        transition: all 0.3s ease;
+    }
+
+        .shop-item-two .inner-box:hover {
+            border-color: #dabd82 !important;
+        }
+
+    .shop-item-two .content h6 a {
+        color: #fff !important;
+    }
+
+        .shop-item-two .content h6 a:hover {
+            color: #dabd82 !important;
+        }
+
+    .shop-item-two .lower-box .price {
+        color: #dabd82 !important;
+    }
+
+        .shop-item-two .lower-box .price span {
+            color: #666;
+            text-decoration: line-through;
+        }
+
+    /* Küçük Seçim Kutuları (Grid Ürünlerdeki) */
+    .shop-item-two .select-box label {
+        background-color: #000;
+        border: 1px solid #333;
+        color: #fff;
+        padding: 2px 8px;
+        font-size: 12px;
+    }
+
+    .shop-item-two .select-box input:checked + label {
+        background-color: #dabd82;
+        color: #000;
+    }
+
+    /* Galeri Resim Kenarlığı */
+    .carousel-outer .image img {
+        border: 1px solid #333;
+    }
+</style>
+
+<!-- Page Title -->
+<section class="page-title">
+    <div class="auto-container">
+        <h2>Shop Detail</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="index.html">Home</a></li>
+            <li>Shop</li>
+            <li>Shop Details</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+<!-- Shop Detail Section -->
+<section class="shop-detail-section">
+    <div class="auto-container">
+        <!-- Upper Box -->
+        <div class="upper-box">
+            <div class="row clearfix">
+                <!-- Gallery Column -->
+                <div class="gallery-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <div class="carousel-outer">
+                            <!-- Swiper -->
+                            <div class="swiper-container content-carousel">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <figure class="image"><a href="assets/images/resource/products/1.png" class="lightbox-image"><img src="assets/images/resource/products/1.png" alt=""></a></figure>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <figure class="image"><a href="assets/images/resource/products/36.png" class="lightbox-image"><img src="assets/images/resource/products/36.png" alt=""></a></figure>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <figure class="image"><a href="assets/images/resource/products/37.png" class="lightbox-image"><img src="assets/images/resource/products/37.png" alt=""></a></figure>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-container thumbs-carousel">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <figure class="thumb"><img src="assets/images/resource/products/1.png" alt=""></figure>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <figure class="thumb"><img src="assets/images/resource/products/36.png" alt=""></figure>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <figure class="thumb"><img src="assets/images/resource/products/37.png" alt=""></figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Column -->
+                <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <h3>Accesories Fashion Hot Style Collections</h3>
+                        <!-- Rating -->
+                        <div class="rating">
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="light fa fa-star"></span>
+                            <i>(4 customer review)</i>
+                        </div>
+                        <!-- Price -->
+                        <div class="price">$16.00 <span>$32.00</span> <i>-34%</i></div>
+                        <div class="text">Rorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore enerators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. </div>
+
+                        <div class="d-flex flex-wrap mt-4 mb-4">
+                            <!-- Model -->
+                            <div class="model me-3">
+                                <span class="model-title" style="color:#dabd82; font-weight:bold;">Model :</span>
+                            </div>
+                            <!-- Select Size -->
+                            <div class="select-size-box clearfix">
+                                <div class="select-box"><input type="radio" name="payment-group" id="radio-one" checked><label for="radio-one">Small</label></div>
+                                <div class="select-box"><input type="radio" name="payment-group" id="radio-two"><label for="radio-two">Medium</label></div>
+                                <div class="select-box"><input type="radio" name="payment-group" id="radio-three"><label for="radio-three">Large</label></div>
+                                <div class="select-box"><input type="radio" name="payment-group" id="radio-four"><label for="radio-four">XL</label></div>
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="categories"><span>Categories :</span> All, Featured, Medical, Covid-19 Mask</div>
+
+                        <!-- Tags -->
+                        <div class="categories"><span>Tags :</span> Black, Brown, Red, Shoes, £0.00 - £150.00</div>
+
+                        <!-- Social Box -->
+                        <ul class="social-box">
+                            <li class="share" style="color:#fff;">Share:</li>
+                            <li><a href="#" class="fa fa-facebook-f"></a></li>
+                            <li><a href="#" class="fa fa-twitter"></a></li>
+                            <li><a href="#" class="fa fa-dribbble"></a></li>
+                            <li><a href="#" class="fa fa-linkedin"></a></li>
+                        </ul>
+
+                        <div class="d-flex align-items-center flex-wrap mt-4">
+                            <!-- Quantity Box -->
+                            <div class="quantity-box me-3">
+                                <div class="item-quantity">
+                                    <input class="qty-spinner" type="number" value="1" name="quantity" style="width: 80px; padding: 10px;">
+                                </div>
+                            </div>
+
+                            <!-- Button Box -->
+                            <div class="button-box">
+                                <a href="shop.html" class="theme-btn btn-style-one">
+                                    Add to cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Upper Box -->
+        <!-- Lower Box -->
+        <div class="lower-box">
+            <!-- Product Info Tabs -->
+            <div class="product-info-tabs">
+                <!-- Product Tabs -->
+                <div class="prod-tabs tabs-box">
+                    <!-- Tab Btns -->
+                    <ul class="tab-btns tab-buttons clearfix">
+                        <li data-tab="#prod-details" class="tab-btn active-btn">Product Details</li>
+                        <li data-tab="#prod-info" class="tab-btn">Additional Information</li>
+                        <li data-tab="#prod-review" class="tab-btn">Reviews (02)</li>
+                        <li data-tab="#prod-faq" class="tab-btn">FAQ</li>
+                    </ul>
+
+                    <!-- Tabs Container -->
+                    <div class="tabs-content">
+
+                        <!-- Tab / Active Tab -->
+                        <div class="tab active-tab" id="prod-details">
+                            <div class="content">
+                                <h3>Experience is over the world visit</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus, dolor eget viverra pretium, dolor tellus aliquet nunc vitae ultricies erat elit eu lacus.</p>
+                                <h5>More Details</h5>
+                                <div class="row clearfix">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <ul class="list-one">
+                                            <li>Lorem Ipsum is simply dummy text of the printing.</li>
+                                            <li>Type here your detail one by one li more add.</li>
+                                            <li>Has been the industry’s standard dummy text ever.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab -->
+                        <div class="tab" id="prod-info">
+                            <div class="content">
+                                <h3>Additional Information</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus.</p>
+                            </div>
+                        </div>
+
+                        <!-- Tab (Reviews) -->
+                        <div class="tab" id="prod-review">
+                            <h2 class="title">2 Reviews For This Product</h2>
+                            <div class="comments-area">
+                                <!--Comment Box-->
+                                <div class="comment-box">
+                                    <div class="comment">
+                                        <div class="author-thumb"><img src="assets/images/resource/author-1.jpg" alt=""></div>
+                                        <div class="comment-inner">
+                                            <div class="comment-info clearfix">Steven Rich – March 17, 2022:</div>
+                                            <div class="rating">
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star light"></span>
+                                            </div>
+                                            <div class="text">How all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Comment Box-->
+                                <div class="comment-box reply-comment">
+                                    <div class="comment">
+                                        <div class="author-thumb"><img src="assets/images/resource/author-2.jpg" alt=""></div>
+                                        <div class="comment-inner">
+                                            <div class="comment-info clearfix">William Cobus – April 21, 2022:</div>
+                                            <div class="rating">
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star-half-empty"></span>
+                                            </div>
+                                            <div class="text">There anyone who loves or pursues or desires to obtain pain itself, because it is pain.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comment Form -->
+                            <div class="shop-comment-form">
+                                <h4>Add Your Comments</h4>
+                                <form method="post" action="contact.html">
+                                    <div class="row clearfix">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                            <label>First Name *</label>
+                                            <input type="text" name="username" required>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                            <label>Last Name*</label>
+                                            <input type="email" name="email" required>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label>Your Comments*</label>
+                                            <textarea name="message"></textarea>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <button class="theme-btn btn-style-one">Submit now</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Tab -->
+                        <div class="tab" id="prod-faq">
+                            <div class="content">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--End Product Info Tabs-->
+        </div>
+        <!-- End Lower Box -->
+    </div>
+</section>
+<!-- End Shop Page Section -->
+<!-- Products Section Six (Related Products) -->
+<section class="products-section-six">
+    <div class="auto-container">
+        <!-- Sec Title -->
+        <div class="sec-title text-center">
+            <h4><span>Popular</span> Products For You !</h4>
+        </div>
+        <div class="row clearfix">
+
+            <!-- Shop Item 1 -->
+            <div class="shop-item-two col-lg-3 col-md-6 col-sm-12">
+                <div class="inner-box">
+                    <div class="image">
+                        <a href="shop-detail.html"><img src="assets/images/resource/products/25.png" alt="24short-img"></a>
+                        <div class="options-box">
+                            <ul class="option-list">
+                                <li><a class="flaticon-shopping-cart-2" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h6><a href="shop-detail.html">Fashion Style 65 perfect</a></h6>
+                        <div class="lower-box">
+                            <div class="price"><span>$239.52</span> $362.00</div>
+                            <div class="select-amount clearfix">
+                                <div class="select-box"><input type="radio" name="g1" id="r1" checked><label for="r1">32</label></div>
+                                <div class="select-box"><input type="radio" name="g1" id="r2"><label for="r2">36</label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop Item 2 -->
+            <div class="shop-item-two col-lg-3 col-md-6 col-sm-12">
+                <div class="inner-box">
+                    <div class="image">
+                        <a href="shop-detail.html"><img src="assets/images/resource/products/26.png" alt="24short-img"></a>
+                        <div class="options-box">
+                            <ul class="option-list">
+                                <li><a class="flaticon-shopping-cart-2" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h6><a href="shop-detail.html">Fashion Style 66 perfect</a></h6>
+                        <div class="lower-box">
+                            <div class="price"><span>$239.52</span> $362.00</div>
+                            <div class="select-amount clearfix">
+                                <div class="select-box"><input type="radio" name="g2" id="r3" checked><label for="r3">32</label></div>
+                                <div class="select-box"><input type="radio" name="g2" id="r4"><label for="r4">36</label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shop Item 3 -->
+            <div class="shop-item-two col-lg-3 col-md-6 col-sm-12">
+                <div class="inner-box">
+                    <div class="image">
+                        <a href="shop-detail.html"><img src="assets/images/resource/products/27.png" alt="24short-img"></a>
+                        <div class="options-box">
+                            <ul class="option-list">
+                                <li><a class="flaticon-shopping-cart-2" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h6><a href="shop-detail.html">Fashion Style 67 perfect</a></h6>
+                        <div class="lower-box">
+                            <div class="price"><span>$239.52</span> $362.00</div>
+                            <div class="select-amount clearfix">
+                                <div class="select-box"><input type="radio" name="g3" id="r5" checked><label for="r5">32</label></div>
+                                <div class="select-box"><input type="radio" name="g3" id="r6"><label for="r6">36</label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shop Item 4 -->
+            <div class="shop-item-two col-lg-3 col-md-6 col-sm-12">
+                <div class="inner-box">
+                    <div class="image">
+                        <a href="shop-detail.html"><img src="assets/images/resource/products/28.png" alt="24short-img"></a>
+                        <div class="options-box">
+                            <ul class="option-list">
+                                <li><a class="flaticon-shopping-cart-2" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h6><a href="shop-detail.html">Fashion Style 68 perfect</a></h6>
+                        <div class="lower-box">
+                            <div class="price"><span>$239.52</span> $362.00</div>
+                            <div class="select-amount clearfix">
+                                <div class="select-box"><input type="radio" name="g4" id="r7" checked><label for="r7">32</label></div>
+                                <div class="select-box"><input type="radio" name="g4" id="r8"><label for="r8">36</label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- End Products Section Six -->

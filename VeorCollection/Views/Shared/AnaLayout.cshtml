@@ -21,18 +21,42 @@
 	<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 	<style>
+		/* --- Header Lower Siyah --- */
+		.header-lower {
+			background-color: #000000 !important;
+		}
 
-		/* Menü linkleri - Beyaz, hover #dabd82 */
+		/* --- Ana Menü Linkleri --- */
 		.main-menu .navigation li a {
-			color: #ffffff !important;
+			color: #ffffff !important; /* Linkler beyaz */
 			transition: all 0.3s ease;
 		}
 
 			.main-menu .navigation li a:hover {
-				color: #dabd82 !important;
+				color: #dabd82 !important; /* Hover rengi */
 			}
 
-		/* Telefon yazısı ve numarası - Beyaz */
+		/* --- Dropdown (Açılır Menü) Ayarları --- */
+		/* Açılan kutunun arka planı */
+		.main-menu .navigation > li > ul {
+			background-color: #000000 !important; /* Siyah arka plan */
+			border: 1px solid #222222; /* Çerçeve rengi (isteğe bağlı, silinebilir) */
+		}
+
+			/* Açılan menüdeki linklerin ayarları */
+			.main-menu .navigation > li > ul > li > a {
+				background-color: #000000 !important; /* Link zemini siyah */
+				color: #ffffff !important; /* Link yazısı beyaz */
+				border-bottom: 1px solid #1a1a1a; /* Linkler arası çok hafif çizgi */
+			}
+
+				/* Açılan menüde linkin üzerine gelince */
+				.main-menu .navigation > li > ul > li > a:hover {
+					background-color: #111111 !important; /* Hoverda hafif ton farkı */
+					color: #dabd82 !important;
+				}
+
+		/* --- Telefon Numarası Kısmı --- */
 		.cart-box {
 			color: #ffffff !important;
 		}
@@ -42,23 +66,20 @@
 				transition: all 0.3s ease;
 			}
 
-				/* Telefon numarasına da hover ekleyelim, tutarlı olsun */
 				.cart-box a.phone:hover {
 					color: #dabd82 !important;
 				}
 
-		/* Navigasyon çubuğunu sola kaydırır */
+		/* --- Hizalamalar (Eski Ayarlar) --- */
 		.nav-outer.clearfix {
 			position: relative;
-			right: 11px; /* Değeri artırırsan daha çok sola gider */
+			right: 11px;
 		}
 
-		/* Sağdaki telefon kutusunu sola kaydırır */
 		.outer-box.d-flex.align-items-center {
 			position: relative;
-			right: 30px; /* "Bir tık" için 30px, artırıp azaltabilirsin */
+			right: 30px;
 		}
-		
 	</style>
 
 </head>
@@ -154,9 +175,6 @@
 										<li>
 											<a asp-controller="VeorCollection" asp-action="Index">AnaSayfa</a>
 										</li>
-										<li>
-											<a asp-controller="VeorCollection" asp-action="About">Hakkımızda</a>
-										</li>
 										<li class="dropdown">
 											<a asp-controller="VeorCollection" asp-action="Products">Ürünler</a>
 											<ul>
@@ -165,14 +183,15 @@
 												<li><a href="#">Kadın Parfüm</a></li>
 											</ul>
 										</li>
-										
-										
 										<li>
 											
 											<a asp-controller="VeorCollection" asp-action="Blog">Blog</a>
 									
 										</li>
-										<li><a asp-controller="VeorCollection" asp-action="Contact" >İletişim</a></li>
+										<li>
+											<a asp-controller="VeorCollection" asp-action="About">Hakkımızda</a>
+										</li>
+										@* <li><a asp-controller="VeorCollection" asp-action="Contact" >İletişim</a></li> *@
 									</ul>
 								</div>
 

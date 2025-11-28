@@ -20,9 +20,26 @@ namespace VeorCollection.Controllers
         {
             return View();
         }
+
         public IActionResult Contact()
         {
             return View();
         }
+
+        public IActionResult wishlist()
+        {
+            return View();
+        }
+
+        public IActionResult shopdetail()
+        {
+            return View();
+        }
+        public IActionResult blogdetail()
+        {
+            return View();
+        }
+
+
     }
 }

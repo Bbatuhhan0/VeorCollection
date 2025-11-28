@@ -1,0 +1,350 @@
+﻿@{
+    Layout = "AnaLayout";
+}
+
+<!-- WISHLIST SAYFASI ÖZEL STİLLERİ (BLACK & GOLD) -->
+<style>
+    /* 1. Genel Sayfa Arka Planı */
+    body, html, .page-wrapper, .shoping-cart-section {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    /* 2. Page Title (Başlık Alanı) - GOLD TEMA */
+    .page-title {
+        background-color: #dabd82 !important; /* Gold */
+        background-image: none !important;
+    }
+
+        .page-title h2 {
+            color: #000000 !important;
+        }
+
+        .page-title .bread-crumb li, .page-title .bread-crumb li a {
+            color: #000000 !important;
+        }
+
+            .page-title .bread-crumb li a:hover {
+                color: #ffffff !important;
+            }
+
+    /* 3. Tablo Genel Yapısı */
+    .cart-outer {
+        background-color: transparent !important;
+    }
+
+    .cart-table {
+        background-color: #0a0a0a !important; /* Tablo zemin rengi */
+        border: 1px solid #333 !important;
+    }
+
+    /* Tablo Başlığı (Thead) */
+    .cart-header {
+        background-color: #1a1a1a !important;
+        border-bottom: 2px solid #dabd82 !important; /* Gold çizgi */
+    }
+
+        .cart-header th {
+            color: #dabd82 !important; /* Başlıklar Gold */
+            font-weight: 700;
+        }
+
+    /* Tablo Satırları (Tbody) */
+    .cart-table tbody tr {
+        border-bottom: 1px solid #333 !important;
+    }
+
+    /* 4. Ürün Alanı (Resim ve İsim) */
+    .prod-column .column-box .prod-title {
+        color: #ffffff !important;
+    }
+
+    .prod-column .column-box .prod-text {
+        color: #cccccc !important; /* Açıklama gri */
+    }
+
+    .prod-column .column-box .prod-thumb img {
+        border: 1px solid #333; /* Resim çerçevesi */
+        background-color: #000;
+    }
+
+    /* Kaldır (X) İkonu */
+    .cross-icon {
+        background-color: #333 !important;
+        color: #fff !important;
+    }
+
+        .cross-icon:hover {
+            background-color: #dabd82 !important;
+            color: #000 !important;
+        }
+
+    /* 5. Fiyat */
+    .price {
+        color: #dabd82 !important; /* Fiyat Gold */
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    /* 6. Miktar Kutusu (Quantity) */
+    .item-quantity input.qty-spinner {
+        background-color: #000 !important;
+        border: 1px solid #333 !important;
+        color: #ffffff !important;
+        text-align: center;
+    }
+
+        .item-quantity input.qty-spinner:focus {
+            border-color: #dabd82 !important;
+        }
+
+    /* 7. Butonlar (Add to Cart) */
+    .theme-btn.btn-style-one {
+        background-color: #ffffff !important; /* Beyaz Buton */
+        color: #000000 !important;
+        border: 1px solid #fff;
+    }
+
+        .theme-btn.btn-style-one:hover {
+            background-color: #dabd82 !important; /* Hover Gold */
+            border-color: #dabd82 !important;
+            color: #000000 !important;
+        }
+
+    /* Sidebar/Offcanvas (Sepet Menüsü) Arka Planı */
+    .offcanvas, .sidebar-widget-container {
+        background-color: #000000 !important;
+        color: #fff !important;
+    }
+
+        .sidebar-widget-container h6 {
+            color: #dabd82 !important;
+        }
+
+        .sidebar-widget-container a {
+            color: #ccc !important;
+        }
+
+            .sidebar-widget-container a:hover {
+                color: #dabd82 !important;
+            }
+</style>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <!-- Sidebar Cart Item -->
+        <div class="offcanvas sidecart-canvas offcanvas-end contact-side" tabindex="-1" id="offcanvascart" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-body">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" style="background-color: #dabd82; opacity: 1;"></button>
+                </div>
+                <div class="sidebar-widget-container">
+                    <div class="sidebar-textwidget">
+                        <!-- Sidebar Info Content -->
+                        <div class="sidebar-info-contents">
+                            <div class="content-inner">
+                                <div class="logo">
+                                    <a href="index.html"><img src="assets/images/logo.png" alt="logo"></a>
+                                </div>
+                                <div class="content-box">
+
+                                    <h6>Our Services</h6>
+                                    <ul class="sidebar-services-list">
+                                        <li><a href="contact.html">Contact us</a></li>
+                                        <li><a href="shop.html">Our Products</a></li>
+                                        <li><a href="shop-detail.html">Product Single</a></li>
+                                        <li><a href="checkout.html">CheckOut</a></li>
+                                        <li><a href="register.html">Register</a></li>
+                                        <li><a href="blog.html">Our Blog</a></li>
+                                        <li><a href="blog-detail.html">Blog Single</a></li>
+                                    </ul>
+
+                                    <h6>Contact info</h6>
+                                    <!-- List Style One -->
+                                    <ul class="list-style-one">
+                                        <li>
+                                            <span class="icon flaticon-maps-and-flags" style="color:#dabd82;"></span>
+                                            <strong style="color:#fff;">Our office</strong>
+                                            5331 Rexford Court, <br> Montgomery AL 36116, Australia.
+                                        </li>
+                                        <li>
+                                            <span class="icon flaticon-call-1" style="color:#dabd82;"></span>
+                                            <strong style="color:#fff;">Phone</strong>
+                                            <a href="tel:+00-999-999-9999">+(00) 999 999 9999</a><br>
+                                        </li>
+                                        <li>
+                                            <span class="icon flaticon-mail" style="color:#dabd82;"></span>
+                                            <strong style="color:#fff;">Email</strong>
+                                            <a href="mailto:contact@24shotphoto.com">contact@24shotphoto.com</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END sidebar widget item -->
+        <!-- Page Title -->
+        <section class="page-title">
+            <div class="auto-container">
+                <h2>Wishlist Page</h2>
+                <ul class="bread-crumb clearfix">
+                    <li><a href="index.html">Home</a></li>
+                    <li>Shop</li>
+                    <li>Wishlist</li>
+                </ul>
+            </div>
+        </section>
+        <!-- End Page Title -->
+        <!-- Shoping Cart Section -->
+        <section class="shoping-cart-section">
+            <div class="auto-container">
+                <div class="row clearfix justify-content-center">
+
+                    <!-- Cart Column -->
+                    <div class="cart-column col-lg-10 col-md-10 col-sm-10">
+                        <div class="inner-column">
+
+                            <!--Cart Outer-->
+                            <div class="cart-outer">
+                                <div class="table-outer">
+                                    <table class="cart-table">
+                                        <thead class="cart-header">
+                                            <tr>
+                                                <th class="prod-column">Product</th>
+                                                <th>&nbsp;</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Item 1 -->
+                                            <tr>
+                                                <td colspan="2" class="prod-column">
+                                                    <div class="column-box">
+                                                        <figure class="prod-thumb">
+                                                            <span class="cross-icon flaticon-cancel-1"></span>
+                                                            <a href="#"><img src="assets/images/resource/products/2.png" alt=""></a>
+                                                        </figure>
+                                                        <h6 class="prod-title">Logech Headphone</h6>
+                                                        <div class="prod-text">Color : Brown <br> Quantity : 2</div>
+                                                    </div>
+                                                </td>
+                                                <td class="price">$32.00</td>
+                                                <td class="quantity-box">
+                                                    <div class="item-quantity">
+                                                        <input class="qty-spinner" type="number" value="1" name="quantity">
+                                                    </div>
+                                                </td>
+                                                <td class="cart-total">
+                                                    <div class="buttons-box">
+                                                        <a href="contact.html" class="theme-btn btn-style-one">
+                                                            Add To Cart
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Item 2 -->
+                                            <tr>
+                                                <td colspan="2" class="prod-column">
+                                                    <div class="column-box">
+                                                        <figure class="prod-thumb">
+                                                            <span class="cross-icon flaticon-cancel-1"></span>
+                                                            <a href="#"><img src="assets/images/resource/products/4.png" alt=""></a>
+                                                        </figure>
+                                                        <h6 class="prod-title">Asus Vivobook</h6>
+                                                        <div class="prod-text">Color : Silver <br> Quantity : 1</div>
+                                                    </div>
+                                                </td>
+                                                <td class="price">$19.00</td>
+                                                <td class="quantity-box">
+                                                    <div class="item-quantity">
+                                                        <input class="qty-spinner" type="number" value="1" name="quantity">
+                                                    </div>
+                                                </td>
+                                                <td class="cart-total">
+                                                    <div class="buttons-box">
+                                                        <a href="contact.html" class="theme-btn btn-style-one">
+                                                            Add To Cart
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Item 3 -->
+                                            <tr>
+                                                <td colspan="2" class="prod-column">
+                                                    <div class="column-box">
+                                                        <figure class="prod-thumb">
+                                                            <span class="cross-icon flaticon-cancel-1"></span>
+                                                            <a href="#"><img src="assets/images/resource/products/17.png" alt=""></a>
+                                                        </figure>
+                                                        <h6 class="prod-title">Woolen Hoodie</h6>
+                                                        <div class="prod-text">Color : Red <br> Quantity : 1</div>
+                                                    </div>
+                                                </td>
+                                                <td class="price">$21.00</td>
+                                                <td class="quantity-box">
+                                                    <div class="item-quantity">
+                                                        <input class="qty-spinner" type="number" value="1" name="quantity">
+                                                    </div>
+                                                </td>
+                                                <td class="cart-total">
+                                                    <div class="buttons-box">
+                                                        <a href="contact.html" class="theme-btn btn-style-one">
+                                                            Add To Cart
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Item 4 -->
+                                            <tr>
+                                                <td colspan="2" class="prod-column">
+                                                    <div class="column-box">
+                                                        <figure class="prod-thumb">
+                                                            <span class="cross-icon flaticon-cancel-1"></span>
+                                                            <a href="#"><img src="assets/images/resource/products/25.png" alt=""></a>
+                                                        </figure>
+                                                        <h6 class="prod-title">Modern T-Shirt</h6>
+                                                        <div class="prod-text">Color : Black <br> Quantity : 2</div>
+                                                    </div>
+                                                </td>
+                                                <td class="price">$46.00</td>
+                                                <td class="quantity-box">
+                                                    <div class="item-quantity">
+                                                        <input class="qty-spinner" type="number" value="2" name="quantity">
+                                                    </div>
+                                                </td>
+                                                <td class="cart-total">
+                                                    <div class="buttons-box">
+                                                        <a href="contact.html" class="theme-btn btn-style-one">
+                                                            Add To Cart
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- End Shoping Cart Section -->
+    </div>
+
+</body>

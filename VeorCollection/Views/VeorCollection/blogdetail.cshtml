@@ -1,0 +1,719 @@
+﻿@{
+    Layout = "AnaLayout";
+}
+
+<!-- BLOG DETAIL SAYFASI ÖZEL STİLLERİ (BLACK & GOLD) -->
+<style>
+    /* 1. Genel Sayfa Arka Planı */
+    body, html, .page-wrapper, .sidebar-page-container, .gallery-section {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    /* 2. Page Title (Başlık Alanı) - GOLD TEMA */
+    .page-title {
+        background-color: #dabd82 !important; /* Gold */
+        background-image: none !important;
+    }
+
+        .page-title h2 {
+            color: #000000 !important;
+        }
+
+        .page-title .bread-crumb li, .page-title .bread-crumb li a {
+            color: #000000 !important;
+        }
+
+            .page-title .bread-crumb li a:hover {
+                color: #ffffff !important;
+            }
+
+    /* 3. Blog İçerik Alanı */
+    .blog-detail .inner-box {
+        background-color: transparent !important;
+    }
+
+    .blog-detail .lower-content h3,
+    .blog-detail .lower-content h4 {
+        color: #ffffff !important;
+    }
+
+    .blog-detail .lower-content p {
+        color: #cccccc !important;
+    }
+
+    /* Tarih Kutusu */
+    .blog-detail .image .post-date {
+        background-color: #dabd82 !important;
+        color: #000000 !important;
+    }
+
+    /* Meta Bilgileri (Yazar, Yorum sayısı) */
+    .post-meta li {
+        color: #999 !important;
+        border-right: 1px solid #333 !important;
+    }
+
+        .post-meta li .icon {
+            color: #dabd82 !important;
+        }
+
+    /* Alıntı (Blockquote) */
+    blockquote {
+        background-color: #1a1a1a !important;
+        border-left: 4px solid #dabd82 !important;
+        color: #ffffff !important;
+    }
+
+        blockquote .quote-icon {
+            color: #dabd82 !important;
+        }
+
+        blockquote .designation {
+            color: #dabd82 !important;
+        }
+
+    /* Listeler */
+    .list-one li {
+        color: #ccc !important;
+    }
+
+        .list-one li span {
+            color: #dabd82 !important; /* Liste başlıkları gold */
+        }
+
+    /* Akordiyon (Accordion) */
+    .accordion-box .block .acc-btn {
+        background-color: #0a0a0a !important;
+        color: #ffffff !important;
+        border: 1px solid #333;
+    }
+
+        .accordion-box .block .acc-btn.active {
+            color: #dabd82 !important;
+            border-color: #dabd82 !important;
+        }
+
+    .accordion-box .block .acc-content .content {
+        background-color: #111 !important;
+        border: 1px solid #333;
+        border-top: none;
+        color: #ccc !important;
+    }
+
+    /* Etiketler ve Paylaşım */
+    .post-share-options {
+        border-top: 1px solid #333 !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    .tags-box .tags {
+        color: #dabd82 !important;
+    }
+
+    .tags-box a {
+        background-color: #1a1a1a !important;
+        color: #ccc !important;
+    }
+
+        .tags-box a:hover {
+            background-color: #dabd82 !important;
+            color: #000 !important;
+        }
+
+    .social-box li a {
+        color: #ccc !important;
+    }
+
+        .social-box li a:hover {
+            color: #dabd82 !important;
+        }
+
+    /* More Posts (Önceki/Sonraki Yazı) */
+    .more-posts .new-post {
+        background-color: #0a0a0a !important;
+        border: 1px solid #333 !important;
+    }
+
+        .more-posts .new-post a {
+            color: #fff !important;
+        }
+
+            .more-posts .new-post a:hover {
+                color: #dabd82 !important;
+            }
+
+    /* Yorumlar (Comments) */
+    .comments-area .group-title h5 {
+        color: #fff !important;
+    }
+
+    .comment-box {
+        background-color: #0a0a0a !important;
+        border: 1px solid #333 !important;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+        .comment-box .author-thumb img {
+            border: 2px solid #333 !important;
+        }
+
+    .comment-info strong {
+        color: #dabd82 !important;
+    }
+
+    .comment-time {
+        color: #666 !important;
+    }
+
+    .comment-box .text {
+        color: #ccc !important;
+    }
+
+    .reply-btn {
+        background-color: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+        .reply-btn:hover {
+            background-color: #dabd82 !important;
+            color: #000 !important;
+        }
+
+    /* Yorum Formu */
+    .comment-form .group-title h4 {
+        color: #fff !important;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+        background-color: #0a0a0a !important;
+        border: 1px solid #333 !important;
+        color: #fff !important;
+    }
+
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            border-color: #dabd82 !important;
+        }
+
+    .comment-form .check-box label {
+        color: #999 !important;
+    }
+
+    /* Buton */
+    .theme-btn.btn-style-one {
+        background-color: #fff !important;
+        color: #000 !important;
+        border: 1px solid #fff;
+    }
+
+        .theme-btn.btn-style-one:hover {
+            background-color: #dabd82 !important;
+            border-color: #dabd82 !important;
+            color: #000 !important;
+        }
+
+    /* 4. Sidebar (Sağ Menü) Stilleri */
+    aside.sidebar .sidebar-widget-two {
+        background-color: #0a0a0a !important;
+        border: 1px solid #333 !important;
+    }
+
+    .sidebar-title-two h5 {
+        color: #dabd82 !important;
+        border-bottom: 1px solid #333;
+    }
+
+    /* Arama Widget */
+    .sidebar-widget-two.search-box input {
+        background-color: #000 !important;
+        border: 1px solid #333 !important;
+        color: #fff !important;
+    }
+
+    .sidebar-widget-two.search-box button {
+        color: #dabd82 !important;
+    }
+
+    /* Sosyal Medya Widget */
+    .social-list li {
+        color: #ccc !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+        .social-list li a {
+            color: #dabd82 !important;
+        }
+
+    /* Hot Topics (Post Widget) */
+    .post-widget .post h6 a {
+        color: #fff !important;
+    }
+
+        .post-widget .post h6 a:hover {
+            color: #dabd82 !important;
+        }
+
+    .post-widget .post .category {
+        color: #dabd82 !important;
+    }
+
+    .post-widget .post .post-number {
+        background-color: #dabd82 !important;
+        color: #000 !important;
+    }
+
+    /* Hot Categories */
+    .category-list-two li a {
+        color: #ccc !important;
+        background-color: #1a1a1a !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+        .category-list-two li a:hover {
+            background-color: #dabd82 !important;
+            color: #000 !important;
+        }
+
+        .category-list-two li a .icon {
+            color: #dabd82 !important;
+        }
+
+        .category-list-two li a:hover .icon {
+            color: #000 !important;
+        }
+
+    /* Search News Form */
+    .news-form select {
+        background-color: #000 !important;
+        color: #fff !important;
+        border: 1px solid #333 !important;
+    }
+
+    .news-form .search-btn {
+        width: 100%;
+    }
+
+    /* Tags Widget */
+    .tag-list li a {
+        background-color: #1a1a1a !important;
+        color: #ccc !important;
+        border: 1px solid #333;
+    }
+
+        .tag-list li a:hover {
+            background-color: #dabd82 !important;
+            color: #000 !important;
+            border-color: #dabd82 !important;
+        }
+
+    /* Sidebar Cart & Offcanvas Fix */
+    .offcanvas, .sidebar-widget-container {
+        background-color: #000000 !important;
+        color: #fff !important;
+    }
+
+        .sidebar-widget-container h6 {
+            color: #dabd82 !important;
+        }
+
+        .sidebar-widget-container a {
+            color: #ccc !important;
+        }
+
+            .sidebar-widget-container a:hover {
+                color: #dabd82 !important;
+            }
+
+</style>
+
+<!-- Sidebar Cart Item -->
+<div class="offcanvas sidecart-canvas offcanvas-end contact-side" tabindex="-1" id="offcanvascart" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-body">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" style="background-color: #dabd82; opacity: 1;"></button>
+        </div>
+        <div class="sidebar-widget-container">
+            <div class="sidebar-textwidget">
+                <!-- Sidebar Info Content -->
+                <div class="sidebar-info-contents">
+                    <div class="content-inner">
+                        <div class="logo">
+                            <a href="index.html"><img src="assets/images/logo.png" alt="logo"></a>
+                        </div>
+                        <div class="content-box">
+                            <h6>Our Services</h6>
+                            <ul class="sidebar-services-list">
+                                <li><a href="contact.html">Contact us</a></li>
+                                <li><a href="shop.html">Our Products</a></li>
+                                <li><a href="shop-detail.html">Product Single</a></li>
+                                <li><a href="checkout.html">CheckOut</a></li>
+                                <li><a href="register.html">Register</a></li>
+                                <li><a href="blog.html">Our Blog</a></li>
+                                <li><a href="blog-detail.html">Blog Single</a></li>
+                            </ul>
+                            <h6>Contact info</h6>
+                            <ul class="list-style-one">
+                                <li>
+                                    <span class="icon flaticon-maps-and-flags" style="color:#dabd82;"></span>
+                                    <strong style="color:#fff;">Our office</strong>
+                                    5331 Rexford Court, <br> Montgomery AL 36116, Australia.
+                                </li>
+                                <li>
+                                    <span class="icon flaticon-call-1" style="color:#dabd82;"></span>
+                                    <strong style="color:#fff;">Phone</strong>
+                                    <a href="tel:+00-999-999-9999">+(00) 999 999 9999</a><br>
+                                </li>
+                                <li>
+                                    <span class="icon flaticon-mail" style="color:#dabd82;"></span>
+                                    <strong style="color:#fff;">Email</strong>
+                                    <a href="mailto:contact@24shotphoto.com">contact@24shotphoto.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END sidebar widget item -->
+<!-- Page Title -->
+<section class="page-title">
+    <div class="auto-container">
+        <h2>Blog Detail</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="index.html">Home</a></li>
+            <li>Blog</li>
+            <li>Blog Detail</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+
+            <!-- Content Side -->
+            <div class="content-side col-xl-9 col-lg-8 col-md-12 col-sm-12 right-sidebar">
+
+                <!-- Blog Detail -->
+                <div class="blog-detail">
+                    <div class="inner-box">
+                        <div class="carousel-box">
+                            <div class="single-item-carousel owl-carousel owl-theme">
+                                <!-- Slide -->
+                                <div class="slide">
+                                    <div class="image">
+                                        <img src="assets/images/resource/news-7.jpg" alt="news" />
+                                        <div class="post-date">24 <br> Sep</div>
+                                    </div>
+                                </div>
+                                <!-- Slide -->
+                                <div class="slide">
+                                    <div class="image">
+                                        <img src="assets/images/resource/news-8.jpg" alt="news" />
+                                        <div class="post-date">24 <br> Sep</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lower-content">
+                            <div class="tags">
+                                <span style="color:#dabd82;"># Tags</span>
+                                <a href="#" style="color:#ccc;">Links</a>
+                                <a href="#" style="color:#ccc;">Brave</a>
+                            </div>
+                            <h3>Inbound strategies that delight customers ensure cust satisfaction and provide customer support.</h3>
+                            <ul class="post-meta d-flex align-items-center flex-wrap">
+                                <li><span class="author"><img src="assets/images/resource/author-4.jpg" alt="author" /></span> Jhone Deodar / <span>2 year</span> </li>
+                                <li><span class="icon flaticon-bubble-chat"></span>3</li>
+                                <li><span class="icon flaticon-clock"></span>3 min Read</li>
+                            </ul>
+                            <p>We have covered many special events such as fireworks, fairs, parades, races, walks, awards ceremonies, fashion shows, sporting events, and even a memorial service.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum rhoncus, dolor eget viverra pretium, dolor tellus aliquet nunc, vitae ultricies erat elit eu lacus.</p>
+
+                            <h4>Experience is over the world visit</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus.</p>
+
+                            <blockquote>
+                                Your time is limited, so don’t waste it living someone else’s life. Don’t be <br> trapped by dogma – which is living with the results of other people’s
+                                <span class="designation">John Mehedii</span>
+                                <span class="quote-icon flaticon-quote-2"></span>
+                            </blockquote>
+
+                            <h4>Let our investment management team</h4>
+                            <p>We have covered many special events such as fireworks, fairs, parades, races, walks.</p>
+
+                            <h4>Enjoy the menu with many selections:</h4>
+                            <ul class="list-one">
+                                <li><span>Enjoy the menu with many selections:</span> Available with Strawberry, Cherry, Blueberry, or Apple topping.</li>
+                                <li><span>Short Stack:</span> An order of two large, fluffy pancakes.</li>
+                                <li><span>Malted Waffle:</span> A large Belgian waffle made with malted batter.</li>
+                            </ul>
+
+                            <div class="gallery-box">
+                                <div class="row clearfix">
+                                    <!-- Video Column -->
+                                    <div class="video-column col-lg-4 col-md-4 col-sm-12">
+                                        <div class="video-box">
+                                            <figure class="video-image">
+                                                <img class="transition-500ms" src="assets/images/resource/news-12.png" alt="news">
+                                            </figure>
+                                            <a href="https://www.youtube.com/watch?v=i8R4b-iQU9o" class="lightbox-video overlay-box"><span class="flaticon-media-play-symbol transition-900ms"><i class="ripple"></i></span></a>
+                                        </div>
+                                    </div>
+                                    <!-- Image Column -->
+                                    <div class="image-column col-lg-8 col-md-8 col-sm-12">
+                                        <div class="image">
+                                            <img src="assets/images/resource/news-6.jpg" alt="news" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>We have covered many special events such as fireworks, fairs, parades, races.</p>
+
+                            <div class="business-box">
+                                <div class="row clearfix">
+                                    <div class="column col-lg-6 col-md-6 col-sm-12">
+                                        <div class="image-two">
+                                            <span class="tag" style="background:#dabd82; color:#000;">#Business</span>
+                                            <img src="assets/images/resource/news-4.jpg" alt="news" />
+                                        </div>
+                                    </div>
+                                    <div class="column col-lg-6 col-md-6 col-sm-12">
+                                        <!-- Accordion Box -->
+                                        <ul class="accordion-box style-three">
+                                            <li class="accordion block">
+                                                <div class="acc-btn"><div class="icon-outer"><span class="icon icon-plus fa fa-plus"></span> <span class="icon icon-minus fa fa-minus"></span></div>What made you look up this word?</div>
+                                                <div class="acc-content">
+                                                    <div class="content"><div class="text">events such as fireworks, fairs.</div></div>
+                                                </div>
+                                            </li>
+                                            <li class="accordion block">
+                                                <div class="acc-btn active"><div class="icon-outer"><span class="icon icon-plus fa fa-plus"></span> <span class="icon icon-minus fa fa-minus"></span></div>Inbound strategies that delight?</div>
+                                                <div class="acc-content current">
+                                                    <div class="content"><div class="text">events such as fireworks, fairs, parades.</div></div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Post Share Options -->
+                            <div class="post-share-options">
+                                <div class="post-share-inner clearfix">
+                                    <div class="tags-box"><span class="tags">Tags:</span><a href="#">Business</a> <a href="#">Design </a></div>
+                                    <ul class="social-box">
+                                        <span class="share" style="color:#dabd82;">Share :</span>
+                                        <li><a class="fa fa-facebook" href="#"></a></li>
+                                        <li><a class="fa fa-twitter" href="#"></a></li>
+                                        <li><a class="fa fa-linkedin" href="#"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- More Posts -->
+                            <div class="more-posts">
+                                <div class="more-posts-inner d-flex justify-content-between align-items-center flex-wrap">
+                                    <div class="new-post">
+                                        <div class="prev-arrow flaticon-left-arrow-2" style="color:#fff;"></div>
+                                        <div class="post-inner">
+                                            <span class="image"><a href="#"><img src="assets/images/resource/post-thumb-3.jpg" alt="news" /></a></span>
+                                            <a href="#">Severance Nightmare Visit</a>
+                                            <div class="post-info" style="color:#999;">Sep 8, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="new-post">
+                                        <div class="next-arrow flaticon-next-3" style="color:#fff;"></div>
+                                        <div class="post-inner">
+                                            <span class="image"><a href="#"><img src="assets/images/resource/news-4.jpg" alt="24short-img"></a></span>
+                                            <a href="#">follow ups makes sure</a>
+                                            <div class="post-info" style="color:#999;">Sep 8, 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comments Area -->
+                            <div class="comments-area">
+                                <div class="group-title">
+                                    <h5>(04) Comment</h5>
+                                </div>
+
+                                <div class="comment-box">
+                                    <div class="comment">
+                                        <div class="author-thumb"><img src="assets/images/resource/author-2.jpg" alt=""></div>
+                                        <div class="comment-info clearfix"><strong>Rohan De Spond</strong><div class="comment-time">25 january 2021</div></div>
+                                        <div class="text">There are many variations of passages of Lorem Ipsum available, but the leap into electronic typesetting.</div>
+                                        <a class="reply-btn flaticon-reply-all" href="#"></a>
+                                    </div>
+                                </div>
+
+                                <div class="comment-box reply-comment">
+                                    <div class="comment">
+                                        <div class="author-thumb"><img src="assets/images/resource/author-7.jpg" alt=""></div>
+                                        <div class="comment-info clearfix"><strong>Johan Ritaxon</strong><div class="comment-time">25 january 2021</div></div>
+                                        <div class="text">There are many variations of passages of Lorem Ipsum available.</div>
+                                        <a class="reply-btn flaticon-reply-all" href="#"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comment Form -->
+                            <div class="comment-form">
+                                <div class="group-title">
+                                    <h4>Write your comment</h4>
+                                </div>
+                                <form method="post" action="blog.html">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <input type="text" name="username" placeholder="Enter Your name" required="">
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <input type="text" name="username" placeholder="Enter Your mail" required="">
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <input type="text" name="phone" placeholder="Enter Your Phone Number" required="">
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                            <input type="text" name="website" placeholder="Website" required="">
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                            <textarea name="message" placeholder="Enter your Massage*"></textarea>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                            <div class="button-box">
+                                                <button class="theme-btn btn-style-one">post a comment</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-xl-3 col-lg-4 col-md-12 col-sm-12 left-sidebar">
+                <aside class="sidebar sticky-top">
+                    <div class="sidebar-inner">
+
+                        <!-- Search Widget -->
+                        <div class="sidebar-widget-two search-box">
+                            <div class="widget-content">
+                                <form method="post" action="contact.html">
+                                    <div class="form-group">
+                                        <input type="search" name="search-field" value="" placeholder="Search Product" required>
+                                        <button type="submit"><span class="icon fa fa-search"></span></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Social Widget -->
+                        <div class="sidebar-widget-two social-widget">
+                            <div class="sidebar-title-two">
+                                <h5>Follow us</h5>
+                            </div>
+                            <div class="widget-content">
+                                <ul class="social-list">
+                                    <li><span class="icon fa fa-facebook"></span> Facebook <a href="#">follow</a></li>
+                                    <li><span class="icon fa fa-instagram"></span> Instagram <a href="#">follow</a></li>
+                                    <li><span class="icon fa fa-dribbble"></span> Dribble <a href="#">follow</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Post Widget -->
+                        <div class="sidebar-widget-two post-widget">
+                            <div class="sidebar-title-two">
+                                <h5>Hot Topics</h5>
+                            </div>
+                            <div class="widget-content">
+                                <div class="post">
+                                    <div class="thumb">
+                                        <div class="post-number">01</div>
+                                        <a href="news-detail.html"><img src="assets/images/resource/post-thumb-1.jpg" alt=""></a>
+                                    </div>
+                                    <div class="category">Sports</div>
+                                    <h6><a href="news-detail.html">Budget Issues Force The Our To Be</a></h6>
+                                </div>
+
+                                <div class="post">
+                                    <div class="thumb">
+                                        <div class="post-number">02</div>
+                                        <a href="news-detail.html"><img src="assets/images/resource/post-thumb-2.jpg" alt=""></a>
+                                    </div>
+                                    <div class="category">Sports</div>
+                                    <h6><a href="news-detail.html">Budget Issues Force The Our To Be</a></h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services Widget -->
+                        <div class="sidebar-widget-two services-widget">
+                            <div class="sidebar-title-two">
+                                <h5>Hot Catagories</h5>
+                            </div>
+                            <div class="widget-content">
+                                <ul class="category-list-two">
+                                    <li><a href="#"><span class="icon flaticon-megaphone-1"></span> Marketing Update <span class="number">34</span></a></li>
+                                    <li><a href="#"><span class="icon flaticon-handshake"></span> Animals & Birds <span class="number">34</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- News Widget (Form) -->
+                        <div class="sidebar-widget-two news-widget">
+                            <div class="sidebar-title-two">
+                                <h5>Search News</h5>
+                            </div>
+                            <div class="widget-content">
+                                <div class="news-form">
+                                    <form method="post">
+                                        <div class="form-group">
+                                            <select name="currency" class="custom-select-box">
+                                                <option>Divison</option>
+                                                <option>Divison 01</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="theme-btn search-btn">Search News</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Gallery Section -->
+<section class="gallery-section">
+    <div class="outer-container">
+        <div class="instagram-carousel owl-carousel owl-theme">
+            <div class="insta-gallery">
+                <img src="assets/images/gallery/1.jpg" alt="24short-img">
+                <div class="overlay-box">
+                    <div class="overlay-inner">
+                        <a class="lightbox-image icon flaticon-instagram" href="assets/images/gallery/1.jpg"></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Diğer galeri öğeleri buraya -->
+        </div>
+    </div>
+</section>

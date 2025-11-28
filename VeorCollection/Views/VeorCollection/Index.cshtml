@@ -131,7 +131,7 @@
 	/*2 tablo yükseklik*/
 
 	.brand-section {
-		margin-bottom: -32px;
+		margin-bottom: -70px; /* -32px idi, sale-section'ı yukarı çekmek için artırıldı */
 	}
 
 	/* 7. YORUM VE SAYFALAMA BÖLÜMÜ DÜZENLEMESİ */
@@ -160,6 +160,67 @@
 			.page-pagination li.active a:after {
 				background-color: #dabd82 !important; /* Çizginin rengi */
 			}
+
+	/* 8. BRAND SECTION ARKA PLAN VE YAZI RENGİ (Düzeltildi) */
+	/* 'brand-section' içindeki 'outer-container'ın arka planını siyah yapar */
+	.brand-section .outer-container {
+		background-color: #000000 !important;
+	}
+
+	/* .brand-section içindeki 'Design. Brand. Quality' metninin rengi */
+	.brand-section .animation_mode h1 {
+		color: #ffffff !important; /* Yazı rengini beyaz yapar */
+	}
+
+	.sale-section {
+		margin-top: 10px; /* Yazı rengini beyaz yapar */
+	}
+
+	/* ... (Mevcut 8 kuralınız burada) ... */
+	/* 9. TESTIMONIAL (YORUM) OK-SAYFALAMA ÇAKIŞMASI DÜZELTMESİ */
+	.testimonial-section .owl-nav {
+		/* Okları (01, 02, 03) yazan mavi çubuğun üstüne gelmeyecek şekilde
+			   biraz yukarı kaydıralım. */
+		transform: translateY(-40px); /* Okları 40px yukarı taşır. */
+		/* Eğer -40px yetmez veya fazla gelirse, bu değeri artırıp (örn: -50px)
+			   azaltarak (örn: -30px) tam istediğiniz yere getirebilirsiniz. */
+	}
+
+	/* ... (Mevcut 9 kuralınız burada) ... */
+	/* 10. TESTIMONIAL (YORUM) SAYFALAMA NOKTALARINI GİZLEME */
+	.testimonial-section .owl-dots {
+		display: none !important; /* Sayfalama noktalarını tamamen gizler */
+	}
+
+	/* Okların yukarı kaydırılmasına artık gerek kalmayabilir,
+		   çünkü alttaki çubuk gitti. Önceki transform değerini sıfırlayalım
+		   veya ayarlayalım. */
+	.testimonial-section .owl-nav {
+		transform: translateY(0) !important; /* Okları orijinal dikey konumuna geri getirir */
+		top: 50% !important; /* Yorum bloğunun dikey ortasına hizalar */
+		margin-top: -15px !important; /* Ok ikonlarının tam ortalanması için ufak ayar */
+	}
+
+		/* 11. TESTIMONIAL (YORUM) OKLARINI BİRBİRİNE YAKLAŞTIRMA */
+		.testimonial-section .owl-nav .owl-prev {
+			/* Sol oku soldan ayırıp merkeze doğru iter. */
+			/* 'auto' yaparak sağdaki okla hizalanmasını kolaylaştırabiliriz */
+			left: auto !important;
+			right: -60px !important; /* Sağ okun 60px soluna yerleşecek */
+		}
+
+		.testimonial-section .owl-nav .owl-next {
+			/* Sağ oku sağ kenardan biraz ayırır. */
+			right: 10px !important;
+		}
+
+	/* 12. TESTIMONIAL (YORUM) BÖLÜMÜ YÜKSEKLİĞİNİ AZALTMA */
+	.testimonial-section {
+		/* Muhtemelen temanızda 100px veya 120px gibi yüksek değerler var.
+			   Bunları ezip daha makul bir seviyeye çekelim. */
+		padding-top: 45px !important;
+		padding-bottom: 43px !important;
+	}
 
 </style>
 
@@ -348,22 +409,14 @@
 		<section class="brand-section">
 			<div class="outer-container">
 				<div class="animation_mode">
-					<h1>Design. <span>Brand</span>. <strong>Quality</strong></h1>
-					<img src="~/html/assets/images/icons/icon-1.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/feature.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/icon-2.png" alt="24short-img">
-					<h1>Design. <span>Brand</span>. <strong>Quality</strong></h1>
-					<img src="~/html/assets/images/icons/icon-1.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/feature.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/icon-2.png" alt="24short-img">
-					<h1>Design. <span>Brand</span>. <strong>Quality</strong></h1>
-					<img src="~/html/assets/images/icons/icon-1.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/feature.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/icon-2.png" alt="24short-img">
-					<h1>Design. <span>Brand</span>. <strong>Quality</strong></h1>
-					<img src="~/html/assets/images/icons/icon-1.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/feature.png" alt="24short-img">
-					<img src="~/html/assets/images/icons/icon-2.png" alt="24short-img">
+					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+					<img src="img/küçükicon.png" alt="24short-img">
+					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+					<img src="img/küçükicon.png" alt="24short-img">
+					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+					<img src="img/küçükicon.png" alt="24short-img">
+					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+					<img src="img/küçükicon.png" alt="24short-img">
 				</div>
 			</div>
 		</section>
@@ -419,8 +472,8 @@
 		<!-- End Sale Section -->
 	
 		<!-- Counter Section -->
-		<section class="counter-section">
-			<div class="auto-container">
+		<section class="conteynır">
+		@* 	<div class="auto-container">
 				<div class="inner-container justify-content-between align-items-center">
 					<!-- Counter Boxed -->
 					<div class="counter-boxed">
@@ -463,7 +516,7 @@
 					<!-- End Counter Boxed -->
 
 				</div>
-			</div>
+			</div> *@
 		</section>
 		<!-- End Counter Section -->
 		
@@ -767,7 +820,6 @@
 			<div class="auto-container">
 				<div class="inner-container">
 					<div class="pattern-layer-two" style="background-image: url(/html/assets/images/background/pattern-4.png)"></div>
-					<div class="vector-layer" style="background-image: url(/html/assets/images/background/pattern-2.png)"></div>
 					<div class="single-item-carousel owl-carousel owl-theme">
 
 						<!-- Testimonial Block -->
@@ -779,7 +831,7 @@
 										<div class="inner-column">
 											<div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
 											<div class="image">
-												<img src="~/html/assets/images/resource/author-2.jpg" alt="24short-img">
+												<img src="~/img/basakbulutyorum.jpg" alt="24short-img">
 											</div>
 										</div>
 									</div>
@@ -793,7 +845,7 @@
 												<span class="fa fa-star"></span>
 												<span class="fa fa-star"></span>
 											</div>
-											<div class="text">The most <span>advanced</span> </div>
+											<div class="text">Kalıcılığı mükemmel! 🌸 Kargom çok hızlı geldi, şişenin zarafetine de bayıldım 🤍</span> </div>
 											<div class="quote-icon flaticon-quote"></div>
 										</div>
 									</div>
