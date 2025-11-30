@@ -1,8 +1,10 @@
-﻿@{
+﻿@model IEnumerable<VeorCollection.Models.Product>
+
+@{
     Layout = "AnaLayout";
+    ViewData["Title"] = "Ürünler";
 }
 
-<!-- SINGLE COLLECTION SAYFASI ÖZEL STİLLERİ (BLACK & GOLD) -->
 <style>
     /* 1. Genel Sayfa Arka Planı */
     body, html, .page-wrapper, .sidebar-page-container, .gallery-section {
@@ -198,7 +200,6 @@
 
 </style>
 
-<!-- Sidebar Cart Item -->
 <div class="offcanvas sidecart-canvas offcanvas-end contact-side" tabindex="-1" id="offcanvascart" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-body">
         <div class="offcanvas-header">
@@ -206,11 +207,10 @@
         </div>
         <div class="sidebar-widget-container">
             <div class="sidebar-textwidget">
-                <!-- Sidebar Info Content -->
                 <div class="sidebar-info-contents">
                     <div class="content-inner">
                         <div class="logo">
-                            <a href="index.html"><img src="assets/images/logo.png" alt="logo"></a>
+                            <a href="index.html"><img src="~/html/assets/images/logo.png" alt="logo"></a>
                         </div>
                         <div class="content-box">
 
@@ -226,7 +226,6 @@
                             </ul>
 
                             <h6>Contact info</h6>
-                            <!-- List Style One -->
                             <ul class="list-style-one">
                                 <li>
                                     <span class="icon flaticon-maps-and-flags" style="color:#dabd82;"></span>
@@ -251,8 +250,6 @@
         </div>
     </div>
 </div>
-<!-- END sidebar widget item -->
-<!-- Page Title -->
 <section class="page-title">
     <div class="auto-container">
         <h2>Fashion Dress Style</h2>
@@ -263,24 +260,18 @@
         </ul>
     </div>
 </section>
-<!-- End Page Title -->
-<!-- Sidebar Page Container -->
 <div class="sidebar-page-container">
     <div class="auto-container">
         <div class="row clearfix">
 
-            <!-- Sidebar Side -->
             <div class="sidebar-side col-lg-3 col-md-12 col-sm-12">
                 <aside class="sidebar">
                     <div class="sidebar-inner">
-                        <!-- Category Widget -->
                         <div class="sidebar-widget category-widget">
                             <div class="widget-content">
-                                <!-- Sidebar Title -->
                                 <div class="sidebar-title-two">
                                     <h5>Product Catagories</h5>
                                 </div>
-                                <!-- Category List -->
                                 <ul class="category-list">
                                     <li><a href="#">Accessories <span>(8)</span></a></li>
                                     <li><a href="#">Air Filter <span>(5)</span></a></li>
@@ -297,10 +288,8 @@
                             </div>
                         </div>
 
-                        <!-- Colors Widget -->
                         <div class="sidebar-widget colors-widget">
                             <div class="widget-content">
-                                <!-- Sidebar Title -->
                                 <div class="sidebar-title-two">
                                     <h5>Colors</h5>
                                 </div>
@@ -315,15 +304,12 @@
                             </div>
                         </div>
 
-                        <!-- Brands Widget -->
                         <div class="sidebar-widget brands-widget">
                             <div class="widget-content">
-                                <!-- Sidebar Title -->
                                 <div class="sidebar-title-two">
                                     <h5>brands</h5>
                                 </div>
 
-                                <!-- Brands List -->
                                 <div class="brands-list">
                                     <form method="post" action="contact.html">
 
@@ -347,38 +333,14 @@
                                                 <label for="type-3">hewaui Galaxy</label>
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <div class="check-box">
-                                                <input type="checkbox" name="remember-password" id="type-4">
-                                                <label for="type-4">Ryzen 3600</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="check-box">
-                                                <input type="checkbox" name="remember-password" id="type-5">
-                                                <label for="type-5">intel</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="check-box">
-                                                <input type="checkbox" name="remember-password" id="type-6">
-                                                <label for="type-6">Mobile Handset</label>
-                                            </div>
-                                        </div>
-
                                     </form>
                                 </div>
 
                             </div>
                         </div>
 
-                        <!-- Tags Widget -->
                         <div class="sidebar-widget-two tags-widget">
                             <div class="widget-content">
-                                <!-- Sidebar Title -->
                                 <div class="sidebar-title-two">
                                     <h5>Tags</h5>
                                 </div>
@@ -387,10 +349,6 @@
                                     <li><a href="#">nokia</a></li>
                                     <li><a href="#">samsung</a></li>
                                     <li><a href="#">Alcatel</a></li>
-                                    <li><a href="#">landing</a></li>
-                                    <li><a href="#">Oppos</a></li>
-                                    <li><a href="#">I phone Pro 12</a></li>
-                                    <li><a href="#">poco X3</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -398,30 +356,24 @@
                 </aside>
             </div>
 
-            <!-- Content Side -->
             <div class="content-side col-lg-9 col-md-12 col-sm-12">
 
                 <div class="content mb-4">
                     <h3>Experience is over the world visit</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus, dolor eget viverra pretium, dolor tellus aliquet nunc vitae ultricies erat elit eu lacus. Vestibulum non justo consectetur, cursus ante, tincidunt sapien. Nulla quis diam sit amet turpis interdum accumsan quis nec enim. Vivamus faucibus ex sed nibh egestas elementum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus...</p>
                 </div>
 
-                <!-- Filter Box -->
                 <div class="filter-box">
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <!-- Left Box -->
                         <div class="left-box d-flex align-items-center">
-                            <div class="results">Showing 1–9 of 21 results</div>
+                            <div class="results">Showing all @(Model != null ? Model.Count() : 0) results</div>
                         </div>
-                        <!-- Right Box -->
                         <div class="right-box d-flex">
                             <div class="form-group">
                                 <select name="currency" class="custom-select-box">
                                     <option>Recently Added</option>
-                                    <option>Added 01</option>
-                                    <option>Added 02</option>
-                                    <option>Added 03</option>
-                                    <option>Added 04</option>
+                                    <option>Price: Low to High</option>
+                                    <option>Price: High to Low</option>
                                 </select>
                             </div>
                             <ul class="pages-list">
@@ -431,224 +383,55 @@
                         </div>
                     </div>
                 </div>
-                <!-- End Filter Box -->
-
                 <div class="shops-outer">
                     <div class="row clearfix">
 
-                        <!-- Shop Item 1 -->
-                        <div class="shop-item col-lg-4 col-md-4 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <a href="shop-detail.html"><img src="assets/images/resource/products/1.png" alt="24short-img"></a>
-                                    <div class="options-box">
-                                        <ul class="option-list">
-                                            <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-shopping-cart-2" href="shop-detail.html"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="rating">
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="light fa fa-star"></span>
-                                    </div>
-                                    <h6><a href="shop-detail.html">Fashion Style 65 perfect</a></h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="price"><span>$239.52</span> $362.00</div>
-                                        <!-- Quantity Box -->
-                                        <div class="quantity-box">
-                                            <div class="item-quantity">
-                                                <input class="qty-spinner" type="number" value="1" name="quantity">
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <div class="shop-item col-lg-4 col-md-4 col-sm-12">
+                                    <div class="inner-box">
+                                        <div class="image">
+                                            <a href="shop-detail.html"><img src="@Url.Content(item.ImageUrl)" alt="@item.Name" style="height:300px; object-fit:cover;"></a>
+                                            <div class="options-box">
+                                                <ul class="option-list">
+                                                    <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
+                                                    <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
+                                                    <li><a class="flaticon-shopping-cart-2" href="shop-detail.html"></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="lower-content">
+                                            <div class="rating">
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="light fa fa-star"></span>
+                                            </div>
+                                            <h6><a href="shop-detail.html">@item.Name</a></h6>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="price">$@item.Price</div>
+                                                <div class="quantity-box">
+                                                    <div class="item-quantity">
+                                                        <input class="qty-spinner" type="number" value="1" name="quantity">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <p style="color: #ccc;">Henüz hiç ürün eklenmemiş.</p>
                             </div>
-                        </div>
-
-                        <!-- Shop Item 2 -->
-                        <div class="shop-item col-lg-4 col-md-4 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <a href="shop-detail.html"><img src="assets/images/resource/products/28.png" alt="24short-img"></a>
-                                    <div class="options-box">
-                                        <ul class="option-list">
-                                            <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-shopping-cart-2" href="shop-detail.html"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="rating">
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="light fa fa-star"></span>
-                                    </div>
-                                    <h6><a href="shop-detail.html">Fashion Style 65 perfect</a></h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="price"><span>$239.52</span> $362.00</div>
-                                        <!-- Quantity Box -->
-                                        <div class="quantity-box">
-                                            <div class="item-quantity">
-                                                <input class="qty-spinner" type="number" value="1" name="quantity">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Shop Item 3 -->
-                        <div class="shop-item col-lg-4 col-md-4 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <a href="shop-detail.html"><img src="assets/images/resource/products/38.png" alt="24short-img"></a>
-                                    <div class="options-box">
-                                        <ul class="option-list">
-                                            <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-shopping-cart-2" href="shop-detail.html"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="rating">
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="light fa fa-star"></span>
-                                    </div>
-                                    <h6><a href="shop-detail.html">Fashion Style 65 perfect</a></h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="price"><span>$239.52</span> $362.00</div>
-                                        <!-- Quantity Box -->
-                                        <div class="quantity-box">
-                                            <div class="item-quantity">
-                                                <input class="qty-spinner" type="number" value="1" name="quantity">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Shop Item 4 -->
-                        <div class="shop-item col-lg-4 col-md-4 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <a href="shop-detail.html"><img src="assets/images/resource/products/4.png" alt="24short-img"></a>
-                                    <div class="options-box">
-                                        <ul class="option-list">
-                                            <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-shopping-cart-2" href="shop-detail.html"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="rating">
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="light fa fa-star"></span>
-                                    </div>
-                                    <h6><a href="shop-detail.html">Fashion Style 65 perfect</a></h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="price"><span>$239.52</span> $362.00</div>
-                                        <!-- Quantity Box -->
-                                        <div class="quantity-box">
-                                            <div class="item-quantity">
-                                                <input class="qty-spinner" type="number" value="1" name="quantity">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Shop Item 5 -->
-                        <div class="shop-item col-lg-4 col-md-4 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <a href="shop-detail.html"><img src="assets/images/resource/products/17.png" alt="24short-img"></a>
-                                    <div class="options-box">
-                                        <ul class="option-list">
-                                            <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-shopping-cart-2" href="shop-detail.html"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="rating">
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="light fa fa-star"></span>
-                                    </div>
-                                    <h6><a href="shop-detail.html">Fashion Style 65 perfect</a></h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="price"><span>$239.52</span> $362.00</div>
-                                        <!-- Quantity Box -->
-                                        <div class="quantity-box">
-                                            <div class="item-quantity">
-                                                <input class="qty-spinner" type="number" value="1" name="quantity">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Shop Item 6 -->
-                        <div class="shop-item col-lg-4 col-md-4 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <a href="shop-detail.html"><img src="assets/images/resource/products/18.png" alt="24short-img"></a>
-                                    <div class="options-box">
-                                        <ul class="option-list">
-                                            <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
-                                            <li><a class="flaticon-shopping-cart-2" href="shop-detail.html"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="lower-content">
-                                    <div class="rating">
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="light fa fa-star"></span>
-                                    </div>
-                                    <h6><a href="shop-detail.html">Fashion Style 65 perfect</a></h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="price"><span>$239.52</span> $362.00</div>
-                                        <!-- Quantity Box -->
-                                        <div class="quantity-box">
-                                            <div class="item-quantity">
-                                                <input class="qty-spinner" type="number" value="1" name="quantity">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        }
                     </div>
 
-                    <!-- Styled Pagination -->
                     <ul class="styled-pagination text-center">
                         <li class="next"><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
                         <li><a href="#" class="active">1</a></li>
@@ -656,14 +439,10 @@
                         <li><a href="#">3</a></li>
                         <li class="next"><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
                     </ul>
-                    <!-- End Styled Pagination -->
-
                 </div>
 
             </div>
 
         </div>
     </div>
-</div>
-
 </div>

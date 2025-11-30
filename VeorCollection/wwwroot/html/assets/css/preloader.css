@@ -61,19 +61,19 @@
   position: absolute;
 }
 
-.handle-preloader .animation-preloader .txt-loading .letters-loading{
-  font-weight: 500;
-  letter-spacing: 15px;
-  display: inline-block;
-  position: relative;
-  font-size: 70px;
-  line-height: 70px;
-  text-transform: uppercase;
-  color: transparent;
-  -webkit-text-stroke-width: 1px;
-  
-  -webkit-text-stroke-color: rgba(255, 255, 255, 0.30);
-}
+    .handle-preloader .animation-preloader .txt-loading .letters-loading {
+        font-weight: 500;
+        letter-spacing: 15px;
+        display: inline-block;
+        position: relative;
+        font-size: 70px;
+        line-height: 70px;
+        text-transform: uppercase;
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        /* Eski kod: -webkit-text-stroke-color: rgba(255, 255, 255, 0.30); */
+        -webkit-text-stroke-color: rgba(218, 189, 130, 0.30);
+    }
 
 .handle-preloader .animation-preloader .txt-loading .letters-loading:nth-child(2):before {animation-delay: 0.2s;}
 .handle-preloader .animation-preloader .txt-loading .letters-loading:nth-child(3):before {animation-delay: 0.4s;}
@@ -99,16 +99,16 @@
   
 }
 
-.handle-preloader .animation-preloader .txt-loading .letters-loading:before{
-  color: #ffffff;
+    .handle-preloader .animation-preloader .txt-loading .letters-loading:before {
+        color: #dabd82;
+    }
+
+.handle-preloader .animation-preloader .spinner {
+    border: 3px solid #dabd82;
+    border-top-color: rgba(218, 189, 130, 0.5);
 }
 
-.handle-preloader .animation-preloader .spinner{
-  border: 3px solid #ffffff;
-  border-top-color: rgba(255, 255, 255, 0.5); 
-}
 
-/* AnimaciÃƒÆ’Ã‚Â³n del preloader */
 @keyframes spinner {
   to {
     transform: rotateZ(360deg);
@@ -141,4 +141,64 @@
     width: 7em;
   }
   .handle-preloader .animation-preloader .txt-loading .letters-loading {font-size: 30px; letter-spacing: 10px;}
+}
+
+/* --- Preloader Logo Düzenlemeleri --- */
+
+/* Spinner ve Logoyu tutan kapsayıcı kutu */
+.handle-preloader .animation-preloader .spinner-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 45px auto; /* Spinner'ın eski konumlandırması buraya taşındı */
+}
+
+/* Dönen halkanın ayarları (Mevcut .spinner ayarlarının güncellenmiş hali) */
+.handle-preloader .animation-preloader .spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0; /* Margin artık wrapper'da */
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    border-top-color: rgba(255, 255, 255, 0.5);
+    animation: spinner 1s infinite linear; /* Dönme animasyonu */
+}
+
+/* Ortadaki Logo Ayarları */
+.preloader-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Tam merkeze hizalar */
+    width: 60px; /* Logonun boyutunu buradan ayarlayabilirsiniz */
+    z-index: 101;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .preloader-logo img {
+        width: 100%;
+        height: auto;
+    }
+
+/* --- Mobil Uyumluluk Güncellemeleri --- */
+/* Mevcut dosyanızın en altındaki medya sorgularını bu şekilde güncelleyin */
+
+@media screen and (max-width: 767px) {
+    /* .spinner yerine .spinner-wrapper boyutlanmalı */
+    .handle-preloader .animation-preloader .spinner-wrapper {
+        height: 8em;
+        width: 8em;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .handle-preloader .animation-preloader .spinner-wrapper {
+        height: 7em;
+        width: 7em;
+    }
 }

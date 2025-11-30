@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Yönetim Paneli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Yönetim Paneli</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Kategoriler</div>
+                <div class="card-body">
+                    <h5 class="card-title">Kategori İşlemleri</h5>
+                    <p class="card-text">Yeni kategori ekle veya mevcutları düzenle.</p>
+                    <a href="/Admin/Categories" class="btn btn-light">Kategorilere Git</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Ürünler</div>
+                <div class="card-body">
+                    <h5 class="card-title">Ürün Ekleme</h5>
+                    <p class="card-text">Sisteme yeni ürünler yükle.</p>
+                    <a href="/Admin/CreateProduct" class="btn btn-light">Yeni Ürün Ekle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

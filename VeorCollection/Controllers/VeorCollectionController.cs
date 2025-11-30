@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; // Bu kütüphane "Include" için şart
 using VeorCollection.Data;
 using System.Linq;
 
@@ -8,7 +9,6 @@ namespace VeorCollection.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        // Veritabanı bağlantısını içeri alıyoruz
         public VeorCollectionController(ApplicationDbContext context)
         {
             _context = context;
@@ -16,14 +16,21 @@ namespace VeorCollection.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            // Anasayfada belki son 8 ürünü göstermek istersin diye limitleme ekledim
+            // Include(p => p.Category): Ürünü çekerken Kategorisini de yanına al demek.
+            var urunler = _context.Products
+                                  .Include(p => p.Category)
+                                  .Take(8)
+                                  .ToList();
+            return View(urunler);
         }
 
-        // ÜRÜNLER SAYFASI
         public IActionResult Products()
         {
-            // Veritabanındaki tüm ürünleri listeye çevirip View'a gönderiyoruz
-            var urunler = _context.Products.ToList();
+            // Tüm ürünleri kategorileriyle beraber listeye çevirip View'a gönderiyoruz
+            var urunler = _context.Products
+                                  .Include(p => p.Category)
+                                  .ToList();
             return View(urunler);
         }
 

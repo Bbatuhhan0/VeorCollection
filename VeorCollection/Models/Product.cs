@@ -1,13 +1,32 @@
-﻿namespace VeorCollection.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace VeorCollection.Models
 {
     public class Product
     {
+        [Key]
         public int Id { get; set; }
-        public string Name { get; set; }      // Ürün Adı
-        public string Description { get; set; } // Açıklama
-        public decimal Price { get; set; }    // Fiyat
-        public string ImageUrl { get; set; }  // Resim Yolu (Örn: ~/html/assets/images/resource/products/1.png)
-        public string Category { get; set; }  // Kategori (Erkek, Kadın)
-        public bool IsFeatured { get; set; }  // Öne çıkan ürün mü?
+
+        [Required(ErrorMessage = "Ürün adı boş geçilemez.")]
+        [Display(Name = "Ürün Adı")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Fiyat")]
+        public decimal Price { get; set; }
+
+        [Display(Name = "Resim Yolu")]
+        public string ImageUrl { get; set; }
+
+        // --- İLİŞKİ AYARLARI ---
+
+        // Bu ürün hangi kategoriye ait? (Zorunlu alan)
+        [Display(Name = "Kategori")]
+        public int CategoryId { get; set; }
+
+        // Kod içinde kategoriye nokta koyup ulaşmak için
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
     }
 }
