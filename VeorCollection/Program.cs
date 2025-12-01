@@ -1,19 +1,27 @@
 using Microsoft.EntityFrameworkCore;
 using VeorCollection.Data;
+using Microsoft.AspNetCore.Authentication.Cookies; // Bu gerekli
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Veritabaný Baðlantýsý (SQL Server)
-// Not: Baðlantý adresini kendi bilgisayarýna göre ayarlayacaðýz.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Server=(localdb)\\mssqllocaldb;Database=VeorCollectionDb;Trusted_Connection=True;MultipleActiveResultSets=true"; builder.Services.AddDbContext<ApplicationDbContext>(options =>
+// 1. Veritabaný Baðlantýsý
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? "Server=(localdb)\\mssqllocaldb;Database=VeorCollectionDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Add services to the container.
+// 2. Kimlik Doðrulama Servisini Ekliyoruz (YENÝ)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Giriþ yapmamýþ kiþi buraya atýlsýn
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20); // 20 dk sonra oturum düþsün
+    });
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -21,17 +29,16 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseRouting();
-app.UseAuthorization();
-
-// Statik dosyalarý (css, js, img) wwwroot'tan sunmak için:
 app.UseStaticFiles();
-// .NET 9 kullanýyorsan MapStaticAssets kalabilir ama UseStaticFiles garantidir.
-// app.MapStaticAssets(); 
+
+app.UseRouting();
+
+// 3. Sýralama ÇOK ÖNEMLÝ: Önce Kimlik Doðrulama, Sonra Yetkilendirme (YENÝ)
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=VeorCollection}/{action=Index}/{id?}");
-// .WithStaticAssets(); // Eðer .NET 9 deðilse bu satýrý kaldýrabilirsin.
 
 app.Run();

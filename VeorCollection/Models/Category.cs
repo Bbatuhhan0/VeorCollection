@@ -10,9 +10,12 @@ namespace VeorCollection.Models
 
         [Required(ErrorMessage = "Kategori adı zorunludur.")]
         [Display(Name = "Kategori Adı")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty; // Başlangıç değeri atadık
 
-        // Bir kategoride birden fazla ürün olabilir
-        public virtual ICollection<Product> Products { get; set; }
+        [Display(Name = "Açıklama")]
+        public string? Description { get; set; } // ? koyarak boş olabilir dedik
+
+        // İlişki - Başlangıçta boş liste olsun
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

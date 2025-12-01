@@ -1,31 +1,65 @@
 ﻿@{
-    ViewData["Title"] = "Yönetim Paneli";
+    ViewData["Title"] = "Admin Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <h2 class="mb-4">Yönetim Paneli</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-header">Kategoriler</div>
+<div class="container mt-4">
+    <h2 class="mb-4">Kontrol Paneli</h2>
+
+    <div class="row text-center">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Kategori İşlemleri</h5>
-                    <p class="card-text">Yeni kategori ekle veya mevcutları düzenle.</p>
-                    <a href="/Admin/Categories" class="btn btn-light">Kategorilere Git</a>
+                    <h3 class="card-title display-4">@ViewBag.ProductCount</h3>
+                    <p class="card-text">Toplam Ürün</p>
+                </div>
+                <a href="/Admin/Products" class="card-footer text-white text-decoration-none">Listeyi Gör &rarr;</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-success text-white mb-3">
+                <div class="card-body">
+                    <h3 class="card-title display-4">@ViewBag.CategoryCount</h3>
+                    <p class="card-text">Kategori</p>
+                </div>
+                <a href="/Admin/Categories" class="card-footer text-white text-decoration-none">Yönet &rarr;</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-info text-white mb-3">
+                <div class="card-body">
+                    <h3 class="card-title display-4">₺@ViewBag.TotalStockValue</h3>
+                    <p class="card-text">Vitrin Değeri</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-header">Ürünler</div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Ürün Ekleme</h5>
-                    <p class="card-text">Sisteme yeni ürünler yükle.</p>
-                    <a href="/Admin/CreateProduct" class="btn btn-light">Yeni Ürün Ekle</a>
+                    <h3 class="card-title display-4">@ViewBag.LowStockCount</h3>
+                    <p class="card-text">Stokta Olmayan</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/Admin/CreateProduct" class="btn btn-lg btn-outline-primary w-100 py-4">+ Hızlı Ürün Ekle</a>
+        </div>
+        <div class="col-md-6">
+            <a href="/Admin/CreateCategory" class="btn btn-lg btn-outline-success w-100 py-4">+ Hızlı Kategori Ekle</a>
+        </div>
+    </div>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <a href="/Account/Logout" class="btn btn-danger btn-sm" style="position: fixed; top: 10px; right: 10px; z-index: 9999;">
+            Çıkış Yap
+        </a>
+    }
 </div>

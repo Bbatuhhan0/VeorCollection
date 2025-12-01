@@ -10,23 +10,21 @@ namespace VeorCollection.Models
 
         [Required(ErrorMessage = "Ürün adı boş geçilemez.")]
         [Display(Name = "Ürün Adı")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty; // Başlangıç değeri
 
         [Required]
         [Display(Name = "Fiyat")]
         public decimal Price { get; set; }
 
         [Display(Name = "Resim Yolu")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; } // ? ile boş olabilir izni verdik
 
-        // --- İLİŞKİ AYARLARI ---
+        public bool IsInStock { get; set; } = true;
 
-        // Bu ürün hangi kategoriye ait? (Zorunlu alan)
         [Display(Name = "Kategori")]
         public int CategoryId { get; set; }
 
-        // Kod içinde kategoriye nokta koyup ulaşmak için
         [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
+        public virtual Category? Category { get; set; } // ? ekledik
     }
 }
