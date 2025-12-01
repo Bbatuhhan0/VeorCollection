@@ -6,23 +6,19 @@
 }
 
 <style>
-    /* 1. Genel Sayfa Arka Planı */
+    /* GENEL TEMA VE STİLLER */
     body, html, .page-wrapper, .sidebar-page-container, .gallery-section {
         background-color: #000000 !important;
         color: #ffffff !important;
     }
 
-    /* 2. Page Title (Başlık Alanı) - GOLD TEMA */
+    /* Page Title (Gold Tema) */
     .page-title {
-        background-color: #dabd82 !important; /* Gold */
+        background-color: #dabd82 !important;
         background-image: none !important;
     }
 
-        .page-title h2 {
-            color: #000000 !important;
-        }
-
-        .page-title .bread-crumb li, .page-title .bread-crumb li a {
+        .page-title h2, .page-title .bread-crumb li, .page-title .bread-crumb li a {
             color: #000000 !important;
         }
 
@@ -30,18 +26,17 @@
                 color: #ffffff !important;
             }
 
-    /* 3. Sidebar (Sol Menü) Stilleri */
+    /* Sidebar */
     aside.sidebar .sidebar-widget {
         background-color: #0a0a0a !important;
         border: 1px solid #333 !important;
     }
 
     .sidebar-title-two h5 {
-        color: #dabd82 !important; /* Başlıklar Gold */
+        color: #dabd82 !important;
         border-bottom: 1px solid #333;
     }
 
-    /* Kategori Listesi */
     .category-list li a {
         color: #cccccc !important;
     }
@@ -50,47 +45,7 @@
             color: #dabd82 !important;
         }
 
-        .category-list li a span {
-            color: #666 !important;
-        }
-
-    /* Markalar (Checkboxlar) */
-    .brands-list .check-box label {
-        color: #cccccc !important;
-    }
-
-    .brands-list .check-box input[type="checkbox"] + label:before {
-        border-color: #666 !important;
-    }
-
-    .brands-list .check-box input[type="checkbox"]:checked + label:before {
-        background-color: #dabd82 !important;
-        border-color: #dabd82 !important;
-    }
-
-    /* Etiketler (Tags) */
-    .tag-list li a {
-        background-color: #1a1a1a !important;
-        color: #ccc !important;
-        border: 1px solid #333;
-    }
-
-        .tag-list li a:hover {
-            background-color: #dabd82 !important;
-            color: #000 !important;
-            border-color: #dabd82 !important;
-        }
-
-    /* 4. İçerik Alanı (Sağ Taraf) */
-    .content h3 {
-        color: #ffffff !important;
-    }
-
-    .content p {
-        color: #cccccc !important;
-    }
-
-    /* Filtre Kutusu */
+    /* İçerik */
     .filter-box {
         background-color: #0a0a0a !important;
         border: 1px solid #333 !important;
@@ -106,15 +61,7 @@
             border: 1px solid #333;
         }
 
-    .pages-list li a {
-        color: #fff !important;
-    }
-
-        .pages-list li a:hover {
-            color: #dabd82 !important;
-        }
-
-    /* 5. Ürün Kartları (Shop Item) */
+    /* Ürün Kartları */
     .shop-item .inner-box {
         background-color: #0a0a0a !important;
         border: 1px solid #333 !important;
@@ -133,24 +80,9 @@
             color: #dabd82 !important;
         }
 
-    /* Fiyat */
     .shop-item .price {
         color: #dabd82 !important;
         font-weight: bold;
-    }
-
-        .shop-item .price span {
-            color: #666 !important;
-            text-decoration: line-through;
-        }
-
-    /* Rating Yıldızlar */
-    .rating .fa {
-        color: #dabd82 !important;
-    }
-
-    .rating .light {
-        color: #444 !important;
     }
 
     /* Miktar Kutusu */
@@ -159,45 +91,6 @@
         border: 1px solid #333 !important;
         color: #fff !important;
     }
-
-    /* 6. Pagination */
-    .styled-pagination li a {
-        color: #ffffff !important;
-        background-color: transparent !important;
-        border: 1px solid #333 !important;
-    }
-
-    .styled-pagination li.next a,
-    .styled-pagination li.prev a {
-        color: #ffffff !important;
-        background-color: #000 !important;
-    }
-
-    .styled-pagination li a:hover,
-    .styled-pagination li a.active {
-        background-color: #dabd82 !important;
-        color: #000000 !important;
-        border-color: #dabd82 !important;
-    }
-
-    /* 7. Sidebar Cart & Offcanvas Fix */
-    .offcanvas, .sidebar-widget-container {
-        background-color: #000000 !important;
-        color: #fff !important;
-    }
-
-        .sidebar-widget-container h6 {
-            color: #dabd82 !important;
-        }
-
-        .sidebar-widget-container a {
-            color: #ccc !important;
-        }
-
-            .sidebar-widget-container a:hover {
-                color: #dabd82 !important;
-            }
-
 </style>
 
 <div class="offcanvas sidecart-canvas offcanvas-end contact-side" tabindex="-1" id="offcanvascart" aria-labelledby="offcanvasExampleLabel">
@@ -213,35 +106,13 @@
                             <a href="index.html"><img src="~/html/assets/images/logo.png" alt="logo"></a>
                         </div>
                         <div class="content-box">
-
                             <h6>Our Services</h6>
                             <ul class="sidebar-services-list">
                                 <li><a href="contact.html">Contact us</a></li>
-                                <li><a href="shop.html">Our Products</a></li>
-                                <li><a href="shop-detail.html">Product Single</a></li>
-                                <li><a href="checkout.html">CheckOut</a></li>
-                                <li><a href="register.html">Register</a></li>
-                                <li><a href="blog.html">Our Blog</a></li>
-                                <li><a href="blog-detail.html">Blog Single</a></li>
                             </ul>
-
                             <h6>Contact info</h6>
                             <ul class="list-style-one">
-                                <li>
-                                    <span class="icon flaticon-maps-and-flags" style="color:#dabd82;"></span>
-                                    <strong style="color:#fff;">Our office</strong>
-                                    5331 Rexford Court, <br> Montgomery AL 36116, Australia.
-                                </li>
-                                <li>
-                                    <span class="icon flaticon-call-1" style="color:#dabd82;"></span>
-                                    <strong style="color:#fff;">Phone</strong>
-                                    <a href="tel:+00-999-999-9999">+(00) 999 999 9999</a><br>
-                                </li>
-                                <li>
-                                    <span class="icon flaticon-mail" style="color:#dabd82;"></span>
-                                    <strong style="color:#fff;">Email</strong>
-                                    <a href="mailto:contact@24shotphoto.com">contact@24shotphoto.com</a>
-                                </li>
+                                <li><span class="icon flaticon-maps-and-flags" style="color:#dabd82;"></span><strong style="color:#fff;">Address</strong>...</li>
                             </ul>
                         </div>
                     </div>
@@ -250,142 +121,47 @@
         </div>
     </div>
 </div>
+
 <section class="page-title">
     <div class="auto-container">
-        <h2>Fashion Dress Style</h2>
+        <h2>Tüm Ürünler</h2>
         <ul class="bread-crumb clearfix">
-            <li><a href="index.html">Home</a></li>
-            <li>Collection</li>
-            <li>Single Collection</li>
+            <li><a href="/Home/Index">Ana Sayfa</a></li>
+            <li>Koleksiyon</li>
+            <li>Ürünler</li>
         </ul>
     </div>
 </section>
+
 <div class="sidebar-page-container">
     <div class="auto-container">
         <div class="row clearfix">
-
             <div class="sidebar-side col-lg-3 col-md-12 col-sm-12">
                 <aside class="sidebar">
                     <div class="sidebar-inner">
                         <div class="sidebar-widget category-widget">
                             <div class="widget-content">
-                                <div class="sidebar-title-two">
-                                    <h5>Product Catagories</h5>
-                                </div>
+                                <div class="sidebar-title-two"><h5>Kategoriler</h5></div>
                                 <ul class="category-list">
-                                    <li><a href="#">Accessories <span>(8)</span></a></li>
-                                    <li><a href="#">Air Filter <span>(5)</span></a></li>
-                                    <li><a href="#">Body Engine <span>(5)</span></a></li>
-                                    <li><a href="#">Brake Parts names <span>(7)</span></a></li>
-                                    <li><a href="#">Computer <span>(1)</span></a></li>
-                                    <li><a href="#">Cosmetics <span>(6)</span></a></li>
-                                    <li><a href="#">Covid-19 <span>(2)</span></a></li>
-                                    <li><a href="#">Electornics <span>(8)</span></a></li>
-                                    <li><a href="#">Frame Sunglasses <span>(10)</span></a></li>
-                                    <li><a href="#">Furniture <span>(7)</span></a></li>
-                                </ul>
-
-                            </div>
-                        </div>
-
-                        <div class="sidebar-widget colors-widget">
-                            <div class="widget-content">
-                                <div class="sidebar-title-two">
-                                    <h5>Colors</h5>
-                                </div>
-                                <div class="sel-colors">
-                                    <div class="color-box"><input type="radio" name="colors" checked id="color-one"><label style="background-color:#c4c4c4;" for="color-one"></label></div>
-                                    <div class="color-box"><input type="radio" name="colors" id="color-two"><label style="background-color:#0b5fb5;" for="color-two"></label></div>
-                                    <div class="color-box"><input type="radio" name="colors" id="color-three"><label style="background-color:#00a651;" for="color-three"></label></div>
-                                    <div class="color-box"><input type="radio" name="colors" id="color-four"><label style="background-color:#fee496;" for="color-four"></label></div>
-                                    <div class="color-box"><input type="radio" name="colors" id="color-five"><label style="background-color:#bc25bf;" for="color-five"></label></div>
-                                    <div class="color-box"><input type="radio" name="colors" id="color-six"><label style="background-color:#000000;" for="color-six"></label></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-widget brands-widget">
-                            <div class="widget-content">
-                                <div class="sidebar-title-two">
-                                    <h5>brands</h5>
-                                </div>
-
-                                <div class="brands-list">
-                                    <form method="post" action="contact.html">
-
-                                        <div class="form-group">
-                                            <div class="check-box">
-                                                <input type="checkbox" name="remember-password" id="type-1">
-                                                <label for="type-1">Samsung</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="check-box">
-                                                <input type="checkbox" name="remember-password" id="type-2">
-                                                <label for="type-2">Oppo</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="check-box">
-                                                <input type="checkbox" name="remember-password" id="type-3">
-                                                <label for="type-3">hewaui Galaxy</label>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="sidebar-widget-two tags-widget">
-                            <div class="widget-content">
-                                <div class="sidebar-title-two">
-                                    <h5>Tags</h5>
-                                </div>
-                                <ul class="tag-list">
-                                    <li><a href="#">symphony</a></li>
-                                    <li><a href="#">nokia</a></li>
-                                    <li><a href="#">samsung</a></li>
-                                    <li><a href="#">Alcatel</a></li>
+                                    <li><a href="#">Tüm Kategoriler</a></li>
                                 </ul>
                             </div>
                         </div>
-
+                    </div>
                 </aside>
             </div>
 
             <div class="content-side col-lg-9 col-md-12 col-sm-12">
-
-                <div class="content mb-4">
-                    <h3>Experience is over the world visit</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus...</p>
-                </div>
-
                 <div class="filter-box">
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <div class="left-box d-flex align-items-center">
-                            <div class="results">Showing all @(Model != null ? Model.Count() : 0) results</div>
-                        </div>
-                        <div class="right-box d-flex">
-                            <div class="form-group">
-                                <select name="currency" class="custom-select-box">
-                                    <option>Recently Added</option>
-                                    <option>Price: Low to High</option>
-                                    <option>Price: High to Low</option>
-                                </select>
-                            </div>
-                            <ul class="pages-list">
-                                <li><a class="flaticon-list" href="#"></a></li>
-                                <li><a class="flaticon-menu-2" href="#"></a></li>
-                            </ul>
+                            <div class="results">Toplam @(Model != null ? Model.Count() : 0) ürün gösteriliyor</div>
                         </div>
                     </div>
                 </div>
+
                 <div class="shops-outer">
                     <div class="row clearfix">
-
                         @if (Model != null && Model.Any())
                         {
                             foreach (var item in Model)
@@ -393,11 +169,15 @@
                                 <div class="shop-item col-lg-4 col-md-4 col-sm-12">
                                     <div class="inner-box">
                                         <div class="image">
-                                            <a href="shop-detail.html"><img src="@Url.Content(item.ImageUrl)" alt="@item.Name" style="height:300px; object-fit:cover;"></a>
+                                            <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">
+                                                <img src="@Url.Content(item.ImageUrl)" alt="@item.Name" style="height:300px; object-fit:cover;">
+                                            </a>
                                             <div class="options-box">
                                                 <ul class="option-list">
-                                                    <li><a class="flaticon-resize" href="shop-detail.html"></a></li>
-                                                    <li><a class="flaticon-heart" href="shop-detail.html"></a></li>
+                                                    <li>
+                                                        <a class="flaticon-resize" asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id"></a>
+                                                    </li>
+                                                    <li><a class="flaticon-heart" href="#"></a></li>
                                                     <li><a href="/Cart/AddToCart?productId=@item.Id" class="theme-btn btn-style-one">Sepete Ekle</a></li>
                                                 </ul>
                                             </div>
@@ -408,11 +188,13 @@
                                                 <span class="fa fa-star"></span>
                                                 <span class="fa fa-star"></span>
                                                 <span class="fa fa-star"></span>
-                                                <span class="light fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
                                             </div>
-                                            <h6><a href="shop-detail.html">@item.Name</a></h6>
+                                            <h6>
+                                                <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">@item.Name</a>
+                                            </h6>
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <div class="price">$@item.Price</div>
+                                                <div class="price">@item.Price.ToString("C")</div>
                                                 <div class="quantity-box">
                                                     <div class="item-quantity">
                                                         <input class="qty-spinner" type="number" value="1" name="quantity">
@@ -431,18 +213,8 @@
                             </div>
                         }
                     </div>
-
-                    <ul class="styled-pagination text-center">
-                        <li class="next"><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
-                        <li><a href="#" class="active">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li class="next"><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
-                    </ul>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>

@@ -48,5 +48,33 @@ namespace VeorCollection.Controllers
         {
             return View();
         }
+
+        public IActionResult wishlist()
+        {
+            return View();
+        }
+
+        public IActionResult ShopDetail(int id)
+        {
+            // ID'ye göre ürünü ve kategorisini veritabanından çekiyoruz
+            var product = _context.Products
+                                  .Include(p => p.Category)
+                                  .FirstOrDefault(p => p.Id == id);
+
+            // Eğer ürün bulunamazsa (örn: silinmişse) hata sayfasına veya listeye yönlendir
+            if (product == null)
+            {
+                return RedirectToAction("Products");
+            }
+
+            return View(product);
+        }
+        public IActionResult blogdetail()
+        {
+            return View();
+        }
+
+
     }
 }
+    
