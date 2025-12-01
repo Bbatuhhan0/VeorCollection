@@ -11,8 +11,10 @@ using System;
 using Microsoft.AspNetCore.Authorization; // Bunu ekle
 
 namespace VeorCollection.Controllers
+
+
 {
-    [Authorize] // <--- BU SİHİRLİ KELİME TÜM KAPIYI KİLİTLER
+    [Authorize(Roles = "Admin")] // <--- BU SATIRI MUTLAKA EKLE
     public class AdminController : Controller
 
     {

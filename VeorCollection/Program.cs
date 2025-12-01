@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VeorCollection.Data;
-using Microsoft.AspNetCore.Authentication.Cookies; // Bu gerekli
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +10,29 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// 2. Kimlik Doðrulama Servisini Ekliyoruz (YENÝ)
+// 2. AKILLI KÝMLÝK DOÐRULAMA AYARI (Burasý Deðiþti)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/Login"; // Giriþ yapmamýþ kiþi buraya atýlsýn
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20); // 20 dk sonra oturum düþsün
+        // Varsayýlan giriþ sayfasý (Müþteriler için)
+        options.LoginPath = "/Account/Login";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+
+        // ÖZEL KURAL: Eðer kullanýcý "/Admin" sayfasýna gitmeye çalýþýyorsa...
+        options.Events.OnRedirectToLogin = context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/Admin"))
+            {
+                // ...onu Admin Giriþ sayfasýna yönlendir.
+                context.Response.Redirect("/Account/AdminLogin");
+            }
+            else
+            {
+                // ...deðilse normal müþteri giriþine yönlendir.
+                context.Response.Redirect(context.RedirectUri);
+            }
+            return Task.CompletedTask;
+        };
     });
 
 builder.Services.AddControllersWithViews();
@@ -33,7 +50,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 3. Sýralama ÇOK ÖNEMLÝ: Önce Kimlik Doðrulama, Sonra Yetkilendirme (YENÝ)
+// 3. Sýralama Önemli: Önce Kimlik, Sonra Yetki
 app.UseAuthentication();
 app.UseAuthorization();
 
