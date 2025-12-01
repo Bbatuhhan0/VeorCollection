@@ -201,21 +201,7 @@
 
 								</div>
 
-								<div class="header-menu">
-									<ul>
-										<li><a href="/">Anasayfa</a></li>
 
-										@if (User.Identity?.IsAuthenticated == true)
-										{
-											<li class="nav-item"><a href="/Cart/Index">Sepetim</a></li>
-											<li class="nav-item"><a href="/Account/Logout">Çıkış</a></li>
-										}
-										else
-										{
-											<li class="nav-item"><a href="/Account/Login">Giriş</a></li>
-										}
-									</ul>
-								</div>
 							</nav>
 							<!-- Main Menu End-->
 
