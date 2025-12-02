@@ -11,6 +11,7 @@
     <div class="row">
         <div class="col-md-9">
             <form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+
                 <div class="row">
                     <div class="col-md-6 form-group mb-3">
                         <label class="control-label fw-bold">Ürün Adı</label>
@@ -38,20 +39,42 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 form-group mb-3">
-                        <label asp-for="GenderId" class="control-label fw-bold">Cinsiyet</label>
-                        <select asp-for="GenderId" class="form-control" asp-items="ViewBag.Genders">
-                            <option value="">-- Cinsiyet Seçiniz --</option>
-                        </select>
-                        <span asp-validation-for="GenderId" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-6 form-group mb-3">
-                        <label asp-for="ScentTypeId" class="control-label fw-bold">Koku Tipi</label>
-                        <select asp-for="ScentTypeId" class="form-control" asp-items="ViewBag.ScentTypes">
-                            <option value="">-- Koku Tipi Seçiniz --</option>
-                        </select>
-                        <span asp-validation-for="ScentTypeId" class="text-danger"></span>
+                <div class="card mb-4 bg-light border-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary mb-3">Ürün Özellikleri</h5>
+                        <p class="small text-muted">Ürüne ait özellikleri işaretleyiniz.</p>
+                        <hr />
+
+                        @if (ViewBag.Attributes != null)
+                        {
+                            var attributes = ViewBag.Attributes as List<VeorCollection.Models.ProductAttribute>;
+                            if (attributes != null && attributes.Any())
+                            {
+                                <div class="row">
+                                    @foreach (var attr in attributes)
+                                    {
+                                        <div class="col-md-6 mb-3">
+                                            <h6 class="fw-bold">@attr.Name</h6>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                @foreach (var val in attr.Values)
+                                                {
+                                                    <div class="form-check me-3">
+                                                        <input class="form-check-input" type="checkbox" name="selectedOptions" value="@val.Id" id="opt_@val.Id">
+                                                        <label class="form-check-label" for="opt_@val.Id">
+                                                            @val.Value
+                                                        </label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning">Henüz hiç özellik eklenmemiş. Lütfen önce 'Özellik Yönetimi' sayfasından özellik ekleyin.</div>
+                            }
+                        }
                     </div>
                 </div>
 
@@ -62,7 +85,7 @@
 
                 <div class="form-group mb-3">
                     <label class="control-label fw-bold">Kısa Açıklama</label>
-                    <textarea asp-for="ShortDescription" class="form-control" rows="3" placeholder="Ürünün öne çıkan özellikleri..."></textarea>
+                    <textarea asp-for="ShortDescription" class="form-control" rows="3"></textarea>
                 </div>
 
                 <div class="form-group mb-3">
@@ -77,8 +100,8 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">Ürünü Kaydet</button>
-                    <a href="/Admin/Products" class="btn btn-secondary">İptal</a>
+                    <button type="submit" class="btn btn-success btn-lg">Kaydet</button>
+                    <a href="/Admin/Products" class="btn btn-secondary btn-lg">İptal</a>
                 </div>
             </form>
         </div>
@@ -87,19 +110,12 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        $('#summernote').summernote({
-            placeholder: 'Ürün hikayesi, kumaş bilgisi ve diğer detayları buraya yazın...',
-            tabsize: 2,
-            height: 300,
-            toolbar: [
-              ['style', ['style']],
-              ['font', ['bold', 'underline', 'clear']],
-              ['color', ['color']],
-              ['para', ['ul', 'ol', 'paragraph']],
-              ['table', ['table']],
-              ['insert', ['link', 'picture']],
-              ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
+        if ($('#summernote').length > 0) {
+            $('#summernote').summernote({
+                placeholder: 'Ürün detaylarını buraya yazın...',
+                tabsize: 2,
+                height: 300
+            });
+        }
     });
 </script>

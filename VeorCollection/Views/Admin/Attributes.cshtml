@@ -1,0 +1,76 @@
+﻿@model List<VeorCollection.Models.ProductAttribute>
+
+@{
+    ViewData["Title"] = "Özellik Yönetimi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm border-0 bg-light">
+                <h5 class="mb-3 text-primary">Yeni Özellik Grubu</h5>
+                <p class="text-muted small">Örn: Materyal, Renk, Beden</p>
+
+                <form asp-action="CreateAttribute" method="post">
+                    <div class="input-group">
+                        <input type="text" name="name" class="form-control" placeholder="Grup Adı" required>
+                        <button class="btn btn-primary" type="submit">Ekle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h3 class="mb-4">Mevcut Özellikler</h3>
+
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var attr in Model)
+                {
+                    <div class="card mb-4 shadow-sm border-start border-4 border-primary">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title fw-bold m-0">@attr.Name</h5>
+                                <a href="/Admin/DeleteAttribute/@attr.Id" class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Bu grubu ve içindeki tüm seçenekleri silmek istediğinize emin misiniz?')">
+                                    Grubu Sil
+                                </a>
+                            </div>
+
+                            <div class="mb-3">
+                                @if (attr.Values != null && attr.Values.Any())
+                                {
+                                    @foreach (var val in attr.Values)
+                                    {
+                                        <span class="badge bg-white text-dark border me-1 mb-1 p-2" style="font-size: 14px;">
+                                            @val.Value
+                                            <a href="/Admin/DeleteAttributeValue/@val.Id" class="text-danger ms-2 text-decoration-none fw-bold" title="Sil">&times;</a>
+                                        </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Henüz seçenek eklenmemiş.</span>
+                                }
+                            </div>
+
+                            <form asp-action="AddAttributeValue" method="post" class="d-flex bg-light p-2 rounded">
+                                <input type="hidden" name="attributeId" value="@attr.Id" />
+                                <input type="text" name="value" class="form-control me-2 form-control-sm border-0" placeholder="Yeni Seçenek (Örn: Altın, Kırmızı, XL)" required>
+                                <button type="submit" class="btn btn-sm btn-success">Seçenek Ekle</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    Henüz hiç özellik grubu eklenmemiş. Soldaki panelden eklemeye başlayabilirsiniz.
+                </div>
+            }
+        </div>
+    </div>
+</div>

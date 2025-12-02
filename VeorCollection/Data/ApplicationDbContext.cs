@@ -14,8 +14,8 @@ namespace VeorCollection.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }      // Hata veren kısım burasıydı
         public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<Gender> Genders { get; set; }
-        public DbSet<ScentType> ScentTypes { get; set; }
+        public DbSet<ProductAttribute> ProductAttributes { get; set; }
+        public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

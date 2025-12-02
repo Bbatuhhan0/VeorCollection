@@ -19,7 +19,6 @@ namespace VeorCollection.Models
         [Display(Name = "Resim")]
         public string? ImageUrl { get; set; }
 
-        // --- YENİ EKLENEN DETAY ALANLARI ---
         [Display(Name = "Kısa Açıklama (Fiyat Altı)")]
         public string? ShortDescription { get; set; }
 
@@ -28,7 +27,6 @@ namespace VeorCollection.Models
 
         [Display(Name = "Stok Kodu (SKU)")]
         public string? SKU { get; set; }
-        // ------------------------------------
 
         [Display(Name = "Stokta Var mı?")]
         public bool IsInStock { get; set; } = true;
@@ -39,12 +37,8 @@ namespace VeorCollection.Models
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
 
-        // Cinsiyet İlişkisi
-        public int? GenderId { get; set; }
-        public Gender? Gender { get; set; }
-
-        // Koku Tipi İlişkisi
-        public int? ScentTypeId { get; set; }
-        public ScentType? ScentType { get; set; }
+        // --- YENİ EKLENEN KISIM ---
+        // Ürünün sahip olduğu tüm özellikler (Hem Koku, Hem Renk, Hem Beden...)
+        public virtual ICollection<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
     }
 }

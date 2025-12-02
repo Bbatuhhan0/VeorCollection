@@ -3,13 +3,10 @@
 @{
     Layout = "AnaLayout";
     ViewData["Title"] = Model.Name;
-
-    // Resim yoksa placeholder, varsa kendi resmini al
     var imageUrl = string.IsNullOrEmpty(Model.ImageUrl) ? "/img/no-image.png" : Model.ImageUrl;
 }
 
 <style>
-    /* Bu sayfaya özel stiller */
     body, html, .page-wrapper, .shop-detail-section {
         background-color: #000 !important;
         color: #fff !important;
@@ -31,26 +28,16 @@
         font-weight: bold;
     }
 
-    .meta-data span {
+    .meta-data span.label {
         color: #dabd82;
         font-weight: 600;
         margin-right: 8px;
-    }
-
-    .meta-data div {
-        margin-bottom: 6px;
-        color: #ccc;
-        font-size: 15px;
     }
 
     .inner-column h3 {
         color: #fff !important;
         font-size: 32px;
         margin-bottom: 15px;
-    }
-
-    .text p {
-        color: #ccc;
     }
 </style>
 
@@ -80,25 +67,34 @@
                     </div>
 
                     <div class="text mb-4">
-                        <p>@Model.ShortDescription</p>
+                        <p style="color:#ccc;">@Model.ShortDescription</p>
                     </div>
 
                     <div class="meta-data border-top border-bottom py-3 mb-4" style="border-color: #333 !important;">
-                        <div><span>Kategori:</span> @(Model.Category?.Name ?? "Genel")</div>
 
-                        @if (Model.Gender != null)
-                        {
-                            <div><span>Cinsiyet:</span> @Model.Gender.Name</div>
-                        }
-
-                        @if (Model.ScentType != null)
-                        {
-                            <div><span>Koku Tipi:</span> @Model.ScentType.Name</div>
-                        }
+                        <div class="mb-2">
+                            <span class="label">Kategori:</span> @(Model.Category?.Name ?? "Genel")
+                        </div>
 
                         @if (!string.IsNullOrEmpty(Model.SKU))
                         {
-                            <div><span>SKU:</span> @Model.SKU</div>
+                            <div class="mb-2"><span class="label">SKU:</span> @Model.SKU</div>
+                        }
+
+                        @if (Model.AttributeValues != null && Model.AttributeValues.Any())
+                        {
+                            // Özellikleri grup adına göre grupluyoruz (Örn: Tüm 'Renk'leri bir araya al)
+                            var groupedAttributes = Model.AttributeValues
+                            .GroupBy(av => av.ProductAttribute.Name)
+                            .ToList();
+
+                            foreach (var group in groupedAttributes)
+                            {
+                                <div class="mb-2">
+                                    <span class="label">@group.Key:</span>
+                                    @string.Join(", ", group.Select(v => v.Value))
+                                </div>
+                            }
                         }
                     </div>
 
@@ -106,13 +102,11 @@
                     {
                         <form action="/Cart/AddToCart" method="get" class="d-flex align-items-center mt-4">
                             <input type="hidden" name="productId" value="@Model.Id" />
-
                             <div class="quantity-box me-3">
                                 <input type="number" name="quantity" value="1" min="1" max="10"
                                        class="form-control"
                                        style="width: 80px; height: 50px; background-color:#111; border:1px solid #dabd82; color:#fff; text-align:center;">
                             </div>
-
                             <button type="submit" class="theme-btn btn-style-one" style="cursor:pointer; height: 50px; padding: 0 30px;">
                                 Sepete Ekle
                             </button>
@@ -121,7 +115,7 @@
                     else
                     {
                         <div class="alert alert-dark mt-3" style="border: 1px solid #dabd82; color: #dabd82;">
-                            <i class="fa fa-info-circle"></i> Bu ürün şu anda temin edilemiyor.
+                            Bu ürün şu anda temin edilemiyor.
                         </div>
                     }
                 </div>
@@ -144,15 +138,3 @@
         </div>
     </div>
 </section>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var preloader = document.querySelector('.preloader');
-        if (preloader) {
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                preloader.style.display = 'none';
-            }, 500);
-        }
-    });
-</script>
