@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic; // List kullanımı için gerekli
+using System.Collections.Generic;
 
 namespace VeorCollection.Controllers
 {
@@ -28,6 +28,7 @@ namespace VeorCollection.Controllers
         {
             ViewBag.ProductCount = _context.Products.Count();
             ViewBag.CategoryCount = _context.Categories.Count();
+            // Not: TotalStockValue hesabı null kontrolü ile daha güvenli hale getirildi
             ViewBag.TotalStockValue = _context.Products.Any() ? _context.Products.Sum(p => p.Price) : 0;
             ViewBag.LowStockCount = _context.Products.Count(p => !p.IsInStock);
 
@@ -37,15 +38,11 @@ namespace VeorCollection.Controllers
         // --- KATEGORİ İŞLEMLERİ ---
         public IActionResult Categories()
         {
-            var categories = _context.Categories.ToList();
-            return View(categories);
+            return View(_context.Categories.ToList());
         }
 
         [HttpGet]
-        public IActionResult CreateCategory()
-        {
-            return View();
-        }
+        public IActionResult CreateCategory() { return View(); }
 
         [HttpPost]
         public IActionResult CreateCategory(Category category)
@@ -90,28 +87,53 @@ namespace VeorCollection.Controllers
             return RedirectToAction("Categories");
         }
 
-        // --- YENİ: DİNAMİK ÖZELLİK (FİLTRE) YÖNETİMİ ---
-        // Buradan "Renk", "Materyal" gibi özellikler eklenecek
+        // --- ÖZELLİK (FİLTRE) YÖNETİMİ ---
+
+        // GÜNCELLENDİ: Özellik Yönetimi Sayfası
         public IActionResult Attributes()
         {
-            // Özellikleri ve altındaki değerleri (Value) getiriyoruz
-            var attributes = _context.ProductAttributes.Include(a => a.Values).ToList();
+            // Kategorileri de View'a gönderelim ki seçim yapabilelim
+            ViewBag.Categories = _context.Categories.ToList();
+
+            var attributes = _context.ProductAttributes
+                .Include(a => a.Values)
+                .Include(a => a.CategoryAttributes) // Eşleşmeleri de getir
+                    .ThenInclude(ca => ca.Category)
+                .ToList();
+
             return View(attributes);
         }
 
-        // Yeni Özellik Grubu Ekle (Örn: Beden, Materyal)
+        // GÜNCELLENDİ: Yeni Özellik Ekle (Kategori Seçimli)
         [HttpPost]
-        public IActionResult CreateAttribute(string name)
+        public IActionResult CreateAttribute(string name, int[] categoryIds)
         {
-            if (!string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name)) return RedirectToAction("Attributes");
+
+            var attr = new ProductAttribute { Name = name };
+            _context.ProductAttributes.Add(attr);
+            _context.SaveChanges(); // ID oluşsun
+
+            // Eğer kategori seçildiyse eşleştirmeleri kaydet
+            if (categoryIds != null && categoryIds.Length > 0)
             {
-                _context.ProductAttributes.Add(new ProductAttribute { Name = name });
+                foreach (var catId in categoryIds)
+                {
+                    _context.CategoryAttributes.Add(new CategoryAttribute
+                    {
+                        ProductAttributeId = attr.Id,
+                        CategoryId = catId
+                    });
+                }
                 _context.SaveChanges();
             }
+
+            TempData["Message"] = "Özellik eklendi ve kategorilere bağlandı.";
+            TempData["Type"] = "success";
             return RedirectToAction("Attributes");
         }
 
-        // Özelliğe Yeni Değer Ekle (Örn: Materyal -> Altın)
+        // Özelliğe Değer Ekle (Örn: Kırmızı)
         [HttpPost]
         public IActionResult AddAttributeValue(int attributeId, string value)
         {
@@ -123,35 +145,27 @@ namespace VeorCollection.Controllers
                     Value = value
                 });
                 _context.SaveChanges();
+                TempData["Message"] = "Seçenek başarıyla eklendi.";
+                TempData["Type"] = "success";
             }
             return RedirectToAction("Attributes");
         }
 
-        // Özellik Grubunu Sil
         public IActionResult DeleteAttribute(int id)
         {
             var attr = _context.ProductAttributes.Find(id);
-            if (attr != null)
-            {
-                _context.ProductAttributes.Remove(attr);
-                _context.SaveChanges();
-            }
+            if (attr != null) { _context.ProductAttributes.Remove(attr); _context.SaveChanges(); }
             return RedirectToAction("Attributes");
         }
 
-        // Özellik Değerini Sil
         public IActionResult DeleteAttributeValue(int id)
         {
             var val = _context.ProductAttributeValues.Find(id);
-            if (val != null)
-            {
-                _context.ProductAttributeValues.Remove(val);
-                _context.SaveChanges();
-            }
+            if (val != null) { _context.ProductAttributeValues.Remove(val); _context.SaveChanges(); }
             return RedirectToAction("Attributes");
         }
 
-        // --- ÜRÜN İŞLEMLERİ (GÜNCELLENDİ) ---
+        // --- ÜRÜN İŞLEMLERİ ---
         public IActionResult Products()
         {
             var products = _context.Products.Include(p => p.Category).ToList();
@@ -161,80 +175,13 @@ namespace VeorCollection.Controllers
         [HttpGet]
         public IActionResult CreateProduct()
         {
-            LoadViewBags(); // Kategorileri ve Özellikleri yükler
+            LoadViewBags(); // Özellik listesini yükleyen metot
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct(Product product, IFormFile? imageFile, int[] selectedOptions)
         {
-            // 1. Resim Yükleme İşlemi
-            if (imageFile != null)
-            {
-                var extension = Path.GetExtension(imageFile.FileName);
-                var newImageName = Guid.NewGuid() + extension;
-                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products");
-
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
-
-                var location = Path.Combine(folderPath, newImageName);
-                using (var stream = new FileStream(location, FileMode.Create))
-                {
-                    await imageFile.CopyToAsync(stream);
-                }
-                product.ImageUrl = "/img/products/" + newImageName;
-            }
-
-            if (ModelState.IsValid)
-            {
-                // 2. Ürünü Kaydet (ID oluşması için önce kaydediyoruz)
-                _context.Products.Add(product);
-                await _context.SaveChangesAsync();
-
-                // 3. Seçilen Özellikleri (Checkbox) Kaydet
-                if (selectedOptions != null && selectedOptions.Length > 0)
-                {
-                    foreach (var valId in selectedOptions)
-                    {
-                        var attrVal = await _context.ProductAttributeValues.FindAsync(valId);
-                        if (attrVal != null)
-                        {
-                            // Özelliği ürüne ekle
-                            product.AttributeValues.Add(attrVal);
-                        }
-                    }
-                    // İlişkileri veritabanına yansıt
-                    await _context.SaveChangesAsync();
-                }
-
-                return RedirectToAction("Products");
-            }
-
-            LoadViewBags();
-            return View(product);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EditProduct(int id)
-        {
-            // Ürünü, mevcut özellikleriyle birlikte getiriyoruz (Include)
-            var product = await _context.Products
-                .Include(p => p.AttributeValues)
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (product == null) return NotFound();
-
-            LoadViewBags(product);
-            return View(product);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditProduct(Product product, IFormFile? imageFile, int[] selectedOptions)
-        {
-            // 1. Resim Güncelleme
             if (imageFile != null)
             {
                 var extension = Path.GetExtension(imageFile.FileName);
@@ -251,19 +198,71 @@ namespace VeorCollection.Controllers
                 product.ImageUrl = "/img/products/" + newImageName;
             }
 
-            // 2. Ürün Bilgilerini Güncelle
+            if (ModelState.IsValid)
+            {
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+
+                // Seçilen özellikleri kaydet
+                if (selectedOptions != null)
+                {
+                    foreach (var valId in selectedOptions)
+                    {
+                        var attrVal = await _context.ProductAttributeValues.FindAsync(valId);
+                        if (attrVal != null) product.AttributeValues.Add(attrVal);
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Products");
+            }
+
+            LoadViewBags();
+            return View(product);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(int id)
+        {
+            var product = await _context.Products
+                .Include(p => p.AttributeValues)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null) return NotFound();
+
+            LoadViewBags(product);
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(Product product, IFormFile? imageFile, int[] selectedOptions)
+        {
+            if (imageFile != null)
+            {
+                var extension = Path.GetExtension(imageFile.FileName);
+                var newImageName = Guid.NewGuid() + extension;
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products");
+
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+                var location = Path.Combine(folderPath, newImageName);
+                using (var stream = new FileStream(location, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                product.ImageUrl = "/img/products/" + newImageName;
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Mevcut ürünü veritabanından, ilişkili özellikleriyle çekiyoruz
                     var productToUpdate = await _context.Products
                         .Include(p => p.AttributeValues)
                         .FirstOrDefaultAsync(p => p.Id == product.Id);
 
                     if (productToUpdate == null) return NotFound();
 
-                    // Basit alanları güncelle
+                    // Alanları güncelle
                     productToUpdate.Name = product.Name;
                     productToUpdate.Price = product.Price;
                     productToUpdate.ShortDescription = product.ShortDescription;
@@ -273,24 +272,19 @@ namespace VeorCollection.Controllers
                     productToUpdate.CategoryId = product.CategoryId;
                     if (product.ImageUrl != null) productToUpdate.ImageUrl = product.ImageUrl;
 
-                    // 3. Özellikleri Güncelle (Eskileri temizle, yenileri ekle)
-                    productToUpdate.AttributeValues.Clear(); // Önce temizle
-
+                    // Özellikleri güncelle
+                    productToUpdate.AttributeValues.Clear();
                     if (selectedOptions != null)
                     {
                         foreach (var valId in selectedOptions)
                         {
                             var attrVal = await _context.ProductAttributeValues.FindAsync(valId);
-                            if (attrVal != null)
-                            {
-                                productToUpdate.AttributeValues.Add(attrVal);
-                            }
+                            if (attrVal != null) productToUpdate.AttributeValues.Add(attrVal);
                         }
                     }
 
                     _context.Update(productToUpdate);
                     await _context.SaveChangesAsync();
-
                     return RedirectToAction("Products");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -320,7 +314,7 @@ namespace VeorCollection.Controllers
         {
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product?.CategoryId);
 
-            // Tüm Özellikleri ve Değerlerini View'a gönderiyoruz (Checkbox listesi için)
+            // Tüm Özellikleri ve Değerlerini View'a gönderiyoruz
             ViewBag.Attributes = _context.ProductAttributes.Include(a => a.Values).ToList();
         }
     }

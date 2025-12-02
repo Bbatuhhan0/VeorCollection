@@ -21,39 +21,67 @@ namespace VeorCollection.Controllers
             return View();
         }
 
-        // --- GÜNCELLENEN DİNAMİK FİLTRELEME ---
-        // categoryId: Seçilen kategori
-        // f: Seçilen özelliklerin ID listesi (Örn: [KırmızıID, XLID]) - Checkboxlardan gelen veri
+        // --- GÜNCELLENEN PRODUCTS METODU ---
         public IActionResult Products(int? categoryId, List<int>? f)
         {
-            // 1. Ürünleri ve dinamik özelliklerini çekiyoruz
-            var products = _context.Products
+            // 1. Ürünleri ve özelliklerini çek (Burada değişiklik yok)
+            var productsQuery = _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.AttributeValues)
-                    .ThenInclude(av => av.ProductAttribute) // Özellik detaylarını da al
+                    .ThenInclude(av => av.ProductAttribute)
                 .AsQueryable();
 
             // 2. Kategori Filtresi
             if (categoryId.HasValue)
             {
-                products = products.Where(x => x.CategoryId == categoryId.Value);
+                productsQuery = productsQuery.Where(x => x.CategoryId == categoryId.Value);
                 ViewBag.SeciliCategoryId = categoryId.Value;
             }
 
-            // 3. Dinamik Özellik Filtresi (Çoklu Seçim)
+            // 3. Dinamik Özellik Filtresi (AND Mantığı)
             if (f != null && f.Any())
             {
-                // Seçilen özelliklerden HERHANGİ BİRİNE sahip ürünleri getir
-                products = products.Where(p => p.AttributeValues.Any(av => f.Contains(av.Id)));
+                var selectedValues = _context.ProductAttributeValues
+                    .Where(v => f.Contains(v.Id))
+                    .Select(v => new { v.Id, v.ProductAttributeId })
+                    .ToList();
+
+                var groupedFilters = selectedValues
+                    .GroupBy(v => v.ProductAttributeId)
+                    .ToList();
+
+                foreach (var group in groupedFilters)
+                {
+                    var groupValueIds = group.Select(x => x.Id).ToList();
+                    productsQuery = productsQuery.Where(p => p.AttributeValues.Any(av => groupValueIds.Contains(av.Id)));
+                }
+
                 ViewBag.SelectedFilters = f;
             }
 
-            // Sidebar'ı doldurmak için TÜM özellikleri View'a gönderiyoruz
-            // (Artık Cinsiyet, Koku, Materyal vs. hepsi burada)
-            ViewBag.Attributes = _context.ProductAttributes.Include(a => a.Values).ToList();
+            // --- SIDEBAR ÖZELLİK AYARI (BURASI DEĞİŞTİ) ---
+
+            // Varsayılan olarak listeyi BOŞ başlatıyoruz. 
+            // Böylece "Tüm Ürünler" seçiliyken hiçbir filtre görünmez.
+            List<ProductAttribute> attributesToShow = new List<ProductAttribute>();
+
+            // SADECE bir kategori seçildiyse filtreleri doldur
+            if (categoryId.HasValue)
+            {
+                attributesToShow = _context.ProductAttributes
+                    .Include(a => a.Values)
+                    .Include(a => a.CategoryAttributes)
+                    .Where(a =>
+                        !a.CategoryAttributes.Any() || // Genel özellikler (her yerde görünsün diyenler)
+                        a.CategoryAttributes.Any(ca => ca.CategoryId == categoryId.Value)) // Bu kategoriye özel olanlar
+                    .ToList();
+            }
+
+            // View'a gönder
+            ViewBag.Attributes = attributesToShow;
             ViewBag.Categories = _context.Categories.ToList();
 
-            return View(products.ToList());
+            return View(productsQuery.ToList());
         }
 
         // Ürün Detay Sayfası
@@ -63,7 +91,7 @@ namespace VeorCollection.Controllers
 
             var product = _context.Products
                 .Include(p => p.Category)
-                .Include(p => p.AttributeValues) // Özellikleri dahil et
+                .Include(p => p.AttributeValues)
                     .ThenInclude(av => av.ProductAttribute)
                 .AsNoTracking()
                 .FirstOrDefault(p => p.Id == id);
@@ -76,7 +104,7 @@ namespace VeorCollection.Controllers
         public IActionResult Blog() { return View(); }
         public IActionResult About() { return View(); }
 
-        // Seed Data (Opsiyonel: İlk kurulumda örnek veri ekler)
+        // Seed Data
         public IActionResult SeedData()
         {
             if (!_context.ProductAttributes.Any())

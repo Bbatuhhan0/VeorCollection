@@ -16,6 +16,7 @@ namespace VeorCollection.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<ProductAttribute> ProductAttributes { get; set; }
         public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
+        public DbSet<CategoryAttribute> CategoryAttributes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
