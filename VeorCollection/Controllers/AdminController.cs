@@ -103,9 +103,13 @@ namespace VeorCollection.Controllers
         public IActionResult CreateProduct()
         {
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
+
+            // YENİ: Cinsiyet ve Koku Tipi listelerini View'a gönderiyoruz
+            ViewBag.Genders = new SelectList(_context.Genders, "Id", "Name");
+            ViewBag.ScentTypes = new SelectList(_context.ScentTypes, "Id", "Name");
+
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> CreateProduct(Product product, IFormFile? imageFile)
         {
@@ -135,12 +139,17 @@ namespace VeorCollection.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditProduct(int id)
+        public async Task<IActionResult> EditProduct(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
 
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+
+            // YENİ: Düzenleme sayfasında seçili gelmesi için
+            ViewBag.Genders = new SelectList(_context.Genders, "Id", "Name", product.GenderId);
+            ViewBag.ScentTypes = new SelectList(_context.ScentTypes, "Id", "Name", product.ScentTypeId);
+
             return View(product);
         }
 

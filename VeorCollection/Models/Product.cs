@@ -39,7 +39,12 @@ namespace VeorCollection.Models
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
 
-        public string? Cinsiyet { get; set; }  // Örn: "Erkek", "Kadın", "Unisex"
-        public string? KokuTipi { get; set; }  // Örn: "Odunsu", "Çiçeksi", "Meyveli"
+        // Cinsiyet İlişkisi
+        public int? GenderId { get; set; }
+        public Gender? Gender { get; set; }
+
+        // Koku Tipi İlişkisi
+        public int? ScentTypeId { get; set; }
+        public ScentType? ScentType { get; set; }
     }
 }

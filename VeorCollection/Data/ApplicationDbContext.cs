@@ -14,5 +14,16 @@ namespace VeorCollection.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }      // Hata veren kısım burasıydı
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Gender> Genders { get; set; }
+        public DbSet<ScentType> ScentTypes { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Price alanı için hassasiyet ayarı
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
+        }
     }
 }
