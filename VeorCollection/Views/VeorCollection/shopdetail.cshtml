@@ -102,7 +102,7 @@
                         <div class="price">@Model.Price.ToString("C")</div>
 
                         <div class="text">
-                            <p>Bu ürün özel koleksiyonumuzun nadide parçalarından biridir. Kaliteli malzeme ve şık tasarımıyla öne çıkmaktadır.</p>
+                            <p>@Model.ShortDescription</p>
                         </div>
 
                         <div class="categories">
@@ -148,10 +148,15 @@
                     <div class="tabs-content">
                         <div class="tab active-tab" id="prod-details">
                             <div class="content">
-                                <h3>@Model.Name Özellikleri</h3>
-                                <p>Detaylı ürün açıklaması buraya gelecek.</p>
-                            </div>
+                                <h3>Ürün Özellikleri</h3>
 
+                                @if (!string.IsNullOrEmpty(Model.SKU))
+                                {
+                                    <p><strong>Stok Kodu (SKU):</strong> @Model.SKU</p>
+                                }
+
+                                <p>@Model.FullDescription</p>
+                            </div>
                         </div>
                     </div>
                 </div>

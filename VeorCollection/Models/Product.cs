@@ -19,8 +19,16 @@ namespace VeorCollection.Models
         [Display(Name = "Resim")]
         public string? ImageUrl { get; set; }
 
-        [Display(Name = "Açıklama")]
-        public string? Description { get; set; } // YENİ EKLENEN ALAN
+        // --- YENİ EKLENEN DETAY ALANLARI ---
+        [Display(Name = "Kısa Açıklama (Fiyat Altı)")]
+        public string? ShortDescription { get; set; }
+
+        [Display(Name = "Ürün Detayları (Uzun Açıklama)")]
+        public string? FullDescription { get; set; }
+
+        [Display(Name = "Stok Kodu (SKU)")]
+        public string? SKU { get; set; }
+        // ------------------------------------
 
         [Display(Name = "Stokta Var mı?")]
         public bool IsInStock { get; set; } = true;
