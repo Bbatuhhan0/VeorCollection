@@ -7,7 +7,6 @@
 
 <style>
     /* --- SİYAH TEMA VE SAYFA DÜZENLEMELERİ --- */
-
     body {
         background-color: #000000 !important;
         color: #ffffff !important;
@@ -185,7 +184,6 @@
             background-color: #dabd82;
             color: #000;
         }
-
 </style>
 
 <section class="page-title" style="background-image: url(/html/assets/images/background/image-2.jpg);">
@@ -207,15 +205,44 @@
 
                     <div class="sidebar-widget category-widget">
                         <div class="widget-content">
+                            <div class="sidebar-title">
+                                <h5>Kategoriler</h5>
+                            </div>
+                            <ul class="cat-list">
+                                <li>
+                                    <a href="/VeorCollection/Products"
+                                       class="@(ViewBag.SeciliCategoryId == null ? "active-filter" : "")">
+                                        Tüm Ürünler
+                                    </a>
+                                </li>
 
+                                @if (ViewBag.Categories != null)
+                                {
+                                    foreach (var cat in ViewBag.Categories as List<VeorCollection.Models.Category>)
+                                    {
+                                        string activeClass = (ViewBag.SeciliCategoryId == cat.Id) ? "active-filter" : "";
+
+                                        <li>
+                                            <a href="/VeorCollection/Products?categoryId=@cat.Id" class="@activeClass">
+                                                @cat.Name
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget category-widget">
+                        <div class="widget-content">
                             <div class="sidebar-title">
                                 <h5>Cinsiyet</h5>
                             </div>
                             <ul class="cat-list">
                                 <li>
-                                    <a href="/VeorCollection/Products"
-                                       class="@(ViewBag.SeciliGenderId == null && ViewBag.SeciliScentTypeId == null ? "active-filter" : "")">
-                                        Tümü
+                                    <a href="/VeorCollection/Products?categoryId=@ViewBag.SeciliCategoryId"
+                                       class="@(ViewBag.SeciliGenderId == null ? "active-filter" : "")">
+                                        Hepsi
                                     </a>
                                 </li>
 
@@ -226,52 +253,62 @@
                                         string activeClass = (ViewBag.SeciliGenderId == gender.Id) ? "active-filter" : "";
 
                                         <li>
-                                            <a href="/VeorCollection/Products?genderId=@gender.Id" class="@activeClass">
+                                            <a href="/VeorCollection/Products?genderId=@gender.Id&categoryId=@ViewBag.SeciliCategoryId" class="@activeClass">
                                                 @gender.Name
                                             </a>
                                         </li>
                                     }
                                 }
                             </ul>
-
-                            <br>
-
-                            <div class="sidebar-title">
-                                <h5>Koku Ailesi</h5>
-                            </div>
-                            <ul class="cat-list">
-                                @if (ViewBag.ScentTypes != null)
-                                {
-                                    foreach (var scent in ViewBag.ScentTypes as List<VeorCollection.Models.ScentType>)
-                                    {
-                                        string activeClass = (ViewBag.SeciliScentTypeId == scent.Id) ? "active-filter" : "";
-
-                                        <li>
-                                            <a href="/VeorCollection/Products?scentTypeId=@scent.Id" class="@activeClass">
-                                                @scent.Name
-                                            </a>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-
                         </div>
                     </div>
 
+                    @if (ViewBag.ShowScentFilter == true)
+                    {
+                        <div class="sidebar-widget category-widget">
+                            <div class="widget-content">
+                                <div class="sidebar-title">
+                                    <h5>Koku Ailesi</h5>
+                                </div>
+                                <ul class="cat-list">
+                                    <li>
+                                        <a href="/VeorCollection/Products?categoryId=@ViewBag.SeciliCategoryId&genderId=@ViewBag.SeciliGenderId"
+                                           class="@(ViewBag.SeciliScentTypeId == null ? "active-filter" : "")">
+                                            Hepsi
+                                        </a>
+                                    </li>
+
+                                    @if (ViewBag.ScentTypes != null)
+                                    {
+                                        foreach (var scent in ViewBag.ScentTypes as List<VeorCollection.Models.ScentType>)
+                                        {
+                                            string activeClass = (ViewBag.SeciliScentTypeId == scent.Id) ? "active-filter" : "";
+
+                                            <li>
+                                                <a href="/VeorCollection/Products?scentTypeId=@scent.Id&categoryId=@ViewBag.SeciliCategoryId&genderId=@ViewBag.SeciliGenderId" class="@activeClass">
+                                                    @scent.Name
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
                 </aside>
             </div>
-
             <div class="content-side col-lg-9 col-md-12 col-sm-12">
                 <div class="row clearfix">
 
                     @if (Model != null && Model.Any())
                     {
-                        @foreach (var item in Model)
+                        foreach (var item in Model)
                         {
                             <div class="shop-item col-lg-4 col-md-6 col-sm-12">
                                 <div class="inner-box">
                                     <div class="image">
-                                        <a href="/VeorCollection/ProductDetails/@item.Id">
+                                        <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">
                                             <img src="@item.ImageUrl" alt="@item.Name" style="height: 300px; object-fit: cover; width: 100%;">
                                         </a>
                                     </div>
@@ -283,10 +320,18 @@
                                             <span class="fa fa-star"></span>
                                             <span class="fa fa-star"></span>
                                         </div>
-                                        <h6><a href="/VeorCollection/ProductDetails/@item.Id">@item.Name</a></h6>
+
+                                        <h6>
+                                            <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">
+                                                @item.Name
+                                            </a>
+                                        </h6>
+
                                         <div class="price">@item.Price.ToString("C2")</div>
 
-                                        <a href="/VeorCollection/ProductDetails/@item.Id" class="cart-btn-custom">İncele</a>
+                                        <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id" class="cart-btn-custom">
+                                            İncele
+                                        </a>
                                     </div>
                                 </div>
                             </div>

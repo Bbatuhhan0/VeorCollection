@@ -8,15 +8,12 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;
 using System;
-using Microsoft.AspNetCore.Authorization; // Bunu ekle
+using Microsoft.AspNetCore.Authorization;
 
 namespace VeorCollection.Controllers
-
-
 {
-    [Authorize(Roles = "Admin")] // <--- BU SATIRI MUTLAKA EKLE
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
-
     {
         private readonly ApplicationDbContext _context;
 
@@ -102,30 +99,38 @@ namespace VeorCollection.Controllers
         [HttpGet]
         public IActionResult CreateProduct()
         {
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
-
-            // YENİ: Cinsiyet ve Koku Tipi listelerini View'a gönderiyoruz
-            ViewBag.Genders = new SelectList(_context.Genders, "Id", "Name");
-            ViewBag.ScentTypes = new SelectList(_context.ScentTypes, "Id", "Name");
-
+            LoadViewBags();
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateProduct(Product product, IFormFile? imageFile)
         {
+            // --- HATA ÇÖZÜMÜ BURADA ---
             if (imageFile != null)
             {
                 var extension = Path.GetExtension(imageFile.FileName);
                 var newImageName = Guid.NewGuid() + extension;
-                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products/", newImageName);
+
+                // 1. Klasör yolunu tanımla
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products");
+
+                // 2. Klasör yoksa OLUŞTUR (Bu satır hatayı çözer)
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                // 3. Dosya yolunu birleştir
+                var location = Path.Combine(folderPath, newImageName);
 
                 using (var stream = new FileStream(location, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(stream);
                 }
-
                 product.ImageUrl = "/img/products/" + newImageName;
             }
+            // ---------------------------
 
             if (ModelState.IsValid)
             {
@@ -134,7 +139,7 @@ namespace VeorCollection.Controllers
                 return RedirectToAction("Products");
             }
 
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
+            LoadViewBags();
             return View(product);
         }
 
@@ -144,40 +149,53 @@ namespace VeorCollection.Controllers
             var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
 
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-
-            // YENİ: Düzenleme sayfasında seçili gelmesi için
-            ViewBag.Genders = new SelectList(_context.Genders, "Id", "Name", product.GenderId);
-            ViewBag.ScentTypes = new SelectList(_context.ScentTypes, "Id", "Name", product.ScentTypeId);
-
+            LoadViewBags(product);
             return View(product);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditProduct(Product product, IFormFile? imageFile)
         {
+            // --- HATA ÇÖZÜMÜ BURADA DA VAR ---
             if (imageFile != null)
             {
                 var extension = Path.GetExtension(imageFile.FileName);
                 var newImageName = Guid.NewGuid() + extension;
-                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products/", newImageName);
+
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products");
+
+                // Klasör kontrolü ve oluşturma
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                var location = Path.Combine(folderPath, newImageName);
 
                 using (var stream = new FileStream(location, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(stream);
                 }
-
                 product.ImageUrl = "/img/products/" + newImageName;
             }
+            // ---------------------------------
 
             if (ModelState.IsValid)
             {
-                _context.Products.Update(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Products");
+                try
+                {
+                    _context.Products.Update(product);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Products");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Products.Any(e => e.Id == product.Id)) return NotFound();
+                    else throw;
+                }
             }
 
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            LoadViewBags(product);
             return View(product);
         }
 
@@ -191,5 +209,12 @@ namespace VeorCollection.Controllers
             }
             return RedirectToAction("Products");
         }
-    } // Class Bitişi
-} // Namespace Bitişi
+
+        private void LoadViewBags(Product? product = null)
+        {
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product?.CategoryId);
+            ViewBag.Genders = new SelectList(_context.Genders, "Id", "Name", product?.GenderId);
+            ViewBag.ScentTypes = new SelectList(_context.ScentTypes, "Id", "Name", product?.ScentTypeId);
+        }
+    }
+}

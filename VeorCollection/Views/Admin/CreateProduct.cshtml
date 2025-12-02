@@ -9,9 +9,8 @@
     <h2>Yeni Ürün Ekle</h2>
     <hr />
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
-
                 <div class="row">
                     <div class="col-md-6 form-group mb-3">
                         <label class="control-label fw-bold">Ürün Adı</label>
@@ -55,19 +54,21 @@
                         <span asp-validation-for="ScentTypeId" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="form-group mb-3">
                     <label class="control-label fw-bold">Stok Kodu (SKU)</label>
                     <input asp-for="SKU" class="form-control" placeholder="Örn: V-001" />
                 </div>
 
                 <div class="form-group mb-3">
-                    <label class="control-label fw-bold">Kısa Açıklama (Fiyatın Altında Görünür)</label>
+                    <label class="control-label fw-bold">Kısa Açıklama</label>
                     <textarea asp-for="ShortDescription" class="form-control" rows="3" placeholder="Ürünün öne çıkan özellikleri..."></textarea>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label class="control-label fw-bold">Uzun Ürün Detayları (Alt Sekmede Görünür)</label>
-                    <textarea asp-for="FullDescription" class="form-control" rows="6" placeholder="Detaylı ürün hikayesi, kumaş bilgisi vb."></textarea>
+                    <label class="control-label fw-bold">Detaylı Ürün Açıklaması</label>
+                    <textarea asp-for="FullDescription" id="summernote" class="form-control"></textarea>
+                    <span asp-validation-for="FullDescription" class="text-danger"></span>
                 </div>
 
                 <div class="form-check mb-4">
@@ -83,3 +84,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        $('#summernote').summernote({
+            placeholder: 'Ürün hikayesi, kumaş bilgisi ve diğer detayları buraya yazın...',
+            tabsize: 2,
+            height: 300,
+            toolbar: [
+              ['style', ['style']],
+              ['font', ['bold', 'underline', 'clear']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['table', ['table']],
+              ['insert', ['link', 'picture']],
+              ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>

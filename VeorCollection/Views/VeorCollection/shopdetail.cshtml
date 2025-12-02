@@ -2,160 +2,140 @@
 
 @{
     Layout = "AnaLayout";
-    ViewData["Title"] = Model.Name; // Sayfa başlığı ürün adı
+    ViewData["Title"] = Model.Name;
+
+    // Resim yoksa placeholder, varsa kendi resmini al
+    var imageUrl = string.IsNullOrEmpty(Model.ImageUrl) ? "/img/no-image.png" : Model.ImageUrl;
 }
 
 <style>
-    /* STİLLER (Aynen korundu) */
-    body, html, .page-wrapper, .shop-detail-section, .products-section-six {
-        background-color: #000000 !important;
-        color: #ffffff !important;
+    /* Bu sayfaya özel stiller */
+    body, html, .page-wrapper, .shop-detail-section {
+        background-color: #000 !important;
+        color: #fff !important;
     }
 
-    .page-title {
-        background-color: #dabd82 !important;
-        background-image: none !important;
-    }
-
-        .page-title h2 {
-            color: #000000 !important;
-        }
-
-        .page-title .bread-crumb li, .page-title .bread-crumb li a {
-            color: #000000 !important;
-        }
-
-    /* Ürün Detay */
-    .shop-detail-section .inner-column h3 {
-        color: #ffffff !important;
-    }
-
-    .shop-detail-section .inner-column .text {
-        color: #cccccc !important;
-    }
-
-    .shop-detail-section .inner-column .price {
+    .price-tag {
         color: #dabd82 !important;
-        font-size: 24px;
+        font-size: 26px;
         font-weight: 700;
     }
 
-    .theme-btn.btn-style-one {
-        background-color: #fff !important;
-        color: #000 !important;
-        border: 1px solid #fff;
-    }
-
-        .theme-btn.btn-style-one:hover {
-            background-color: #dabd82 !important;
-            border-color: #dabd82 !important;
-            color: #000 !important;
-        }
-
-    .categories span {
-        color: #dabd82 !important;
+    .stock-in {
+        color: #00a651 !important;
         font-weight: bold;
     }
 
-    .categories {
-        color: #999 !important;
-        margin-bottom: 10px;
+    .stock-out {
+        color: #ff4d4d !important;
+        font-weight: bold;
+    }
+
+    .meta-data span {
+        color: #dabd82;
+        font-weight: 600;
+        margin-right: 8px;
+    }
+
+    .meta-data div {
+        margin-bottom: 6px;
+        color: #ccc;
+        font-size: 15px;
+    }
+
+    .inner-column h3 {
+        color: #fff !important;
+        font-size: 32px;
+        margin-bottom: 15px;
+    }
+
+    .text p {
+        color: #ccc;
     }
 </style>
 
-
-
 <section class="shop-detail-section">
     <div class="auto-container">
-        <div class="upper-box">
-            <div class="row clearfix">
-                <div class="gallery-column col-lg-6 col-md-12 col-sm-12">
-                    <div class="inner-column">
-                        <div class="carousel-outer">
-                            <div class="swiper-container content-carousel">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <figure class="image">
-                                            <a href="@Url.Content(Model.ImageUrl)" class="lightbox-image">
-                                                <img src="@Url.Content(Model.ImageUrl)" alt="@Model.Name" style="width:100%; height:auto;">
-                                            </a>
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row clearfix">
+
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-column">
+                    <figure class="image">
+                        <a href="@Url.Content(imageUrl)" class="lightbox-image">
+                            <img src="@Url.Content(imageUrl)" alt="@Model.Name" class="img-fluid" style="width:100%; border-radius:4px; box-shadow: 0 0 15px rgba(218,189,130,0.1);">
+                        </a>
+                    </figure>
                 </div>
+            </div>
 
-                <div class="content-column col-lg-6 col-md-12 col-sm-12">
-                    <div class="inner-column">
-                        <h3>@Model.Name</h3>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-column">
+                    <h3>@Model.Name</h3>
 
-                        <div class="rating">
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-
-                        <div class="price">@Model.Price.ToString("C")</div>
-
-                        <div class="text">
-                            <p>@Model.ShortDescription</p>
-                        </div>
-
-                        <div class="categories">
-                            <span>Kategori :</span> @(Model.Category != null ? Model.Category.Name : "Genel")
-                        </div>
-                        <div class="categories">
-                            <span>Durum :</span>
-                            @if (Model.IsInStock)
-                            {
-                                <span style="color:#00a651 !important;">Stokta Var</span>
-                            }
-                            else
-                            {
-
-                                <span style="color:red !important;">Tükendi</span>
-                            }
-                        </div>
-
-                        <div class="d-flex align-items-center flex-wrap mt-4">
-                            <div class="quantity-box me-3">
-                                <div class="item-quantity">
-                                    <input class="qty-spinner" type="number" value="1" name="quantity" style="width: 80px; padding: 10px; background-color:#000; border:1px solid #333; color:#fff;">
-                                </div>
-                            </div>
-
-                            <div class="button-box">
-                                <a href="/Cart/AddToCart?productId=@Model.Id" class="theme-btn btn-style-one">
-                                    Sepete Ekle
-                                </a>
-                            </div>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="price-tag">@Model.Price.ToString("C")</div>
+                        <div class="@(Model.IsInStock ? "stock-in" : "stock-out")">
+                            @(Model.IsInStock ? "Stokta Var" : "Tükendi")
                         </div>
                     </div>
+
+                    <div class="text mb-4">
+                        <p>@Model.ShortDescription</p>
+                    </div>
+
+                    <div class="meta-data border-top border-bottom py-3 mb-4" style="border-color: #333 !important;">
+                        <div><span>Kategori:</span> @(Model.Category?.Name ?? "Genel")</div>
+
+                        @if (Model.Gender != null)
+                        {
+                            <div><span>Cinsiyet:</span> @Model.Gender.Name</div>
+                        }
+
+                        @if (Model.ScentType != null)
+                        {
+                            <div><span>Koku Tipi:</span> @Model.ScentType.Name</div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.SKU))
+                        {
+                            <div><span>SKU:</span> @Model.SKU</div>
+                        }
+                    </div>
+
+                    @if (Model.IsInStock)
+                    {
+                        <form action="/Cart/AddToCart" method="get" class="d-flex align-items-center mt-4">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+
+                            <div class="quantity-box me-3">
+                                <input type="number" name="quantity" value="1" min="1" max="10"
+                                       class="form-control"
+                                       style="width: 80px; height: 50px; background-color:#111; border:1px solid #dabd82; color:#fff; text-align:center;">
+                            </div>
+
+                            <button type="submit" class="theme-btn btn-style-one" style="cursor:pointer; height: 50px; padding: 0 30px;">
+                                Sepete Ekle
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-dark mt-3" style="border: 1px solid #dabd82; color: #dabd82;">
+                            <i class="fa fa-info-circle"></i> Bu ürün şu anda temin edilemiyor.
+                        </div>
+                    }
                 </div>
             </div>
         </div>
 
-        <div class="lower-box">
+        <div class="lower-box mt-5">
             <div class="product-info-tabs">
-                <div class="prod-tabs tabs-box">
-                    <ul class="tab-btns tab-buttons clearfix">
-                        <li data-tab="#prod-details" class="tab-btn active-btn">Ürün Detayları</li>
-                    </ul>
-                    <div class="tabs-content">
-                        <div class="tab active-tab" id="prod-details">
-                            <div class="content">
-                                <h3>Ürün Özellikleri</h3>
-
-                                @if (!string.IsNullOrEmpty(Model.SKU))
-                                {
-                                    <p><strong>Stok Kodu (SKU):</strong> @Model.SKU</p>
-                                }
-
-                                <p>@Model.FullDescription</p>
+                <div class="tabs-content">
+                    <div class="tab active-tab">
+                        <div class="content">
+                            <h3 class="text-white border-bottom pb-2 mb-3" style="border-color:#333 !important;">Ürün Detayları</h3>
+                            <div class="text-white" style="line-height: 1.8;">
+                                @Html.Raw(Model.FullDescription)
                             </div>
                         </div>
                     </div>
@@ -167,19 +147,12 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Sayfa yapısı yüklendiği an 1 saniye say ve preloader'ı yok et
-        setTimeout(function() {
-            var preloader = document.querySelector('.preloader');
-            // Eğer temada class ismi '.loader' ise burayı değiştirmen gerekebilir ama genelde .preloader'dır.
-            if (preloader) {
+        var preloader = document.querySelector('.preloader');
+        if (preloader) {
+            setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.display = 'none';
-            }
-
-            // Ayrıca body'deki 'overflow: hidden' kilidini de kaldıralım
-            document.body.style.overflow = 'visible';
-        }, 1000); // 1000ms = 1 saniye
+            }, 500);
+        }
     });
 </script>
-    </div>
-</section>

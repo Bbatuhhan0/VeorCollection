@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Include metodunun çalışması için bu ŞART
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using VeorCollection.Data;
 using VeorCollection.Models;
@@ -8,10 +8,8 @@ namespace VeorCollection.Controllers
 {
     public class VeorCollectionController : Controller
     {
-        // Veritabanı bağlantısı için Context nesnesi
         private readonly ApplicationDbContext _context;
 
-        // Constructor (Yapıcı Metot)
         public VeorCollectionController(ApplicationDbContext context)
         {
             _context = context;
@@ -23,56 +21,104 @@ namespace VeorCollection.Controllers
             return View();
         }
 
-        // Ürünler Sayfası ve Filtreleme Mantığı (GÜNCELLENDİ)
-        public IActionResult Products(int? genderId, int? scentTypeId)
+        // --- GÜNCELLENEN KISIM: PRODUCTS METODU ---
+        // Yeni parametre eklendi: categoryId
+        public IActionResult Products(int? genderId, int? scentTypeId, int? categoryId)
         {
-            // 1. Ürünleri; Kategorisi, Cinsiyeti ve Koku Tipi ile beraber çekiyoruz
+            // 1. Temel Sorgu: Tüm ilişkili verileri getir
             var products = _context.Products
-                .Include(p => p.Category)   // Kategori bilgisini dahil et
-                .Include(p => p.Gender)     // Cinsiyet bilgisini dahil et
-                .Include(p => p.ScentType)  // Koku tipi bilgisini dahil et
+                .Include(p => p.Category)
+                .Include(p => p.Gender)
+                .Include(p => p.ScentType)
                 .AsQueryable();
 
-            // 2. Cinsiyet Filtresi (ID'ye göre)
+            // 2. Kategori Filtresi (YENİ)
+            if (categoryId.HasValue)
+            {
+                products = products.Where(x => x.CategoryId == categoryId.Value);
+                ViewBag.SeciliCategoryId = categoryId.Value;
+            }
+
+            // 3. Cinsiyet Filtresi
             if (genderId.HasValue)
             {
                 products = products.Where(x => x.GenderId == genderId.Value);
-                ViewBag.SeciliGenderId = genderId.Value; // Seçili filtreyi View'da işaretlemek için
+                ViewBag.SeciliGenderId = genderId.Value;
             }
 
-            // 3. Koku Tipi Filtresi (ID'ye göre)
+            // 4. Koku Tipi Filtresi
             if (scentTypeId.HasValue)
             {
                 products = products.Where(x => x.ScentTypeId == scentTypeId.Value);
-                ViewBag.SeciliScentTypeId = scentTypeId.Value; // Seçili filtreyi View'da işaretlemek için
+                ViewBag.SeciliScentTypeId = scentTypeId.Value;
             }
 
-            // 4. Sidebar'daki menüleri doldurmak için veritabanından listeleri çekip View'a gönderiyoruz
+            // --- AKILLI FİLTRE MANTIĞI ---
+            // Varsayılan olarak koku filtresini göster
+            bool showScentFilter = true;
+
+            // Eğer bir kategori seçiliyse (örn: Takı) ve bu kategoride hiç koku özelliği yoksa filtreyi gizle
+            if (categoryId.HasValue)
+            {
+                // Veritabanına soruyoruz: Bu kategori ID'sine sahip ve ScentType'ı dolu olan ürün var mı?
+                bool hasScentProducts = _context.Products
+                    .Any(p => p.CategoryId == categoryId.Value && p.ScentTypeId != null);
+
+                // Eğer koku tipi olan ürün yoksa filtreyi kapat
+                if (!hasScentProducts)
+                {
+                    showScentFilter = false;
+                }
+            }
+
+            // View tarafına gerekli bilgileri gönderiyoruz
+            ViewBag.ShowScentFilter = showScentFilter;     // Filtre gizlensin mi?
+            ViewBag.Categories = _context.Categories.ToList(); // Sidebar için kategoriler
             ViewBag.Genders = _context.Genders.ToList();
             ViewBag.ScentTypes = _context.ScentTypes.ToList();
 
             return View(products.ToList());
         }
+        // ------------------------------------------
 
-        // Blog Sayfası
+        // Ürün Detay Sayfası
+        public IActionResult ShopDetail(int id)
+        {
+            if (id <= 0)
+            {
+                return RedirectToAction("Products");
+            }
+
+            var product = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Gender)
+                .Include(p => p.ScentType)
+                .AsNoTracking()
+                .FirstOrDefault(p => p.Id == id);
+
+            if (product == null)
+            {
+                return RedirectToAction("Products");
+            }
+
+            return View(product);
+        }
+
         public IActionResult Blog()
         {
             return View();
         }
 
-        // Hakkımızda Sayfası
         public IActionResult About()
         {
             return View();
         }
 
-        // --- VERİ EKLEME METODU (SEED DATA) ---
-        // Bu metodu bir kez çalıştırdıktan sonra silebilirsiniz.
+        // Seed Data
         public IActionResult SeedData()
         {
             bool veriEklendi = false;
 
-            // Eğer Cinsiyet tablosu boşsa ekle
             if (!_context.Genders.Any())
             {
                 _context.Genders.AddRange(
@@ -83,7 +129,6 @@ namespace VeorCollection.Controllers
                 veriEklendi = true;
             }
 
-            // Eğer Koku Tipi tablosu boşsa ekle
             if (!_context.ScentTypes.Any())
             {
                 _context.ScentTypes.AddRange(
@@ -100,13 +145,12 @@ namespace VeorCollection.Controllers
             if (veriEklendi)
             {
                 _context.SaveChanges();
-                return Content("Başarılı: Cinsiyet ve Koku Tipi verileri veritabanına eklendi!");
+                return Content("Başarılı: Veriler eklendi.");
             }
             else
             {
-                return Content("Bilgi: Veritabanında veriler zaten mevcut, ekleme yapılmadı.");
+                return Content("Bilgi: Veriler zaten mevcut.");
             }
         }
-        // -------------------------------------
     }
 }
