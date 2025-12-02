@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VeorCollection.Data;
 
@@ -10,9 +11,11 @@ using VeorCollection.Data;
 namespace VeorCollection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251202154801_AddExtraCategories")]
+    partial class AddExtraCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,9 +81,6 @@ namespace VeorCollection.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Cinsiyet")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FullDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -89,9 +89,6 @@ namespace VeorCollection.Migrations
 
                     b.Property<bool>("IsInStock")
                         .HasColumnType("bit");
-
-                    b.Property<string>("KokuTipi")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -1,133 +1,15 @@
 ﻿@model IEnumerable<VeorCollection.Models.Product>
 
 @{
-    Layout = "AnaLayout";
     ViewData["Title"] = "Ürünler";
+    Layout = "AnaLayout"; /* Ana temanızı kullanıyoruz */
 }
 
-<style>
-    /* GENEL TEMA VE STİLLER */
-    body, html, .page-wrapper, .sidebar-page-container, .gallery-section {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-    }
-
-    /* Page Title (Gold Tema) */
-    .page-title {
-        background-color: #dabd82 !important;
-        background-image: none !important;
-    }
-
-        .page-title h2, .page-title .bread-crumb li, .page-title .bread-crumb li a {
-            color: #000000 !important;
-        }
-
-            .page-title .bread-crumb li a:hover {
-                color: #ffffff !important;
-            }
-
-    /* Sidebar */
-    aside.sidebar .sidebar-widget {
-        background-color: #0a0a0a !important;
-        border: 1px solid #333 !important;
-    }
-
-    .sidebar-title-two h5 {
-        color: #dabd82 !important;
-        border-bottom: 1px solid #333;
-    }
-
-    .category-list li a {
-        color: #cccccc !important;
-    }
-
-        .category-list li a:hover {
-            color: #dabd82 !important;
-        }
-
-    /* İçerik */
-    .filter-box {
-        background-color: #0a0a0a !important;
-        border: 1px solid #333 !important;
-    }
-
-        .filter-box .results {
-            color: #dabd82 !important;
-        }
-
-        .filter-box select {
-            background-color: #000 !important;
-            color: #fff !important;
-            border: 1px solid #333;
-        }
-
-    /* Ürün Kartları */
-    .shop-item .inner-box {
-        background-color: #0a0a0a !important;
-        border: 1px solid #333 !important;
-        transition: all 0.3s ease;
-    }
-
-        .shop-item .inner-box:hover {
-            border-color: #dabd82 !important;
-        }
-
-    .shop-item .lower-content h6 a {
-        color: #ffffff !important;
-    }
-
-        .shop-item .lower-content h6 a:hover {
-            color: #dabd82 !important;
-        }
-
-    .shop-item .price {
-        color: #dabd82 !important;
-        font-weight: bold;
-    }
-
-    /* Miktar Kutusu */
-    .item-quantity input.qty-spinner {
-        background-color: #000 !important;
-        border: 1px solid #333 !important;
-        color: #fff !important;
-    }
-</style>
-
-<div class="offcanvas sidecart-canvas offcanvas-end contact-side" tabindex="-1" id="offcanvascart" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-body">
-        <div class="offcanvas-header">
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" style="background-color: #dabd82; opacity: 1;"></button>
-        </div>
-        <div class="sidebar-widget-container">
-            <div class="sidebar-textwidget">
-                <div class="sidebar-info-contents">
-                    <div class="content-inner">
-                        <div class="logo">
-                            <a href="index.html"><img src="~/html/assets/images/logo.png" alt="logo"></a>
-                        </div>
-                        <div class="content-box">
-                            <h6>Our Services</h6>
-                            <ul class="sidebar-services-list">
-                                <li><a href="contact.html">Contact us</a></li>
-                            </ul>
-                            <h6>Contact info</h6>
-                            <ul class="list-style-one">
-                                <li><span class="icon flaticon-maps-and-flags" style="color:#dabd82;"></span><strong style="color:#fff;">Address</strong>...</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<section class="page-title">
+<section class="page-title" style="background-image: url(/html/assets/images/background/image-2.jpg);">
     <div class="auto-container">
-        <h2>Tüm Ürünler</h2>
-        <ul class="bread-crumb clearfix">
-            <li><a href="/Home/Index">Ana Sayfa</a></li>
-            <li>Koleksiyon</li>
+        <h1>Tüm Ürünler</h1>
+        <ul class="page-breadcrumb">
+            <li><a href="/">Anasayfa</a></li>
             <li>Ürünler</li>
         </ul>
     </div>
@@ -136,85 +18,151 @@
 <div class="sidebar-page-container">
     <div class="auto-container">
         <div class="row clearfix">
+
             <div class="sidebar-side col-lg-3 col-md-12 col-sm-12">
-                <aside class="sidebar">
-                    <div class="sidebar-inner">
-                        <div class="sidebar-widget category-widget">
-                            <div class="widget-content">
-                                <div class="sidebar-title-two"><h5>Kategoriler</h5></div>
-                                <ul class="category-list">
-                                    <li><a href="#">Tüm Kategoriler</a></li>
-                                </ul>
+                <aside class="sidebar sticky-top" style="top: 100px; z-index: 1;">
+
+                    <div class="sidebar-widget category-widget">
+                        <div class="widget-content">
+                            <div class="sidebar-title">
+                                <h5>Cinsiyet</h5>
                             </div>
+                            <ul class="cat-list">
+                                <li><a href="/VeorCollection/Products">Tümü</a></li>
+                                <li><a href="/VeorCollection/Products?cinsiyet=Erkek" class="@(ViewBag.SeciliCinsiyet == "Erkek" ? "active-filter" : "")">Erkek Parfümleri</a></li>
+                                <li><a href="/VeorCollection/Products?cinsiyet=Kadın" class="@(ViewBag.SeciliCinsiyet == "Kadın" ? "active-filter" : "")">Kadın Parfümleri</a></li>
+                                <li><a href="/VeorCollection/Products?cinsiyet=Unisex" class="@(ViewBag.SeciliCinsiyet == "Unisex" ? "active-filter" : "")">Unisex</a></li>
+                            </ul>
+
+                            <br>
+
+                            <div class="sidebar-title">
+                                <h5>Koku Tipi</h5>
+                            </div>
+                            <ul class="cat-list">
+                                <li><a href="/VeorCollection/Products?kokuTipi=Çiçeksi" class="@(ViewBag.SeciliKoku == "Çiçeksi" ? "active-filter" : "")">Çiçeksi Kokular</a></li>
+                                <li><a href="/VeorCollection/Products?kokuTipi=Odunsu" class="@(ViewBag.SeciliKoku == "Odunsu" ? "active-filter" : "")">Odunsu Kokular</a></li>
+                                <li><a href="/VeorCollection/Products?kokuTipi=Meyveli" class="@(ViewBag.SeciliKoku == "Meyveli" ? "active-filter" : "")">Meyveli Kokular</a></li>
+                                <li><a href="/VeorCollection/Products?kokuTipi=Baharatlı" class="@(ViewBag.SeciliKoku == "Baharatlı" ? "active-filter" : "")">Baharatlı Kokular</a></li>
+                                <li><a href="/VeorCollection/Products?kokuTipi=Ferah" class="@(ViewBag.SeciliKoku == "Ferah" ? "active-filter" : "")">Ferah/Okyanus</a></li>
+                                <li><a href="/VeorCollection/Products?kokuTipi=Şekerli" class="@(ViewBag.SeciliKoku == "Şekerli" ? "active-filter" : "")">Şekerli/Gourmand</a></li>
+                            </ul>
                         </div>
                     </div>
+
                 </aside>
             </div>
 
             <div class="content-side col-lg-9 col-md-12 col-sm-12">
-                <div class="filter-box">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="left-box d-flex align-items-center">
-                            <div class="results">Toplam @(Model != null ? Model.Count() : 0) ürün gösteriliyor</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="row clearfix">
 
-                <div class="shops-outer">
-                    <div class="row clearfix">
-                        @if (Model != null && Model.Any())
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
                         {
-                            foreach (var item in Model)
-                            {
-                                <div class="shop-item col-lg-4 col-md-4 col-sm-12">
-                                    <div class="inner-box">
-                                        <div class="image">
-                                            <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">
-                                                <img src="@Url.Content(item.ImageUrl)" alt="@item.Name" style="height:300px; object-fit:cover;">
-                                            </a>
-                                            <div class="options-box">
-                                                <ul class="option-list">
-                                                    <li>
-                                                        <a class="flaticon-resize" asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id"></a>
-                                                    </li>
-                                                    <li><a class="flaticon-heart" href="#"></a></li>
-                                                    <li><a href="/Cart/AddToCart?productId=@item.Id" class="theme-btn btn-style-one">Sepete Ekle</a></li>
-                                                </ul>
-                                            </div>
+                            <div class="shop-item col-lg-4 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="image">
+                                        <a href="/VeorCollection/ProductDetails/@item.Id">
+                                            <img src="@item.ImageUrl" alt="@item.Name" style="height: 300px; object-fit: cover;">
+                                        </a>
+
+                                        <div class="cart-box text-center">
+                                            <a class="cart" href="#">Sepete Ekle</a>
                                         </div>
-                                        <div class="lower-content">
-                                            <div class="rating">
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <h6>
-                                                <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">@item.Name</a>
-                                            </h6>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="price">@item.Price.ToString("C")</div>
-                                                <div class="quantity-box">
-                                                    <div class="item-quantity">
-                                                        <input class="qty-spinner" type="number" value="1" name="quantity">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    </div>
+                                    <div class="lower-content">
+                                        <div class="rating">
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        </div>
+
+                                        <h6><a href="/VeorCollection/ProductDetails/@item.Id">@item.Name</a></h6>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="price">@item.Price.ToString("C2")</div>
                                         </div>
                                     </div>
                                 </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="col-12">
-                                <p style="color: #ccc;">Henüz hiç ürün eklenmemiş.</p>
                             </div>
                         }
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="col-12 text-center" style="padding: 100px 0;">
+                            <h3>Aradığınız kriterlere uygun ürün bulunamadı.</h3>
+                            <a href="/VeorCollection/Products" class="theme-btn btn-style-one mt-3">Tüm Ürünleri Gör</a>
+                        </div>
+                    }
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<style>
+    /* Filtre ve Sidebar Stilleri */
+    .sidebar-widget {
+        background-color: #111; /* Koyu arka plan */
+        padding: 30px 20px;
+        border: 1px solid #222;
+        margin-bottom: 30px;
+    }
+
+    .sidebar-title h5 {
+        color: #fff;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+    }
+
+    .cat-list li {
+        margin-bottom: 12px;
+        list-style: none;
+    }
+
+        .cat-list li a {
+            color: #bbbbbb; /* Normal linkler gri */
+            transition: 0.3s;
+            font-size: 15px;
+            display: block;
+        }
+
+            .cat-list li a:hover {
+                color: #dabd82; /* Üzerine gelince altın sarısı */
+                padding-left: 5px; /* Hafif sağa kayma efekti */
+            }
+
+    /* Aktif filtre rengi (Altın Sarısı) */
+    .active-filter {
+        color: #dabd82 !important;
+        font-weight: bold;
+    }
+
+    /* Ürün Kartı Düzenlemeleri */
+    .shop-item .inner-box {
+        background-color: transparent;
+        margin-bottom: 40px;
+    }
+
+    .shop-item .price {
+        color: #dabd82; /* Fiyat rengi altın */
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .shop-item h6 a {
+        color: #fff;
+    }
+
+        .shop-item h6 a:hover {
+            color: #dabd82;
+        }
+</style>

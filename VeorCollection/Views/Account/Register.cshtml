@@ -1,74 +1,179 @@
 ﻿@model VeorCollection.Models.User
 @{
-    Layout = null;
+    Layout = "AnaLayout";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Kayıt Ol - Veor Collection</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f5f5f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+<style>
+    /* Kayıt Sayfası Özel Stilleri */
+    .register-section {
+        position: relative;
+        padding: 150px 0 100px;
+        background-color: #000000;
+        min-height: 80vh;
+    }
+
+    .register-box {
+        background-color: #111111;
+        border: 1px solid #222;
+        padding: 50px 40px;
+        border-radius: 0;
+        box-shadow: 0 0 30px rgba(218, 189, 130, 0.1);
+    }
+
+        .register-box h3 {
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
-        .register-card {
-            width: 100%;
-            max-width: 450px;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            background: white;
+        .register-box p {
+            color: #aaaaaa;
+            margin-bottom: 30px;
         }
 
-        .btn-black {
-            background-color: #000;
-            color: #fff;
+    /* Form Elemanları */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 500;
+            display: block;
         }
 
-            .btn-black:hover {
-                background-color: #333;
-                color: #fff;
-            }
-    </style>
-</head>
-<body>
-    <div class="register-card">
-        <div class="text-center mb-4">
-            <h3>Kayıt Ol</h3>
-            <p class="text-muted">Aramıza katılın</p>
-        </div>
+    .form-control {
+        background-color: #000000;
+        border: 1px solid #333;
+        color: #ffffff;
+        height: 50px;
+        padding: 10px 20px;
+        border-radius: 0;
+    }
 
-        @if (ViewBag.Error != null)
-        {
-            <div class="alert alert-danger">@ViewBag.Error</div>
+        .form-control:focus {
+            background-color: #000000;
+            border-color: #dabd82;
+            color: #ffffff;
+            box-shadow: none;
         }
 
-        <form asp-action="Register" method="post">
-            <div class="mb-3">
-                <label class="form-label">Ad Soyad</label>
-                <input asp-for="FullName" class="form-control" placeholder="Adınız Soyadınız" required />
+    /* Buton Stili */
+    .theme-btn-register {
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #ffffff;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 12px 30px;
+        width: 100%;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        letter-spacing: 1px;
+        margin-top: 10px;
+    }
+
+        .theme-btn-register:hover {
+            background-color: #dabd82;
+            border-color: #dabd82;
+            color: #000000;
+        }
+
+    /* Linkler */
+    .bottom-links {
+        margin-top: 25px;
+        border-top: 1px solid #222;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+        .bottom-links p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+    .btn-outline-gold {
+        color: #dabd82;
+        border: 1px solid #dabd82;
+        background: transparent;
+        padding: 8px 20px;
+        font-size: 13px;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-gold:hover {
+            background-color: #dabd82;
+            color: #000;
+        }
+
+    .back-home {
+        color: #666;
+        font-size: 13px;
+        text-decoration: none;
+        margin-top: 15px;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+        .back-home:hover {
+            color: #dabd82;
+        }
+</style>
+
+<section class="register-section">
+    <div class="auto-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8 col-sm-12">
+
+                <div class="register-box">
+                    <div class="text-center">
+                        <h3>Kayıt Ol</h3>
+                        <p>Ayrıcalıklı dünyaya katılın.</p>
+                    </div>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger" style="background-color: #381212; border-color: #5c1818; color: #ffadad;">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Register" method="post">
+                        <div class="form-group">
+                            <label>Ad Soyad</label>
+                            <input asp-for="FullName" class="form-control" placeholder="Adınız Soyadınız" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>E-Posta</label>
+                            <input asp-for="Email" type="email" class="form-control" placeholder="ornek@mail.com" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="******" required />
+                        </div>
+
+                        <button type="submit" class="theme-btn-register">HESAP OLUŞTUR</button>
+                    </form>
+
+                    <div class="bottom-links">
+                        <p>Zaten üye misiniz?</p>
+                        <a href="/Account/Login" class="btn-outline-gold">Giriş Yap</a>
+                        <br />
+                        <a href="/" class="back-home">← Anasayfaya Dön</a>
+                    </div>
+                </div>
+
             </div>
-            <div class="mb-3">
-                <label class="form-label">E-Posta</label>
-                <input asp-for="Email" type="email" class="form-control" placeholder="ornek@mail.com" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Şifre</label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="******" required />
-            </div>
-            <button type="submit" class="btn btn-black w-100 py-2">Hesap Oluştur</button>
-        </form>
-
-        <div class="mt-4 text-center border-top pt-3">
-            <p class="small text-muted">Zaten üye misiniz?</p>
-            <a href="/Account/Login" class="btn btn-outline-dark btn-sm w-100">Giriş Yap</a>
         </div>
     </div>
-</body>
-</html>
+</section>

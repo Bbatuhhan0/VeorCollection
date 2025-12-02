@@ -1,80 +1,62 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Bu kütüphane "Include" için şart
-using VeorCollection.Data;
 using System.Linq;
+using VeorCollection.Data;
 
 namespace VeorCollection.Controllers
 {
     public class VeorCollectionController : Controller
     {
+        // Veritabanı bağlantısı için Context nesnesi
         private readonly ApplicationDbContext _context;
 
+        // Constructor (Yapıcı Metot) - Veritabanı bağlantısını başlatır
         public VeorCollectionController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Anasayfa (VeorCollection/Index)
         public IActionResult Index()
-        {
-            // Anasayfada belki son 8 ürünü göstermek istersin diye limitleme ekledim
-            // Include(p => p.Category): Ürünü çekerken Kategorisini de yanına al demek.
-            var urunler = _context.Products
-                                  .Include(p => p.Category)
-                                  .Take(8)
-                                  .ToList();
-            return View(urunler);
-        }
-
-        public IActionResult Products()
-        {
-            // Tüm ürünleri kategorileriyle beraber listeye çevirip View'a gönderiyoruz
-            var urunler = _context.Products
-                                  .Include(p => p.Category)
-                                  .ToList();
-            return View(urunler);
-        }
-
-        public IActionResult About()
         {
             return View();
         }
 
+        // Ürünler Sayfası ve Filtreleme Mantığı
+        public IActionResult Products(string cinsiyet, string kokuTipi)
+        {
+            // 1. Veritabanındaki tüm ürünleri sorgulanabilir olarak al
+            var products = _context.Products.AsQueryable();
+
+            // 2. Eğer URL'den "cinsiyet" parametresi geldiyse (Örn: ?cinsiyet=Erkek) filtrele
+            if (!string.IsNullOrEmpty(cinsiyet))
+            {
+                products = products.Where(x => x.Cinsiyet == cinsiyet);
+
+                // Seçili filtreyi View tarafında (HTML'de) kullanmak için ViewBag'e atıyoruz
+                ViewBag.SeciliCinsiyet = cinsiyet;
+            }
+
+            // 3. Eğer URL'den "kokuTipi" parametresi geldiyse (Örn: ?kokuTipi=Odunsu) filtrele
+            if (!string.IsNullOrEmpty(kokuTipi))
+            {
+                products = products.Where(x => x.KokuTipi == kokuTipi);
+                ViewBag.SeciliKoku = kokuTipi;
+            }
+
+            // 4. Filtrelenmiş listeyi sayfaya gönder
+            return View(products.ToList());
+        }
+
+        // Blog Sayfası
         public IActionResult Blog()
         {
             return View();
         }
 
-        public IActionResult Contact()
+        // Hakkımızda Sayfası
+        public IActionResult About()
         {
             return View();
         }
-
-        public IActionResult wishlist()
-        {
-            return View();
-        }
-
-        public IActionResult ShopDetail(int id)
-        {
-            // ID'ye göre ürünü ve kategorisini veritabanından çekiyoruz
-            var product = _context.Products
-                                  .Include(p => p.Category)
-                                  .FirstOrDefault(p => p.Id == id);
-
-            // Eğer ürün bulunamazsa (örn: silinmişse) hata sayfasına veya listeye yönlendir
-            if (product == null)
-            {
-                return RedirectToAction("Products");
-            }
-
-            return View(product);
-        }
-        public IActionResult blogdetail()
-        {
-            return View();
-        }
-
-
     }
 }
-    

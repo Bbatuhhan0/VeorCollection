@@ -76,6 +76,32 @@
             position: relative;
             right: 0; /* Eski right:30px kaldırıldı, hizayı bozabilir */
         }
+        /* ... Mevcut diğer stilleriniz burada duruyor ... */
+
+        /* --- YENİ EKLENECEK KISIM --- */
+
+        /* --- PRELOADER SON DÜZENLEME (Sabit Altın Halka) --- */
+
+        /* 1. Sağ üstteki beyaz kapatma kutusunu (X) gizle */
+        .preloader-close {
+            display: none !important;
+        }
+
+        /* 2. Halkanın dönmesini durdur ve rengini Altın Sarısı yap */
+        .spinner {
+            display: block !important; /* Görünür olsun */
+            animation: none !important; /* Dönme hareketini iptal et (SABİT DURUR) */
+            border-color: #dabd82 !important; /* Halkanın tüm kenarlarını altın sarısı yap */
+            opacity: 1 !important; /* Tam görünür olsun */
+        }
+
+        /* 3. Logoyu halkanın içine sığacak şekilde biraz büyüt */
+        .preloader-logo img {
+            transform: scale(1.2); /* Logoyu %20 büyütür */
+            animation: none !important; /* Logonun kendi animasyonu varsa durdurur */
+        }
+
+        /* --------------------------- */
     </style>
 </head>
 
@@ -83,16 +109,14 @@
     <div class="page-wrapper">
 
         <div class="loader-wrap">
-            <div class="preloader">
-                <div class="preloader-close">x</div>
-                <div id="handle-preloader" class="handle-preloader">
-                    <div class="animation-preloader">
-                        <div class="spinner-wrapper">
-                            <div class="spinner"></div>
-                            <div class="preloader-logo">
-                                <img src="~/logo/favicon.png" alt="Logo">
-                            </div>
-                        </div>
+<div class="preloader">
+    <div class="preloader-close">x</div>  <div id="handle-preloader" class="handle-preloader">
+        <div class="animation-preloader">
+            <div class="spinner-wrapper">
+                <div class="spinner"></div> <div class="preloader-logo">
+                    <img src="~/logo/favicon.png" alt="Logo">
+                </div>
+            </div>
                         <div class="txt-loading">
                             <span data-text-preloader="V" class="letters-loading">V</span>
                             <span data-text-preloader="E" class="letters-loading">E</span>
