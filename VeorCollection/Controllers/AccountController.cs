@@ -20,47 +20,53 @@ namespace VeorCollection.Controllers
         }
 
         // ==========================================
-        // 1. MÜŞTERİ KAPISI (Veritabanından)
+        // 1. MÜŞTERİ (KULLANICI) GİRİŞİ
+        // Normal "Giriş Yap" sayfası burayı kullanır
         // ==========================================
         [HttpGet]
+        public IActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Uye"))
+            {
+                return RedirectToAction("Index", "VeorCollection");
+            }
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
-            // 1. Veritabanında kullanıcıyı ara
+            // Sadece veritabanındaki kullanıcıları arar
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
 
-            // 2. Kullanıcı bulunduysa giriş işlemini yap
             if (user != null)
             {
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.FullName),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, "Uye") // Rolü: ÜYE
+                    new Claim(ClaimTypes.Role, "Uye") // Rol: UYE
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                // Çerezi oluştur ve giriş yap
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                // Başarılıysa Anasayfaya gönder
                 return RedirectToAction("Index", "VeorCollection");
             }
 
-            // 3. Kullanıcı bulunamadıysa hata mesajı göster ve sayfayı tekrar yükle
             ViewBag.Error = "E-posta veya şifre hatalı!";
             return View();
         }
 
         // ==========================================
-        // 2. ADMIN KAPISI (Koddan - 12345)
+        // 2. YÖNETİCİ GİRİŞİ (GİZLİ KAPI)
+        // Sadece "/Account/AdminLogin" adresine gidenler görebilir
         // ==========================================
         [HttpGet]
         public IActionResult AdminLogin()
         {
-            // Eğer zaten admin içerideyse panele at
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
+            // Eğer zaten admin ise direkt panele at
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -70,19 +76,21 @@ namespace VeorCollection.Controllers
         [HttpPost]
         public async Task<IActionResult> AdminLogin(string username, string password)
         {
-            // Admin şifresini buradan kontrol ediyoruz (Admin klasörünle alakası yok, bu sadece giriş izni)
+            // Sadece bu şifreyi bilenler Admin olabilir
             if (username == "admin" && password == "12345")
             {
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, "Yönetici"),
-                    new Claim(ClaimTypes.Role, "Admin") // Rolü: ADMIN
+                    new Claim(ClaimTypes.Role, "Admin") // Rol: ADMIN
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Admin olarak giriş yap
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                // İŞTE BURASI: Senin mevcut Admin klasörüne yönlendiriyor
+                // Admin Paneline yönlendir
                 return RedirectToAction("Index", "Admin");
             }
 
@@ -90,10 +98,13 @@ namespace VeorCollection.Controllers
             return View();
         }
 
-        // --- KAYIT OL (Sadece Müşteriler İçin) ---
+        // ==========================================
+        // 3. KAYIT OL & ÇIKIŞ
+        // ==========================================
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "VeorCollection");
             return View();
         }
 
@@ -106,7 +117,7 @@ namespace VeorCollection.Controllers
                 return View(user);
             }
 
-            user.Role = "Uye"; // Herkes üye olarak başlar
+            user.Role = "Uye";
             _context.Users.Add(user);
             _context.SaveChanges();
 
@@ -116,8 +127,6 @@ namespace VeorCollection.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            // Eski: return RedirectToAction("Login");
-            // Yeni: Anasayfaya yönlendir
             return RedirectToAction("Index", "VeorCollection");
         }
     }
