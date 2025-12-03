@@ -1,0 +1,38 @@
+﻿@model VeorCollection.Models.Blog
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Yeni Blog Yazısı Ekle</h2>
+    <form asp-action="CreateBlog" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label>Blog Başlığı</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label>Ana Etiket (Listeleme sayfasında resim üzerinde görünür)</label>
+            <input asp-for="MainTag" class="form-control" placeholder="Örn: Moda" />
+        </div>
+
+        <div class="mb-3">
+            <label>Diğer Etiketler (Virgülle ayırın)</label>
+            <input asp-for="OtherTags" class="form-control" placeholder="Örn: Stil, Trend, Yaz" />
+        </div>
+
+        <div class="mb-3">
+            <label>Kapak Resmi</label>
+            <input type="file" name="imageFile" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>İçerik</label>
+            <textarea asp-for="Content" class="form-control" rows="10"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Kaydet</button>
+    </form>
+</div>

@@ -317,5 +317,60 @@ namespace VeorCollection.Controllers
             // Tüm Özellikleri ve Değerlerini View'a gönderiyoruz
             ViewBag.Attributes = _context.ProductAttributes.Include(a => a.Values).ToList();
         }
+
+        // --- BLOG YÖNETİMİ ---
+
+        public IActionResult Blogs()
+        {
+            var blogs = _context.Blogs.OrderByDescending(b => b.CreatedDate).ToList();
+            return View(blogs);
+        }
+
+        [HttpGet]
+        public IActionResult CreateBlog()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBlog(Blog blog, IFormFile? imageFile)
+        {
+            // Resim Yükleme İşlemi
+            if (imageFile != null)
+            {
+                var extension = Path.GetExtension(imageFile.FileName);
+                var newImageName = Guid.NewGuid() + extension;
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/blog"); // Blog resimleri için klasör
+
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+                var location = Path.Combine(folderPath, newImageName);
+                using (var stream = new FileStream(location, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                blog.ImageUrl = "/img/blog/" + newImageName;
+            }
+
+            if (ModelState.IsValid)
+            {
+                blog.CreatedDate = DateTime.Now;
+                _context.Blogs.Add(blog);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Blogs");
+            }
+            return View(blog);
+        }
+
+        public IActionResult DeleteBlog(int id)
+        {
+            var blog = _context.Blogs.Find(id);
+            if (blog != null)
+            {
+                _context.Blogs.Remove(blog);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Blogs");
+        }
     }
 }

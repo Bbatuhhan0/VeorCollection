@@ -101,7 +101,20 @@ namespace VeorCollection.Controllers
             return View(product);
         }
 
-        public IActionResult Blog() { return View(); }
+        // Blog Listeleme Sayfası
+        public IActionResult Blog()
+        {
+            var blogs = _context.Blogs.OrderByDescending(b => b.CreatedDate).ToList();
+            return View(blogs);
+        }
+
+        // Blog Detay Sayfası
+        public IActionResult BlogDetail(int id) // İsim 'blogdetail' view dosyası ile uyumlu olması için küçük harfle de bırakılabilir ama C# standardı PascalCase'dir. View adını düzelteceğiz.
+        {
+            var blog = _context.Blogs.Find(id);
+            if (blog == null) return RedirectToAction("Blog");
+            return View("blogdetail", blog); // Senin view dosya ismin 'blogdetail.cshtml' olduğu için
+        }
         public IActionResult About() { return View(); }
 
         // Seed Data
