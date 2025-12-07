@@ -10,6 +10,16 @@
             <h4 class="mb-0">Yeni Blog Yazısı Oluştur</h4>
         </div>
         <div class="card-body">
+
+            <div asp-validation-summary="All" class="alert alert-danger" role="alert" style="display:none;"></div>
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Count > 0)
+            {
+                <div class="alert alert-danger">
+                    <strong>Hata:</strong> Lütfen aşağıdaki alanları kontrol ediniz.
+                    <div asp-validation-summary="All"></div>
+                </div>
+            }
+
             <form asp-action="CreateBlog" method="post" enctype="multipart/form-data">
 
                 <div class="row">
@@ -22,7 +32,7 @@
 
                         <div class="form-group mb-3">
                             <label asp-for="ShortDescription" class="form-label fw-bold">Kısa Açıklama (Özet)</label>
-                            <textarea asp-for="ShortDescription" class="form-control" rows="3" placeholder="Listeleme sayfasında görünecek kısa bir özet (Max 300 karakter)"></textarea>
+                            <textarea asp-for="ShortDescription" class="form-control" rows="3" placeholder="Listeleme sayfasında görünecek kısa bir özet (Zorunlu Alan)"></textarea>
                             <span asp-validation-for="ShortDescription" class="text-danger"></span>
                         </div>
 
@@ -42,6 +52,7 @@
                                     <img id="imgPreview" src="#" alt="Resim Önizleme" style="max-width:100%; display:none;" />
                                     <span id="previewText" class="text-muted small">Resim seçilmedi</span>
                                 </div>
+                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -74,7 +85,7 @@
     // CKEditor'ü başlat
     CKEDITOR.replace('EditorContent');
 
-    // Resim Önizleme Fonksiyonu
+    // Resim Önizleme
     function previewImage(input) {
         var preview = document.getElementById('imgPreview');
         var text = document.getElementById('previewText');
