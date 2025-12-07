@@ -5,117 +5,174 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <h2>Yeni Ürün Ekle</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-9">
-            <form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0 text-gray-800">Yeni Ürün Oluştur</h2>
+        <a href="/Admin/Products" class="btn btn-outline-secondary btn-sm">
+            &larr; Listeye Dön
+        </a>
+    </div>
 
-                <div class="row">
-                    <div class="col-md-6 form-group mb-3">
-                        <label class="control-label fw-bold">Ürün Adı</label>
-                        <input asp-for="Name" class="form-control" placeholder="Örn: Desenli Gömlek" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+    <form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ürün Detayları</h6>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
-                        <label class="control-label fw-bold">Fiyat (TL)</label>
-                        <input asp-for="Price" type="number" step="0.01" class="form-control" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 form-group mb-3">
-                        <label class="control-label fw-bold">Ürün Resmi</label>
-                        <input type="file" name="imageFile" class="form-control" accept="image/*" />
-                    </div>
-                    <div class="col-md-6 form-group mb-3">
-                        <label class="control-label fw-bold">Kategori</label>
-                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
-                            <option value="">-- Kategori Seçiniz --</option>
-                        </select>
-                        <span asp-validation-for="CategoryId" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="card mb-4 bg-light border-0">
                     <div class="card-body">
-                        <h5 class="card-title text-primary mb-3">Ürün Özellikleri</h5>
-                        <p class="small text-muted">Ürüne ait özellikleri işaretleyiniz.</p>
-                        <hr />
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Name" class="form-label fw-bold">Ürün Adı</label>
+                                <input asp-for="Name" class="form-control form-control-lg" placeholder="Örn: Premium İpek Gömlek" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Price" class="form-label fw-bold">Satış Fiyatı (₺)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₺</span>
+                                    <input asp-for="Price" type="number" step="0.01" class="form-control" />
+                                </div>
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="SKU" class="form-label fw-bold">Stok Kodu (SKU)</label>
+                                <input asp-for="SKU" class="form-control" placeholder="Örn: VEOR-001" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ShortDescription" class="form-label fw-bold">Kısa Açıklama (Liste Görünümü)</label>
+                            <textarea asp-for="ShortDescription" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FullDescription" class="form-label fw-bold">Detaylı Açıklama</label>
+                            <textarea asp-for="FullDescription" id="summernote" class="form-control"></textarea>
+                            <span asp-validation-for="FullDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Yayın Ayarları</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="IsInStock" checked>
+                            <label class="form-check-label fw-bold" asp-for="IsInStock">Stokta Var</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label fw-bold">Kategori</label>
+                            <select asp-for="CategoryId" class="form-control form-select" asp-items="ViewBag.Categories">
+                                <option value="">-- Seçiniz --</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ürün Görseli</h6>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <img id="imgPreview" src="/img/no-image.png" alt="Önizleme" class="img-fluid rounded border" style="max-height: 200px; display:none;" />
+                        </div>
+                        <div class="input-group">
+                            <input type="file" name="imageFile" class="form-control" accept="image/*" onchange="previewImage(this);" />
+                        </div>
+                        <small class="text-muted mt-2 d-block">Önerilen: 800x800px .jpg veya .png</small>
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ürün Özellikleri</h6>
+                    </div>
+                    <div class="card-body" style="max-height: 400px; overflow-y: auto;">
                         @if (ViewBag.Attributes != null)
                         {
                             var attributes = ViewBag.Attributes as List<VeorCollection.Models.ProductAttribute>;
                             if (attributes != null && attributes.Any())
                             {
-                                <div class="row">
-                                    @foreach (var attr in attributes)
-                                    {
-                                        <div class="col-md-6 mb-3">
-                                            <h6 class="fw-bold">@attr.Name</h6>
-                                            <div class="d-flex flex-wrap gap-2">
-                                                @foreach (var val in attr.Values)
-                                                {
-                                                    <div class="form-check me-3">
-                                                        <input class="form-check-input" type="checkbox" name="selectedOptions" value="@val.Id" id="opt_@val.Id">
-                                                        <label class="form-check-label" for="opt_@val.Id">
-                                                            @val.Value
-                                                        </label>
-                                                    </div>
-                                                }
-                                            </div>
+                                foreach (var attr in attributes)
+                                {
+                                    <div class="mb-3 border-bottom pb-2">
+                                        <strong class="d-block mb-2 text-dark">@attr.Name</strong>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            @foreach (var val in attr.Values)
+                                            {
+                                                <div class="form-check me-2">
+                                                    <input class="form-check-input" type="checkbox" name="selectedOptions" value="@val.Id" id="opt_@val.Id">
+                                                    <label class="form-check-label user-select-none" for="opt_@val.Id">
+                                                        @val.Value
+                                                    </label>
+                                                </div>
+                                            }
                                         </div>
-                                    }
-                                </div>
+                                    </div>
+                                }
                             }
                             else
                             {
-                                <div class="alert alert-warning">Henüz hiç özellik eklenmemiş. Lütfen önce 'Özellik Yönetimi' sayfasından özellik ekleyin.</div>
+                                <div class="alert alert-warning text-sm">Özellik bulunamadı.</div>
                             }
                         }
                     </div>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label class="control-label fw-bold">Stok Kodu (SKU)</label>
-                    <input asp-for="SKU" class="form-control" placeholder="Örn: V-001" />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg fw-bold">
+                        <i class="bi bi-check-circle"></i> Ürünü Kaydet
+                    </button>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label class="control-label fw-bold">Kısa Açıklama</label>
-                    <textarea asp-for="ShortDescription" class="form-control" rows="3"></textarea>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label class="control-label fw-bold">Detaylı Ürün Açıklaması</label>
-                    <textarea asp-for="FullDescription" id="summernote" class="form-control"></textarea>
-                    <span asp-validation-for="FullDescription" class="text-danger"></span>
-                </div>
-
-                <div class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" asp-for="IsInStock" />
-                    <label class="form-check-label">Stokta Var</label>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg">Kaydet</button>
-                    <a href="/Admin/Products" class="btn btn-secondary btn-lg">İptal</a>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <script>
+    // Summernote Başlatıcı
     document.addEventListener("DOMContentLoaded", function() {
         if ($('#summernote').length > 0) {
             $('#summernote').summernote({
-                placeholder: 'Ürün detaylarını buraya yazın...',
+                placeholder: 'Ürün hikayesi, kumaş bilgisi vb...',
                 tabsize: 2,
-                height: 300
+                height: 250,
+                toolbar: [
+                  ['style', ['style']],
+                  ['font', ['bold', 'underline', 'clear']],
+                  ['para', ['ul', 'ol', 'paragraph']],
+                  ['insert', ['link']],
+                  ['view', ['fullscreen', 'help']]
+                ]
             });
         }
     });
+
+    // Resim Önizleme Fonksiyonu
+    function previewImage(input) {
+        var preview = document.getElementById('imgPreview');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.style.display = 'none';
+        }
+    }
 </script>

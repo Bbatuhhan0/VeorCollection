@@ -180,42 +180,58 @@ namespace VeorCollection.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProduct(Product product, IFormFile? imageFile, int[] selectedOptions)
         {
-            if (imageFile != null)
+            // 1. Resim İşlemleri (Daha güvenli ve temiz)
+            if (imageFile != null && imageFile.Length > 0)
             {
-                var extension = Path.GetExtension(imageFile.FileName);
-                var newImageName = Guid.NewGuid() + extension;
-                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products");
-
-                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
-
-                var location = Path.Combine(folderPath, newImageName);
-                using (var stream = new FileStream(location, FileMode.Create))
+                var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+                // Sadece resim dosyalarına izin ver
+                if (!new[] { ".jpg", ".jpeg", ".png", ".webp" }.Contains(extension))
                 {
-                    await imageFile.CopyToAsync(stream);
+                    ModelState.AddModelError("ImageUrl", "Geçersiz dosya formatı.");
                 }
-                product.ImageUrl = "/img/products/" + newImageName;
+                else
+                {
+                    var newImageName = $"prod_{Guid.NewGuid()}{extension}";
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products");
+
+                    if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+                    var location = Path.Combine(folderPath, newImageName);
+                    using (var stream = new FileStream(location, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+                    product.ImageUrl = "/img/products/" + newImageName;
+                }
             }
 
+            // 2. Model Doğrulama ve Kayıt
             if (ModelState.IsValid)
             {
+                // Özellikleri (Attributes) hafızada eşleştiriyoruz, henüz DB'ye gitmiyoruz.
+                if (selectedOptions != null && selectedOptions.Length > 0)
+                {
+                    // Tek sorguda tüm seçilen özellikleri çekiyoruz (Performans)
+                    var selectedAttributes = await _context.ProductAttributeValues
+                                                           .Where(v => selectedOptions.Contains(v.Id))
+                                                           .ToListAsync();
+                    product.AttributeValues = selectedAttributes;
+                }
+
+                product.CreatedDate = DateTime.Now;
+
+                // Tek seferde hem ürünü hem özellik ilişkilerini kaydediyoruz (Transactional)
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
-                // Seçilen özellikleri kaydet
-                if (selectedOptions != null)
-                {
-                    foreach (var valId in selectedOptions)
-                    {
-                        var attrVal = await _context.ProductAttributeValues.FindAsync(valId);
-                        if (attrVal != null) product.AttributeValues.Add(attrVal);
-                    }
-                    await _context.SaveChangesAsync();
-                }
+                TempData["Message"] = "Ürün başarıyla oluşturuldu.";
                 return RedirectToAction("Products");
             }
 
+            // Hata varsa listeleri tekrar doldur
             LoadViewBags();
             return View(product);
         }

@@ -1,140 +1,326 @@
 ﻿@model VeorCollection.Models.Product
 
 @{
-    Layout = "AnaLayout";
     ViewData["Title"] = Model.Name;
-    var imageUrl = string.IsNullOrEmpty(Model.ImageUrl) ? "/img/no-image.png" : Model.ImageUrl;
+    Layout = "AnaLayout";
+    var relatedProducts = ViewBag.RelatedProducts as List<VeorCollection.Models.Product>;
+
+    // Varyantlar (Seçim Kutusu Olarak Çıkacaklar)
+    var variantNames = new[] { "Beden", "Renk", "Size", "Color", "Numara", "Ebat" };
+
+    var allAttributes = Model.AttributeValues?.GroupBy(x => x.ProductAttribute.Name).ToList();
+    var selectionAttributes = allAttributes?.Where(x => variantNames.Contains(x.Key, StringComparer.OrdinalIgnoreCase)).ToList();
+    var infoAttributes = allAttributes?.Where(x => !variantNames.Contains(x.Key, StringComparer.OrdinalIgnoreCase)).ToList();
 }
 
 <style>
-    body, html, .page-wrapper, .shop-detail-section {
-        background-color: #000 !important;
-        color: #fff !important;
+    :root {
+        --veor-gold: #dabd82;
+        --veor-black: #080808;
+        --veor-dark: #121212;
+        --veor-text: #e0e0e0;
     }
 
-    .price-tag {
-        color: #dabd82 !important;
-        font-size: 26px;
-        font-weight: 700;
+    body {
+        background-color: var(--veor-black) !important;
+        color: var(--veor-text) !important;
+        font-family: 'Montserrat', sans-serif;
     }
 
-    .stock-in {
-        color: #00a651 !important;
-        font-weight: bold;
+    .breadcrumb-veor a {
+        color: #888;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: 0.3s;
     }
 
-    .stock-out {
-        color: #ff4d4d !important;
-        font-weight: bold;
-    }
+        .breadcrumb-veor a:hover {
+            color: var(--veor-gold);
+        }
 
-    .meta-data span.label {
-        color: #dabd82;
+    .breadcrumb-veor .active {
+        color: var(--veor-gold);
         font-weight: 600;
-        margin-right: 8px;
     }
 
-    .inner-column h3 {
-        color: #fff !important;
-        font-size: 32px;
-        margin-bottom: 15px;
+    /* --- GÜNCELLENEN RESİM ALANI --- */
+    .product-image-container {
+        border: 1px solid #222;
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--veor-dark);
+        position: relative;
+        /* Yüksekliği sınırlıyoruz ki devasa durmasın */
+        max-height: 660px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .product-image-container img {
+            max-width: 100%;
+            max-height: 660px; /* Resim taşmasın */
+            width: auto; /* En boy oranını koru */
+            object-fit: contain;
+        }
+
+    .product-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+        font-size: 1.8rem;
+        color: var(--veor-gold);
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-short-desc {
+        color: #aaa;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .attr-group-label {
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 8px;
+        display: block;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    .attr-radio {
+        display: none;
+    }
+
+    /* Seçenek Kutuları - Biraz daha kibar boyutlar */
+    .attr-box-label {
+        display: inline-block;
+        min-width: 40px;
+        height: 40px;
+        line-height: 38px;
+        text-align: center;
+        border: 1px solid #444;
+        background-color: var(--veor-dark);
+        color: #ccc;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        padding: 0 10px;
+    }
+
+    .attr-radio:checked + .attr-box-label {
+        border-color: var(--veor-gold);
+        background-color: var(--veor-gold);
+        color: #000;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(218, 189, 130, 0.4);
+    }
+
+    .btn-add-cart {
+        background-color: var(--veor-gold);
+        color: #000;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 12px 30px;
+        border: none;
+        width: 100%;
+        border-radius: 4px;
+        transition: 0.3s;
+    }
+
+        .btn-add-cart:hover {
+            background-color: #fff;
+        }
+
+        .btn-add-cart:disabled {
+            background-color: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+    .specs-table td {
+        padding: 8px;
+        border-bottom: 1px solid #333;
+        color: #ccc;
+        font-size: 0.9rem;
+    }
+
+        .specs-table td:first-child {
+            font-weight: bold;
+            color: var(--veor-gold);
+            width: 140px;
+        }
+
+    .nav-tabs {
+        border-bottom: 1px solid #333;
+    }
+
+        .nav-tabs .nav-link {
+            color: #888;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 12px 20px;
+            background: transparent;
+        }
+
+            .nav-tabs .nav-link.active {
+                color: var(--veor-gold);
+                border-bottom: 2px solid var(--veor-gold);
+            }
+
+    .tab-content {
+        background-color: var(--veor-dark);
+        padding: 25px;
+        border: 1px solid #222;
+        border-top: none;
     }
 </style>
 
-<section class="shop-detail-section">
-    <div class="auto-container">
-        <div class="row clearfix">
+<div class="container py-5 mt-5">
 
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-column">
-                    <figure class="image">
-                        <a href="@Url.Content(imageUrl)" class="lightbox-image">
-                            <img src="@Url.Content(imageUrl)" alt="@Model.Name" class="img-fluid" style="width:100%; border-radius:4px; box-shadow: 0 0 15px rgba(218,189,130,0.1);">
-                        </a>
-                    </figure>
-                </div>
-            </div>
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb breadcrumb-veor">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item"><a href="/VeorCollection/Products">Koleksiyon</a></li>
+            <li class="breadcrumb-item active">@Model.Name</li>
+        </ol>
+    </nav>
 
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-column">
-                    <h3>@Model.Name</h3>
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="price-tag">@Model.Price.ToString("C")</div>
-                        <div class="@(Model.IsInStock ? "stock-in" : "stock-out")">
-                            @(Model.IsInStock ? "Stokta Var" : "Tükendi")
-                        </div>
-                    </div>
-
-                    <div class="text mb-4">
-                        <p style="color:#ccc;">@Model.ShortDescription</p>
-                    </div>
-
-                    <div class="meta-data border-top border-bottom py-3 mb-4" style="border-color: #333 !important;">
-
-                        <div class="mb-2">
-                            <span class="label">Kategori:</span> @(Model.Category?.Name ?? "Genel")
-                        </div>
-
-                        @if (!string.IsNullOrEmpty(Model.SKU))
-                        {
-                            <div class="mb-2"><span class="label">SKU:</span> @Model.SKU</div>
-                        }
-
-                        @if (Model.AttributeValues != null && Model.AttributeValues.Any())
-                        {
-                            // Özellikleri grup adına göre grupluyoruz (Örn: Tüm 'Renk'leri bir araya al)
-                            var groupedAttributes = Model.AttributeValues
-                            .GroupBy(av => av.ProductAttribute.Name)
-                            .ToList();
-
-                            foreach (var group in groupedAttributes)
-                            {
-                                <div class="mb-2">
-                                    <span class="label">@group.Key:</span>
-                                    @string.Join(", ", group.Select(v => v.Value))
-                                </div>
-                            }
-                        }
-                    </div>
-
-                    @if (Model.IsInStock)
-                    {
-                        <form action="/Cart/AddToCart" method="get" class="d-flex align-items-center mt-4">
-                            <input type="hidden" name="productId" value="@Model.Id" />
-                            <div class="quantity-box me-3">
-                                <input type="number" name="quantity" value="1" min="1" max="10"
-                                       class="form-control"
-                                       style="width: 80px; height: 50px; background-color:#111; border:1px solid #dabd82; color:#fff; text-align:center;">
-                            </div>
-                            <button type="submit" class="theme-btn btn-style-one" style="cursor:pointer; height: 50px; padding: 0 30px;">
-                                Sepete Ekle
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
-                        <div class="alert alert-dark mt-3" style="border: 1px solid #dabd82; color: #dabd82;">
-                            Bu ürün şu anda temin edilemiyor.
-                        </div>
-                    }
-                </div>
+    <div class="row gx-5">
+        <div class="col-lg-5 mb-5">
+            <div class="product-image-container">
+                <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "/img/no-image.png" : Model.ImageUrl)" alt="@Model.Name">
             </div>
         </div>
 
-        <div class="lower-box mt-5">
-            <div class="product-info-tabs">
-                <div class="tabs-content">
-                    <div class="tab active-tab">
-                        <div class="content">
-                            <h3 class="text-white border-bottom pb-2 mb-3" style="border-color:#333 !important;">Ürün Detayları</h3>
-                            <div class="text-white" style="line-height: 1.8;">
-                                @Html.Raw(Model.FullDescription)
+        <div class="col-lg-7">
+            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                <input type="hidden" name="productId" value="@Model.Id" />
+
+                <h1 class="product-title">@Model.Name</h1>
+
+                <div class="d-flex align-items-center mb-3">
+                    <span class="product-price">@Model.Price.ToString("C2")</span>
+                    <span class="ms-3 badge @(Model.IsInStock ? "bg-success" : "bg-danger") bg-opacity-25 text-white border border-secondary" style="font-weight:500;">
+                        @(Model.IsInStock ? "Stokta Var" : "Tükendi")
+                    </span>
+                </div>
+
+                <p class="product-short-desc">
+                    @(Model.ShortDescription ?? "Bu ürün için kısa açıklama bulunmuyor.")
+                </p>
+
+                <hr style="border-color:#333; margin: 25px 0;">
+
+                @if (selectionAttributes != null && selectionAttributes.Any())
+                {
+                    foreach (var group in selectionAttributes)
+                    {
+                        <div class="mb-3">
+                            <span class="attr-group-label">@group.Key:</span>
+                            <div class="d-flex flex-wrap">
+                                @foreach (var item in group)
+                                {
+                                    <div>
+                                        <input type="radio" class="attr-radio" name="selectedAttr_@group.Key" id="attr_@item.Id" value="@item.Id" required>
+                                        <label for="attr_@item.Id" class="attr-box-label">@item.Value</label>
+                                    </div>
+                                }
                             </div>
                         </div>
+                    }
+                }
+
+                <div class="row align-items-end mt-4">
+                    <div class="col-3 col-md-2">
+                        <label class="attr-group-label">Adet</label>
+                        <input type="number" name="quantity" class="form-control bg-dark text-white border-secondary text-center p-2" value="1" min="1" max="10">
                     </div>
+                    <div class="col-9 col-md-6">
+                        <button type="submit" class="btn-add-cart" @(!Model.IsInStock ? "disabled" : "")>
+                            @(Model.IsInStock ? "SEPETE EKLE" : "STOKTA YOK")
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-4 small text-muted">
+                    <i class="fa fa-lock text-warning me-2"></i> Güvenli Ödeme &nbsp;|&nbsp;
+                    <i class="fa fa-truck text-warning me-2"></i> Hızlı Kargo
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#desc">Açıklama</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#specs">Özellikler</button></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="desc">
+                    <div class="text-white-50" style="font-size: 0.95rem;">
+                        @Html.Raw(Model.FullDescription ?? "Detaylı açıklama eklenmemiş.")
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="specs">
+                    <table class="table table-borderless specs-table" style="max-width: 600px;">
+                        <tbody>
+                            @if (Model.Category != null)
+                            {
+                                <tr><td>Kategori</td><td>@Model.Category.Name</td></tr>
+                            }
+                            <tr><td>Stok Kodu</td><td>@(Model.SKU ?? "-")</td></tr>
+
+                            @if (infoAttributes != null && infoAttributes.Any())
+                            {
+                                foreach (var group in infoAttributes)
+                                {
+                                    <tr>
+                                        <td>@group.Key</td>
+                                        <td>@string.Join(", ", group.Select(v => v.Value))</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</section>
+
+    @if (relatedProducts != null && relatedProducts.Any())
+    {
+        <div class="mt-5 pt-4 border-top border-dark">
+            <h4 class="text-white mb-4" style="font-size: 1.2rem;">Benzer Ürünler</h4>
+            <div class="row">
+                @foreach (var item in relatedProducts)
+                {
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="bg-dark p-3 rounded h-100 text-center border border-secondary" style="transition:0.3s; font-size:0.9rem;">
+                            <a href="/VeorCollection/ShopDetail/@item.Id">
+                                <img src="@item.ImageUrl" class="img-fluid rounded mb-2" alt="@item.Name" style="max-height:200px; object-fit:cover;">
+                            </a>
+                            <h6 class="text-white mb-1"><a href="/VeorCollection/ShopDetail/@item.Id" class="text-reset text-decoration-none">@item.Name</a></h6>
+                            <div class="text-warning fw-bold">@item.Price.ToString("C2")</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

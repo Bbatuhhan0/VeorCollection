@@ -1,198 +1,278 @@
 ﻿@model IEnumerable<VeorCollection.Models.Product>
 
 @{
-    ViewData["Title"] = "Ürünler";
+    ViewData["Title"] = "Koleksiyon";
     Layout = "AnaLayout";
 }
 
 <style>
+    :root {
+        --veor-gold: #d4af37;
+        --veor-black: #0a0a0a;
+        --veor-dark-gray: #151515;
+    }
+
     body {
-        background-color: #000000 !important;
-        color: #ffffff !important;
+        background-color: var(--veor-black) !important;
+        color: #f0f0f0 !important;
+        font-family: 'Montserrat', sans-serif; /* Varsa fontun */
     }
 
-    .sidebar-widget {
-        background-color: #111111;
-        padding: 20px;
-        border: 1px solid #222;
-        margin-bottom: 20px;
+    /* Sidebar Tasarımı */
+    .sidebar-wrapper {
+        background-color: var(--veor-dark-gray);
+        padding: 25px;
+        border-right: 1px solid #222;
+        border-radius: 8px;
     }
 
-    .sidebar-title h5 {
-        color: #fff;
-        font-weight: 700;
-        border-bottom: 1px solid #333;
-        padding-bottom: 10px;
+    .filter-title {
+        color: var(--veor-gold);
+        font-size: 1.1rem;
+        font-weight: 600;
         margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #333;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
-    .cat-list li {
-        list-style: none;
-        margin-bottom: 8px;
-    }
-
-    .shop-item .inner-box {
-        background-color: #080808;
-        border: 1px solid #1a1a1a;
-        margin-bottom: 30px;
-    }
-
-    .shop-item h6 a {
-        color: #fff;
+    .filter-link {
+        color: #aaa;
+        display: block;
+        padding: 8px 0;
+        transition: 0.3s;
         text-decoration: none;
     }
 
-    .shop-item .price {
-        color: #dabd82;
-        font-weight: 700;
-        margin-top: 10px;
+        .filter-link:hover, .filter-link.active {
+            color: #fff;
+            padding-left: 10px;
+            border-left: 2px solid var(--veor-gold);
+        }
+
+    /* Ürün Kartı Tasarımı */
+    .product-card {
+        background-color: var(--veor-dark-gray);
+        border: 1px solid #222;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        border-radius: 6px;
+        height: 100%;
     }
 
-    .cart-btn-custom {
-        border: 1px solid #dabd82;
-        color: #dabd82;
-        padding: 5px 15px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 10px;
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-color: var(--veor-gold);
+        }
+
+    .card-img-wrap {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 3/4; /* Dikey dikdörtgen resim oranı */
     }
 
-        .cart-btn-custom:hover {
-            background-color: #dabd82;
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+    .product-card:hover .card-img-wrap img {
+        transform: scale(1.05);
+    }
+
+    .card-actions {
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.8);
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        transition: bottom 0.3s ease;
+    }
+
+    .product-card:hover .card-actions {
+        bottom: 0;
+    }
+
+    .btn-veor-primary {
+        background-color: var(--veor-gold);
+        color: #000;
+        font-weight: bold;
+        border: none;
+        padding: 8px 20px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        border-radius: 0;
+    }
+
+        .btn-veor-primary:hover {
+            background-color: #fff;
             color: #000;
         }
 
-    /* Checkbox Stilleri */
-    .form-check-input {
+    .product-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .product-title {
+        font-size: 1rem;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .product-title a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .product-price {
+        color: var(--veor-gold);
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    /* Custom Checkbox */
+    .custom-checkbox .form-check-input {
         background-color: #222;
         border-color: #444;
     }
 
-        .form-check-input:checked {
-            background-color: #dabd82;
-            border-color: #dabd82;
+        .custom-checkbox .form-check-input:checked {
+            background-color: var(--veor-gold);
+            border-color: var(--veor-gold);
         }
 
-    .form-check-label {
-        color: #ccc;
-        cursor: pointer;
-        user-select: none;
+    .custom-checkbox label {
+        color: #bbb;
+        font-size: 0.9rem;
     }
-
-        .form-check-label:hover {
-            color: #fff;
-        }
 </style>
 
-<section class="page-title" style="background-image: url(/html/assets/images/background/image-2.jpg); padding: 60px 0; text-align: center;">
-    <div class="auto-container">
-        <h1 style="color:#fff; font-weight:800;">KOLEKSİYON</h1>
+<section style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/html/assets/images/background/image-2.jpg') center/cover; padding: 100px 0 60px;">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-2">KOLEKSİYON</h1>
+        <p class="text-white-50">Tarzınızı yansıtan özel parçalar.</p>
     </div>
 </section>
 
-<div class="sidebar-page-container mt-5">
-    <div class="auto-container">
-        <div class="row clearfix">
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3 mb-5">
+            <div class="sidebar-wrapper sticky-top" style="top: 100px; z-index: 900;">
+                <form action="/VeorCollection/Products" method="get" id="filterForm">
 
-            <div class="sidebar-side col-lg-3 col-md-12 col-sm-12">
-                <aside class="sidebar sticky-top" style="top: 100px; z-index: 1;">
-
-                    <form action="/VeorCollection/Products" method="get" id="filterForm">
-
-                        <div class="sidebar-widget category-widget">
-                            <div class="sidebar-title"><h5>Kategoriler</h5></div>
-                            <ul class="cat-list p-0">
-                                <li>
-                                    <a href="/VeorCollection/Products" class="@(ViewBag.SeciliCategoryId == null ? "text-warning fw-bold" : "text-muted")" style="text-decoration:none;">Tüm Ürünler</a>
-                                </li>
-                                @if (ViewBag.Categories != null)
-                                {
-                                    foreach (var cat in ViewBag.Categories as List<VeorCollection.Models.Category>)
-                                    {
-                                        var isActive = (ViewBag.SeciliCategoryId == cat.Id);
-                                        <li>
-                                            <a href="/VeorCollection/Products?categoryId=@cat.Id"
-                                               class="@(isActive ? "text-warning fw-bold" : "text-muted")"
-                                               style="text-decoration:none;">
-                                                @cat.Name
-                                            </a>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-                            @if (ViewBag.SeciliCategoryId != null)
+                    <div class="mb-4">
+                        <div class="filter-title">KATEGORİLER</div>
+                        <div class="ps-1">
+                            <a href="/VeorCollection/Products" class="filter-link @(ViewBag.SeciliCategoryId == null ? "active" : "")">
+                                Tüm Ürünler
+                            </a>
+                            @if (ViewBag.Categories != null)
                             {
-                                <input type="hidden" name="categoryId" value="@ViewBag.SeciliCategoryId" />
+                                foreach (var cat in ViewBag.Categories as List<VeorCollection.Models.Category>)
+                                {
+                                    var isActive = (ViewBag.SeciliCategoryId == cat.Id);
+                                    <a href="/VeorCollection/Products?categoryId=@cat.Id"
+                                       class="filter-link @(isActive ? "active" : "")">
+                                        @cat.Name
+                                    </a>
+                                }
                             }
                         </div>
-
-                        @if (ViewBag.Attributes != null)
+                        @if (ViewBag.SeciliCategoryId != null)
                         {
-                            var allAttributes = ViewBag.Attributes as List<VeorCollection.Models.ProductAttribute>;
-                            var selectedFilters = ViewBag.SelectedFilters as List<int> ?? new List<int>();
-
-                            foreach (var attr in allAttributes)
-                            {
-                                <div class="sidebar-widget category-widget">
-                                    <div class="sidebar-title"><h5>@attr.Name</h5></div>
-                                    <ul class="cat-list p-0">
-                                        @foreach (var val in attr.Values)
-                                        {
-                                            <li class="d-flex align-items-center mb-2">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="f"
-                                                           value="@val.Id" id="f_@val.Id"
-                                                           @(selectedFilters.Contains(val.Id) ? "checked" : "")
-                                                           onchange="document.getElementById('filterForm').submit()">
-                                                    <label class="form-check-label ms-2" for="f_@val.Id">
-                                                        @val.Value
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            }
+                            <input type="hidden" name="categoryId" value="@ViewBag.SeciliCategoryId" />
                         }
+                    </div>
 
-                        <a href="/VeorCollection/Products" class="btn btn-outline-secondary w-100 btn-sm">Filtreleri Temizle</a>
-                    </form>
-
-                </aside>
-            </div>
-
-            <div class="content-side col-lg-9 col-md-12 col-sm-12">
-                <div class="row clearfix">
-                    @if (Model != null && Model.Any())
+                    @if (ViewBag.Attributes != null)
                     {
-                        foreach (var item in Model)
+                        var allAttributes = ViewBag.Attributes as List<VeorCollection.Models.ProductAttribute>;
+                        var selectedFilters = ViewBag.SelectedFilters as List<int> ?? new List<int>();
+
+                        foreach (var attr in allAttributes)
                         {
-                            <div class="shop-item col-lg-4 col-md-6 col-sm-12">
-                                <div class="inner-box p-3 text-center">
-                                    <div class="image mb-3">
-                                        <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">
-                                            <img src="@item.ImageUrl" alt="@item.Name" style="height: 250px; object-fit: cover; width: 100%; border-radius: 4px;">
-                                        </a>
-                                    </div>
-                                    <h6>
-                                        <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">@item.Name</a>
-                                    </h6>
-                                    <div class="price">@item.Price.ToString("C2")</div>
-                                    <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id" class="cart-btn-custom">İncele</a>
+                            <div class="mb-4">
+                                <div class="filter-title">@attr.Name</div>
+                                <div class="custom-checkbox ps-1">
+                                    @foreach (var val in attr.Values)
+                                    {
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="f"
+                                                   value="@val.Id" id="f_@val.Id"
+                                                   @(selectedFilters.Contains(val.Id) ? "checked" : "")
+                                                   onchange="document.getElementById('filterForm').submit()">
+                                            <label class="form-check-label" for="f_@val.Id">
+                                                @val.Value
+                                            </label>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         }
                     }
-                    else
+
+                    <div class="mt-4">
+                        <a href="/VeorCollection/Products" class="btn btn-outline-light w-100 btn-sm">
+                            FİLTRELERİ TEMİZLE
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row g-4">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
                     {
-                        <div class="col-12 text-center py-5">
-                            <h3 class="text-white">Ürün bulunamadı.</h3>
-                            <p class="text-muted">Seçtiğiniz kriterlere uygun ürün yok.</p>
+                        <div class="col-6 col-md-4">
+                            <div class="product-card">
+                                <div class="card-img-wrap">
+                                    <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">
+                                        <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/img/no-image.jpg" : item.ImageUrl)" alt="@item.Name">
+                                    </a>
+                                    <div class="card-actions">
+                                        <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id" class="btn btn-veor-primary w-100">
+                                            İNCELE
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h5 class="product-title">
+                                        <a asp-controller="VeorCollection" asp-action="ShopDetail" asp-route-id="@item.Id">@item.Name</a>
+                                    </h5>
+                                    <div class="product-price">
+                                        @item.Price.ToString("C2")
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     }
-                </div>
+                }
+                else
+                {
+                    <div class="col-12 py-5 text-center">
+                        <div style="opacity: 0.5;">
+                            <i class="fa fa-shopping-bag fa-3x mb-3"></i>
+                            <h4>Ürün Bulunamadı</h4>
+                            <p>Aradığınız kriterlere uygun ürün mevcut değil.</p>
+                            <a href="/VeorCollection/Products" class="btn btn-veor-primary mt-3">Tüm Koleksiyonu Gör</a>
+                        </div>
+                    </div>
+                }
             </div>
-
         </div>
     </div>
 </div>

@@ -85,18 +85,27 @@ namespace VeorCollection.Controllers
         }
 
         // Ürün Detay Sayfası
-        public IActionResult ShopDetail(int id)
+        [HttpGet]
+        public async Task<IActionResult> ShopDetail(int id)
         {
-            if (id <= 0) return RedirectToAction("Products");
-
-            var product = _context.Products
+            // 1. Ürünü, Kategorisini ve Özelliklerini (Attribute) getiriyoruz.
+            // "Include" yapıları sayesinde ilişkili tüm veriler tek seferde gelir.
+            var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.AttributeValues)
-                    .ThenInclude(av => av.ProductAttribute)
-                .AsNoTracking()
-                .FirstOrDefault(p => p.Id == id);
+                    .ThenInclude(av => av.ProductAttribute) // Özelliğin adını (Örn: Beden) almak için
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            if (product == null) return RedirectToAction("Products");
+            if (product == null) return NotFound();
+
+            // 2. Benzer Ürünler (Aynı kategorideki diğer 4 ürün)
+            var relatedProducts = await _context.Products
+                .Where(p => p.CategoryId == product.CategoryId && p.Id != id) // Kendisi hariç
+                .OrderByDescending(p => p.CreatedDate) // En yeniler
+                .Take(4)
+                .ToListAsync();
+
+            ViewBag.RelatedProducts = relatedProducts;
 
             return View(product);
         }
