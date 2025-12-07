@@ -124,14 +124,28 @@
                             </div>
                         </div>
 
-                        <div class="sidebar-widget-two services-widget">
+                        <div class="sidebar-widget-two post-widget">
                             <div class="sidebar-title-two">
-                                <h5>Kategoriler</h5>
+                                <h5>Son Yazılar</h5>
                             </div>
                             <div class="widget-content">
-                                <ul class="category-list-two">
-                                    <li><a href="#"><span class="icon flaticon-megaphone-1"></span> @Model.MainTag <span class="number">1</span></a></li>
-                                </ul>
+
+                                @if (ViewBag.RecentBlogs != null)
+                                {
+                                    foreach (var item in (List<VeorCollection.Models.Blog>)ViewBag.RecentBlogs)
+                                    {
+                                        <div class="post">
+                                            <div class="thumb">
+                                                <a href="/VeorCollection/BlogDetail/@item.Id">
+                                                    <img src="@item.ImageUrl" alt="@item.Title" style="width:80px; height:80px; object-fit:cover; border-radius:5px;">
+                                                </a>
+                                            </div>
+                                            <div class="category">@item.MainTag</div>
+                                            <h6><a href="/VeorCollection/BlogDetail/@item.Id">@item.Title</a></h6>
+                                        </div>
+                                    }
+                                }
+
                             </div>
                         </div>
 

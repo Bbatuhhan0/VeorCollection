@@ -5,7 +5,7 @@
 namespace VeorCollection.Migrations
 {
     /// <inheritdoc />
-    public partial class AddBlogTable_New : Migration
+    public partial class AddBlogTable_Final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

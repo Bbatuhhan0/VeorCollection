@@ -320,6 +320,8 @@ namespace VeorCollection.Controllers
 
         // --- BLOG YÖNETİMİ ---
 
+        // --- BLOG YÖNETİMİ (GÜNCELLENDİ) ---
+
         public IActionResult Blogs()
         {
             var blogs = _context.Blogs.OrderByDescending(b => b.CreatedDate).ToList();
@@ -333,14 +335,24 @@ namespace VeorCollection.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken] // Güvenlik önlemi
         public async Task<IActionResult> CreateBlog(Blog blog, IFormFile? imageFile)
         {
-            // Resim Yükleme İşlemi
             if (imageFile != null)
             {
-                var extension = Path.GetExtension(imageFile.FileName);
+                // 1. Dosya Uzantı Kontrolü (Sadece resim dosyaları)
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+                var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("ImageUrl", "Sadece .jpg, .jpeg, .png veya .webp formatında resim yükleyebilirsiniz.");
+                    return View(blog);
+                }
+
+                // 2. Benzersiz Dosya Adı
                 var newImageName = Guid.NewGuid() + extension;
-                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/blog"); // Blog resimleri için klasör
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/blog");
 
                 if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
 
@@ -357,6 +369,7 @@ namespace VeorCollection.Controllers
                 blog.CreatedDate = DateTime.Now;
                 _context.Blogs.Add(blog);
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Blog başarıyla eklendi."; // Kullanıcıya mesaj
                 return RedirectToAction("Blogs");
             }
             return View(blog);
@@ -367,6 +380,17 @@ namespace VeorCollection.Controllers
             var blog = _context.Blogs.Find(id);
             if (blog != null)
             {
+                // 1. Önce Resmi Sunucudan Sil (Çöp dosya oluşmaması için)
+                if (!string.IsNullOrEmpty(blog.ImageUrl))
+                {
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", blog.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+
+                // 2. Veritabanından Sil
                 _context.Blogs.Remove(blog);
                 _context.SaveChanges();
             }

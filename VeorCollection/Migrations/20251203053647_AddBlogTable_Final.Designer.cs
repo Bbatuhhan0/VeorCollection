@@ -12,8 +12,8 @@ using VeorCollection.Data;
 namespace VeorCollection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251203052914_AddBlogTable_New")]
-    partial class AddBlogTable_New
+    [Migration("20251203053647_AddBlogTable_Final")]
+    partial class AddBlogTable_Final
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

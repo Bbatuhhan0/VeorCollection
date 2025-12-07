@@ -109,11 +109,19 @@ namespace VeorCollection.Controllers
         }
 
         // Blog Detay Sayfası
-        public IActionResult BlogDetail(int id) // İsim 'blogdetail' view dosyası ile uyumlu olması için küçük harfle de bırakılabilir ama C# standardı PascalCase'dir. View adını düzelteceğiz.
+        public IActionResult BlogDetail(int id)
         {
             var blog = _context.Blogs.Find(id);
             if (blog == null) return RedirectToAction("Blog");
-            return View("blogdetail", blog); // Senin view dosya ismin 'blogdetail.cshtml' olduğu için
+
+            // Sidebar için son 3 blog yazısını çekiyoruz (Mevcut blog hariç)
+            ViewBag.RecentBlogs = _context.Blogs
+                .Where(b => b.Id != id) // Şu an okunan blog listede çıkmasın
+                .OrderByDescending(b => b.CreatedDate)
+                .Take(3)
+                .ToList();
+
+            return View("blogdetail", blog);
         }
         public IActionResult About() { return View(); }
 
