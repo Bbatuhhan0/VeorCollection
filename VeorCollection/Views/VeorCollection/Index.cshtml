@@ -2,11 +2,11 @@
 
 @{
     Layout = "AnaLayout";
+    ViewData["Title"] = "Anasayfa";
 }
 
 <style>
-    /* ... (Senin gönderdiğin tüm stiller burada geçerli) ... */
-
+    /* MEVCUT STİLLERİNİZ (AYNEN KORUNDU) */
     .main-slider-carousel .slide {
         height: 700px;
     }
@@ -68,6 +68,15 @@
         color: #ffffff;
     }
 
+    .products-section-three .filters .filter-tabs li {
+        color: #ffffff;
+    }
+
+        .products-section-three .filters .filter-tabs li:hover,
+        .products-section-three .filters .filter-tabs li.active {
+            color: #dabd82;
+        }
+
     .shop-item .lower-content h6 a {
         color: #ffffff;
     }
@@ -123,12 +132,21 @@
         display: none !important;
     }
 
+    .testimonial-section .owl-nav .owl-prev {
+        left: auto !important;
+        right: -60px !important;
+    }
+
+    .testimonial-section .owl-nav .owl-next {
+        right: 10px !important;
+    }
+
     .testimonial-section {
         padding-top: 45px !important;
         padding-bottom: 43px !important;
     }
 
-    /* === YENİ ÜRÜN KARTI İÇİN EK STİLLER === */
+    /* YENİ EKLENEN ÜRÜN KARTI STİLİ (Dinamik kısım için) */
     .product-card-custom {
         background-color: #121212;
         border: 1px solid #222;
@@ -137,6 +155,7 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         height: 100%;
         position: relative;
+        margin-bottom: 30px;
     }
 
         .product-card-custom:hover {
@@ -148,7 +167,8 @@
     .card-img-wrap {
         position: relative;
         overflow: hidden;
-        height: 350px; /* Resim yüksekliği sabitlendi */
+        height: 350px; /* Resim yüksekliği sabit */
+        background-color: #000;
     }
 
         .card-img-wrap img {
@@ -167,8 +187,8 @@
         bottom: -60px;
         left: 0;
         width: 100%;
-        padding: 15px;
-        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        padding: 10px;
+        background: rgba(0,0,0,0.8);
         transition: bottom 0.3s ease;
         display: flex;
         justify-content: center;
@@ -182,13 +202,14 @@
         background-color: #dabd82;
         color: #000;
         font-weight: 700;
-        padding: 8px 20px;
+        padding: 10px 0;
         border-radius: 4px;
         text-decoration: none;
         text-transform: uppercase;
-        font-size: 0.8rem;
-        width: 100%;
+        font-size: 0.9rem;
+        width: 90%;
         text-align: center;
+        display: block;
     }
 
         .btn-quick-view:hover {
@@ -197,7 +218,7 @@
         }
 
     .product-details {
-        padding: 15px;
+        padding: 20px 15px;
         text-align: center;
     }
 
@@ -217,7 +238,7 @@
         color: #dabd82;
         font-weight: 700;
         font-size: 1.2rem;
-        margin-top: 5px;
+        margin-top: 10px;
     }
 </style>
 
@@ -228,6 +249,7 @@
             <div class="auto-container">
                 <div class="content-box">
                     <div class="box-inner">
+                        <div class="vector-icon-three" style="background-image: url(/html/assets/images/main-slider/vector-3.png)"></div>
                         <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
                         <div class="title">2025 Collection</div>
                         <h1>Bard of Beauty Collection</h1>
@@ -242,6 +264,7 @@
             <div class="auto-container">
                 <div class="content-box">
                     <div class="box-inner">
+                        <div class="vector-icon-three" style="background-image: url(/html/assets/images/main-slider/vector-3.png)"></div>
                         <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
                         <div class="title">2025 Collection</div>
                         <h1>Best of the Best Collection</h1>
@@ -256,6 +279,7 @@
             <div class="auto-container">
                 <div class="content-box">
                     <div class="box-inner">
+                        <div class="vector-icon-three" style="background-image: url(/html/assets/images/main-slider/vector-3.png)"></div>
                         <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
                         <div class="title">2025 Collection</div>
                         <h1>Best Fashion Collection</h1>
@@ -267,6 +291,7 @@
         </div>
     </div>
 </section>
+
 <section class="featured-section">
     <div class="vector-layer-two" style="background-image: url(/html/assets/images/icons/feature.png)"></div>
     <div class="auto-container">
@@ -312,20 +337,22 @@
         </div>
     </div>
 </section>
+
 <section class="brand-section">
     <div class="outer-container">
         <div class="animation_mode">
             <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-            <img src="img/küçükicon.png" alt="icon">
+            <img src="/img/küçükicon.png" alt="icon">
             <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-            <img src="img/küçükicon.png" alt="icon">
+            <img src="/img/küçükicon.png" alt="icon">
             <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-            <img src="img/küçükicon.png" alt="icon">
+            <img src="/img/küçükicon.png" alt="icon">
             <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-            <img src="img/küçükicon.png" alt="icon">
+            <img src="/img/küçükicon.png" alt="icon">
         </div>
     </div>
 </section>
+
 <section class="sale-section">
     <div class="auto-container">
         <div class="row clearfix">
@@ -333,7 +360,7 @@
                 <div class="inner-box">
                     <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
                     <div class="image d-flex justify-content-between align-items-center">
-                        <img src="img/Erkekşişe1.jpg" alt="Erkek Parfüm">
+                        <img src="/img/Erkekşişe1.jpg" alt="24short-img">
                         <div class="overlay-box">
                             <div class="overlay-inner">
                                 <div class="off">Get 30% off</div>
@@ -348,7 +375,7 @@
                 <div class="inner-box">
                     <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
                     <div class="image d-flex justify-content-between align-items-center">
-                        <img src="img/kadınşişe1.jpg" alt="Kadın Parfüm">
+                        <img src="/img/kadınşişe1.jpg" alt="24short-img">
                         <div class="overlay-box">
                             <div class="overlay-inner">
                                 <div class="off">Get 30% off</div>
@@ -362,7 +389,8 @@
         </div>
     </div>
 </section>
-<section class="products-section-three" style="padding: 60px 0;">
+
+<section class="products-section-three">
     <div class="auto-container">
         <div class="sec-title">
             <h2><span>Products </span> your choice !</h2>
@@ -373,7 +401,7 @@
             {
                 foreach (var item in Model)
                 {
-                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="product-card-custom">
                             <div class="card-img-wrap">
                                 <a href="/VeorCollection/ShopDetail/@item.Id">
@@ -396,12 +424,12 @@
             else
             {
                 <div class="col-12 text-center py-5">
-                    <h4 class="text-white-50">Henüz ürün eklenmemiş.</h4>
+                    <h4 class="text-white-50">Henüz ürün eklenmemiş. Lütfen Admin panelinden ürün ekleyin.</h4>
                 </div>
             }
         </div>
 
-        <div class="button-box text-center mt-5">
+        <div class="button-box text-center mt-4">
             <a href="/VeorCollection/Products" class="theme-btn btn-style-one">
                 Shop Now <span class="icon flaticon-right-arrow"></span>
             </a>
@@ -421,7 +449,7 @@
                             <div class="image-column col-lg-4 col-md-12 col-sm-12">
                                 <div class="inner-column">
                                     <div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
-                                    <div class="image"><img src="~/img/basakbulutyorum.jpg" alt="yorum1"></div>
+                                    <div class="image"><img src="/img/basakbulutyorum.jpg" alt="yorum"></div>
                                 </div>
                             </div>
                             <div class="content-column col-lg-8 col-md-12 col-sm-12">
@@ -441,7 +469,7 @@
                             <div class="image-column col-lg-4 col-md-12 col-sm-12">
                                 <div class="inner-column">
                                     <div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
-                                    <div class="image"><img src="~/img/beratyorum1.jpg" alt="yorum2"></div>
+                                    <div class="image"><img src="/img/beratyorum1.jpg" alt="yorum"></div>
                                 </div>
                             </div>
                             <div class="content-column col-lg-8 col-md-12 col-sm-12">
@@ -461,7 +489,7 @@
                             <div class="image-column col-lg-4 col-md-12 col-sm-12">
                                 <div class="inner-column">
                                     <div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
-                                    <div class="image"><img src="~/img/ogztvyrnyorum.jpg" alt="yorum3"></div>
+                                    <div class="image"><img src="/img/ogztvyrnyorum.jpg" alt="yorum"></div>
                                 </div>
                             </div>
                             <div class="content-column col-lg-8 col-md-12 col-sm-12">

@@ -3,11 +3,15 @@
 @{
     ViewData["Title"] = "Koleksiyon";
     Layout = "AnaLayout";
+
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
 }
 
 <style>
+    /* ... (Önceki CSS kodların aynı kalacak) ... */
     :root {
-        --veor-gold: #d4af37;
+        --veor-gold: #dabd82;
         --veor-black: #0a0a0a;
         --veor-dark-gray: #151515;
     }
@@ -15,10 +19,53 @@
     body {
         background-color: var(--veor-black) !important;
         color: #f0f0f0 !important;
-        font-family: 'Montserrat', sans-serif; /* Varsa fontun */
+        font-family: 'Montserrat', sans-serif;
     }
 
-    /* Sidebar Tasarımı */
+    /* Header & Sidebar stilleri (önceki koddan aynen kopyala veya bu blok kalsın) */
+    .product-header {
+        background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+        height: 350px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #222;
+    }
+
+        .product-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--veor-gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .product-header .separator {
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: #333;
+            margin: 10px auto;
+        }
+
+        .product-header p {
+            color: #888;
+            font-weight: 300;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+            text-transform: uppercase;
+        }
+
     .sidebar-wrapper {
         background-color: var(--veor-dark-gray);
         padding: 25px;
@@ -51,7 +98,6 @@
             border-left: 2px solid var(--veor-gold);
         }
 
-    /* Ürün Kartı Tasarımı */
     .product-card {
         background-color: var(--veor-dark-gray);
         border: 1px solid #222;
@@ -71,7 +117,7 @@
     .card-img-wrap {
         position: relative;
         overflow: hidden;
-        aspect-ratio: 3/4; /* Dikey dikdörtgen resim oranı */
+        aspect-ratio: 3/4;
     }
 
         .card-img-wrap img {
@@ -141,7 +187,6 @@
         font-weight: 700;
     }
 
-    /* Custom Checkbox */
     .custom-checkbox .form-check-input {
         background-color: #222;
         border-color: #444;
@@ -156,20 +201,64 @@
         color: #bbb;
         font-size: 0.9rem;
     }
+
+    /* YENİ EKLENEN SAYFALAMA STİLİ */
+    .pagination-wrapper {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .page-btn {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #111;
+        border: 1px solid #333;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 4px;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .page-btn:hover {
+            background-color: #333;
+            color: var(--veor-gold);
+            border-color: var(--veor-gold);
+        }
+
+        .page-btn.active {
+            background-color: var(--veor-gold);
+            color: #000;
+            border-color: var(--veor-gold);
+        }
+
+        .page-btn.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
 </style>
 
-<section style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/html/assets/images/background/image-2.jpg') center/cover; padding: 100px 0 60px;">
+<section class="product-header">
     <div class="container text-center">
-        <h1 class="display-4 fw-bold text-white mb-2">KOLEKSİYON</h1>
-        <p class="text-white-50">Tarzınızı yansıtan özel parçalar.</p>
+        <h1>KOLEKSİYON</h1>
+        <span class="separator"></span>
+        <p>Tarzınızı yansıtan özel parçalar.</p>
     </div>
 </section>
 
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-3 mb-5">
-            <div class="sidebar-wrapper sticky-top" style="top: 100px; z-index: 900;">
+            <div class="sidebar-wrapper sticky-top" style="top: 50px; z-index: 900;">
                 <form action="/VeorCollection/Products" method="get" id="filterForm">
+
+                    <input type="hidden" name="page" id="pageInput" value="@currentPage" />
 
                     <div class="mb-4">
                         <div class="filter-title">KATEGORİLER</div>
@@ -177,12 +266,14 @@
                             <a href="/VeorCollection/Products" class="filter-link @(ViewBag.SeciliCategoryId == null ? "active" : "")">
                                 Tüm Ürünler
                             </a>
+
                             @if (ViewBag.Categories != null)
                             {
                                 foreach (var cat in ViewBag.Categories as List<VeorCollection.Models.Category>)
                                 {
                                     var isActive = (ViewBag.SeciliCategoryId == cat.Id);
-                                    <a href="/VeorCollection/Products?categoryId=@cat.Id"
+                                    <a href="javascript:void(0);"
+                                       onclick="selectCategory(@cat.Id)"
                                        class="filter-link @(isActive ? "active" : "")">
                                         @cat.Name
                                     </a>
@@ -191,7 +282,7 @@
                         </div>
                         @if (ViewBag.SeciliCategoryId != null)
                         {
-                            <input type="hidden" name="categoryId" value="@ViewBag.SeciliCategoryId" />
+                            <input type="hidden" name="categoryId" id="catInput" value="@ViewBag.SeciliCategoryId" />
                         }
                     </div>
 
@@ -211,7 +302,7 @@
                                             <input class="form-check-input" type="checkbox" name="f"
                                                    value="@val.Id" id="f_@val.Id"
                                                    @(selectedFilters.Contains(val.Id) ? "checked" : "")
-                                                   onchange="document.getElementById('filterForm').submit()">
+                                                   onchange="resetPageAndSubmit()">
                                             <label class="form-check-label" for="f_@val.Id">
                                                 @val.Value
                                             </label>
@@ -267,12 +358,66 @@
                         <div style="opacity: 0.5;">
                             <i class="fa fa-shopping-bag fa-3x mb-3"></i>
                             <h4>Ürün Bulunamadı</h4>
-                            <p>Aradığınız kriterlere uygun ürün mevcut değil.</p>
+                            <p>Aradığınız kriterlere uygun ürün yok.</p>
                             <a href="/VeorCollection/Products" class="btn btn-veor-primary mt-3">Tüm Koleksiyonu Gör</a>
                         </div>
                     </div>
                 }
             </div>
+
+            @if (totalPages > 1)
+            {
+                <div class="pagination-wrapper">
+                    <button type="button" class="page-btn @(currentPage == 1 ? "disabled" : "")"
+                            onclick="goToPage(@(currentPage - 1))">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <button type="button" class="page-btn @(currentPage == i ? "active" : "")"
+                                onclick="goToPage(@i)">
+                            @i
+                        </button>
+                    }
+
+                    <button type="button" class="page-btn @(currentPage == totalPages ? "disabled" : "")"
+                            onclick="goToPage(@(currentPage + 1))">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            }
+
         </div>
     </div>
 </div>
+
+<script>
+    // Sayfa değiştirme fonksiyonu
+    function goToPage(pageNumber) {
+        document.getElementById('pageInput').value = pageNumber;
+        document.getElementById('filterForm').submit();
+    }
+
+    // Filtre değişince sayfayı 1'e alıp formu gönder
+    function resetPageAndSubmit() {
+        document.getElementById('pageInput').value = 1;
+        document.getElementById('filterForm').submit();
+    }
+
+    // Kategori seçimi için özel fonksiyon
+    function selectCategory(catId) {
+        // Varsa eski hidden inputu güncelle, yoksa yeni ekle (zaten form içinde var)
+        var catInput = document.getElementById('catInput');
+        if (catInput) {
+            catInput.value = catId;
+        } else {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'categoryId';
+            input.value = catId;
+            document.getElementById('filterForm').appendChild(input);
+        }
+        resetPageAndSubmit();
+    }
+</script>

@@ -1,109 +1,196 @@
 ﻿@{
     Layout = "AnaLayout";
+    ViewData["Title"] = "Hakkımızda";
 }
 
 <style>
-    /* --- ANA SAYFA STİLLERİ (ORTAK) --- */
-
+    /* GENEL SAYFA AYARLARI */
     body {
-        background-color: #000000 !important;
-        color: #ffffff;
+        background-color: #000000;
+        color: #e0e0e0;
+        font-family: 'Montserrat', sans-serif;
     }
 
-    /* Dropdown Menü */
-    .main-menu .navigation li.dropdown ul {
-        background-color: #000000 !important;
+    /* --- GÜNCELLENEN HERO (BAŞLIK) ALANI --- */
+    .about-hero {
+        /* İstenilen Radyal Arka Plan */
+        background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+        /* İstenilen Yükseklik ve Padding Ayarları */
+        height: 200px;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .about-hero-content {
+        position: relative;
+        text-align: center;
+        z-index: 2;
+    }
+
+    .about-hero h1 {
+        font-size: 2.5rem; /* Yükseklik azaldığı için fontu biraz küçülttüm (3.5rem -> 2.5rem) taşmaması için */
+        font-weight: 800;
+        color: #dabd82;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 5px; /* Boşluğu azalttım */
+        font-family: 'Playfair Display', serif;
+        line-height: 1.2;
+    }
+
+    .about-hero span {
+        display: block;
+        width: 60px;
+        height: 2px;
+        background-color: #333;
+        margin: 5px auto;
+    }
+
+    .about-hero p {
+        color: #888;
+        font-weight: 300;
+        font-size: 1rem;
+        margin-top: 5px;
+        letter-spacing: 1px;
+        margin-bottom: 0;
+    }
+
+    /* HİKAYEMİZ BÖLÜMÜ */
+    .story-section {
+        padding: 80px 0;
+        background-color: #080808;
+    }
+
+    .story-img {
+        position: relative;
+        padding: 20px;
         border: 1px solid #333;
     }
 
-        .main-menu .navigation li.dropdown ul li a {
-            color: #ffffff !important;
-            background-color: transparent !important;
+        .story-img img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s;
         }
 
-            .main-menu .navigation li.dropdown ul li a:hover {
-                color: #dabd82 !important;
-            }
-
-    /* --- HAKKIMIZDA SAYFASI ÖZEL DÜZELTMELERİ --- */
-
-    /* 1. Page Title (Başlık Alanı) Özelleştirmesi */
-    .page-title {
-        background-color: #dabd82 !important; /* Arka plan rengi Gold yapıldı */
-        background-image: none !important; /* Resim kaldırıldı */
-    }
-
-        /* Gold arka plan üzerindeki yazıların okunması için Siyah yaptık */
-        .page-title h2 {
-            color: #000000 !important;
+        .story-img::after {
+            content: "";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 100px;
+            height: 100px;
+            border-top: 3px solid #dabd82;
+            border-right: 3px solid #dabd82;
+            z-index: 1;
         }
 
-        .page-title .bread-crumb li,
-        .page-title .bread-crumb li a {
-            color: #000000 !important; /* Linkler siyah */
+        .story-img::before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            width: 100px;
+            height: 100px;
+            border-bottom: 3px solid #dabd82;
+            border-left: 3px solid #dabd82;
+            z-index: 1;
         }
 
-            .page-title .bread-crumb li a:hover {
-                color: #ffffff !important; /* Üzerine gelince beyaz olsun */
-            }
-
-    /* 2. Diğer Bölüm Arka Planlarını Siyah Yapma */
-    .about-section,
-    .sale-section-three {
-        background-color: #000000 !important;
-        color: #ffffff !important;
+    .story-content h2 {
+        color: #fff;
+        font-weight: 700;
+        margin-bottom: 25px;
+        font-size: 2.2rem;
     }
 
-        /* 3. Başlık Renkleri (Genel) */
-        .sec-title h2,
-        .sec-title h4,
-        .title-box h2,
-        .title-box .title,
-        .about-section .content-column .title,
-        .about-section .content-column h2 { /* Buraya h2 eklendi */
-            color: #ffffff !important;
+        .story-content h2 span {
+            color: #dabd82;
         }
 
-    /* 4. Metin (Paragraf) Renkleri */
-    .text, p {
-        color: #dddddd !important;
+    .story-content p {
+        color: #aaa;
+        line-height: 1.8;
+        font-size: 1.05rem;
+        margin-bottom: 20px;
     }
 
-    /* 5. About Section ve Tablo Listeleri (Check List) Özellikleri */
-    .about-section .image-column .years-box {
-        background-color: #dabd82 !important; /* Gold Renk */
-        color: #000000 !important;
+    /* MİSYON & VİZYON KARTLARI */
+    .vision-section {
+        padding: 80px 0;
+        background-color: #000;
     }
 
-    /* Hem Hakkımızda hem de Tablo alanındaki listeleri beyaz yap */
-    .about-section .content-column .check-list li,
-    .sale-section-three .tabs-content .check-list li {
-        color: #ffffff !important;
+    .vision-card {
+        background: #111;
+        padding: 40px;
+        border: 1px solid #222;
+        transition: 0.3s;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* 6. Tab Menü (About, Objective, Excellent) */
-    .sale-section-three .sale-info-tabs .tab-btns .tab-btn {
-        color: #ffffff !important;
-        background-color: transparent;
-        border: 1px solid #333;
-    }
-
-        .sale-section-three .sale-info-tabs .tab-btns .tab-btn.active-btn {
-            color: #000000 !important;
-            background-color: #dabd82 !important; /* Aktif buton gold */
-            border-color: #dabd82 !important;
+        .vision-card:hover {
+            transform: translateY(-10px);
+            border-color: #dabd82;
         }
 
-    .sale-section-three .sale-info-tabs .tabs-content h5 {
-        color: #dabd82 !important; /* Başlıklar gold */
+    .vision-icon {
+        font-size: 3rem;
+        color: #dabd82;
+        margin-bottom: 20px;
     }
 
-    /* 7. Buton Stili (Gerekirse diye bırakıldı) */
+    .vision-card h3 {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .vision-card p {
+        color: #999;
+        line-height: 1.6;
+    }
+
+    /* İSTATİSTİK SAYACI */
+    .stats-section {
+        background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('/html/assets/images/background/pattern-2.png') center fixed;
+        padding: 80px 0;
+        text-align: center;
+        border-top: 1px solid #222;
+        border-bottom: 1px solid #222;
+    }
+
+    .stat-item h2 {
+        color: #dabd82;
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+
+    .stat-item p {
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+    }
+
+    /* BUTON */
     .theme-btn.btn-style-one {
         background-color: #ffffff !important;
         color: #000000 !important;
         border-color: #ffffff !important;
         transition: all 0.3s ease;
+        padding: 15px 35px;
+        display: inline-block;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-decoration: none;
     }
 
         .theme-btn.btn-style-one:hover {
@@ -112,152 +199,110 @@
             border-color: #dabd82 !important;
         }
 
-    /* --- YENİ EKLENEN ÇERÇEVE AYARLARI --- */
-
-    /* İSTEK 1: About Section Sağ Taraf (Yazı Alanı) Çerçevesi */
-    .about-section .content-column .inner-column {
-        border: 2px solid #ffffff !important; /* Beyaz ve belirgin çerçeve */
-        padding: 40px !important; /* Yazı çizgiye yapışmasın diye iç boşluk */
-        border-radius: 10px; /* Köşeleri yumuşat */
-        margin-top: 20px; /* Mobil görünümde üstteki resimle yapışmasın */
-    }
-
-    /* İSTEK 2: Sale Section Three (Tablo Alanı) İnce Çerçeve */
-    .sale-section-three .auto-container {
-        border: 1px solid #ffffff !important; /* İnce (1px) Beyaz Çerçeve */
-        padding: 40px !important; /* İçeriden boşluk */
-        border-radius: 15px; /* Daha oval köşeler */
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-
 </style>
 
-<section class="page-title">
-    <div class="auto-container">
-        <h2>Hakkımızda</h2>
-        <ul class="bread-crumb clearfix">
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li>Hakkımızda</li>
-        </ul>
+<section class="about-hero">
+    <div class="about-hero-content">
+        <h1>HAKKIMIZDA</h1>
+        <span></span>
+        <p>Lüksün ve zarafetin buluşma noktası.</p>
     </div>
 </section>
-<section class="about-section">
-    <div class="auto-container">
-        <div class="row align-items-center clearfix">
 
-            <div class="image-column col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-column">
-                    <div class="image">
-                        <img src="~/html/assets/images/resource/about.png" alt="24short-about">
-
-                        <div class="years-box">
-                            <span>10+</span> Yıllık Deneyim
-                        </div>
-                        <div class="experiance">
-                            <div class="counter"><span class="odometer" data-count="10"></span> +</div>
-                            <span class="years">yıllık <br> tecrübe</span>
-                        </div>
+<section class="story-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="story-img">
+                    <img src="/img/anasayfa13.jpg" alt="VeorCollection Hikayesi">
+                </div>
+            </div>
+            <div class="col-lg-6 ps-lg-5">
+                <div class="story-content">
+                    <h2>Bizim <span>Hikayemiz</span></h2>
+                    <p>
+                        VeorCollection, sıradanlığın ötesine geçmek isteyenler için 2023 yılında kuruldu.
+                        Modanın sadece giyinmek değil, bir duruş sergilemek olduğuna inanıyoruz.
+                        Her bir parçamız, titizlikle seçilen kumaşlar ve usta işçilikle harmanlanarak size sunuluyor.
+                    </p>
+                    <p>
+                        Kurulduğumuz günden bu yana tek bir hedefimiz var: <strong>"Ulaşılabilir Lüks"</strong> kavramını yeniden tanımlamak.
+                        Siyahın asaleti ve altının ışıltısından ilham alarak tasarladığımız koleksiyonlarımızla,
+                        tarzınıza imza atmanızı sağlıyoruz.
+                    </p>
+                    <div class="mt-4">
+                        <img src="/html/assets/images/icons/signature.png" alt="İmza" style="height: 60px; filter: invert(1);">
                     </div>
                 </div>
             </div>
-
-            <div class="content-column col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-column">
-                    <div class="title">Mağazamız Hakkında</div>
-                    <h2>Özel Anlarınız İçin <br> Kaliteli 24Shot İmzası</h2>
-                    <div class="text">Kültürel içgörü ve duygunun gücüyle markaları inşa ediyor ve harekete geçiriyoruz. Sadece bir koku değil, karakterinizi yansıtan bir imza bırakmanız için çalışıyoruz. Modern üretim teknikleri ve eşsiz esanslarla kaliteyi teninizde hissedin.</div>
-                    <ul class="check-list">
-                        <li>Farklı notaları ve tasarımları keşfedin</li>
-                        <li>Son teknoloji ile üretilmiş yüksek kalite</li>
-                    </ul>
-                    <div class="title-box">
-                        <h2>Bize Ulaşın! 0-212-345-6789</h2>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </section>
-<section class="sale-section-three">
-    <div class="auto-container">
-        <div class="title-box">
-            <div class="title">Doğal ve Kalıcı</div>
-            <h2>İşiniz İçin Çarpıcı <br> Etkiler Yaratın</h2>
-        </div>
 
-        <div class="sale-info-tabs">
-            <div class="sale-tabs tabs-box">
-
-                <ul class="tab-btns tab-buttons clearfix">
-                    <li data-tab="#prod-about" class="tab-btn active-btn">Hakkımızda</li>
-                    <li data-tab="#prod-objective" class="tab-btn">Hedefimiz</li>
-                    <li data-tab="#prod-excellent" class="tab-btn">Mükemmellik</li>
-                </ul>
-
-                <div class="tabs-content">
-
-                    <div class="tab active-tab" id="prod-about">
-                        <div class="content">
-                            <p>Parfüm dünyasında yıllardır süregelen deneyimimizle, müşterilerimize sadece bir ürün değil, bir yaşam tarzı sunuyoruz. Her bir şişede saklı olan hikaye, sizin hikayenizle birleşmek için tasarlandı.</p>
-                            <h5>Dünya standartlarında üretim</h5>
-                            <div class="check-list-outer">
-                                <div class="row clearfix">
-                                    <div class="column col-lg-6 col-md-6 col-sm-12">
-                                        <ul class="check-list">
-                                            <li>Yüksek Kalıcılık Oranı</li>
-                                            <li>Özgün Esans Karışımları</li>
-                                        </ul>
-                                    </div>
-                                    <div class="column col-lg-6 col-md-6 col-sm-12">
-                                        <ul class="check-list">
-                                            <li>Müşteri Memnuniyeti Odaklı</li>
-                                            <li>Hızlı ve Güvenilir Teslimat</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab" id="prod-objective">
-                        <div class="content">
-                            <p>Hedefimiz, Türkiye'nin en çok tercih edilen ve güvenilen parfüm markası olmak. Sürdürülebilir üretim teknikleri ve müşteri geri bildirimlerine verdiğimiz önemle her geçen gün büyüyoruz.</p>
-                            <h5>Vizyonumuz</h5>
-                            <div class="check-list-outer">
-                                <div class="row clearfix">
-                                    <div class="column col-lg-6 col-md-6 col-sm-12">
-                                        <ul class="check-list">
-                                            <li>Global Pazara Açılmak</li>
-                                            <li>Doğa Dostu Üretim</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab" id="prod-excellent">
-                        <div class="content">
-                            <p>Mükemmellik detaylarda gizlidir. Şişe tasarımından paketlemeye, koku notasından kalıcılığa kadar her aşamada en iyiyi hedefliyoruz.</p>
-                            <h5>Kalite Politikamız</h5>
-                            <div class="check-list-outer">
-                                <div class="row clearfix">
-                                    <div class="column col-lg-6 col-md-6 col-sm-12">
-                                        <ul class="check-list">
-                                            <li>%100 Orijinal İçerik</li>
-                                            <li>Dermatolojik Testler</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+<section class="vision-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="vision-card">
+                    <div class="vision-icon"><i class="flaticon-diamond"></i></div>
+                    <h3>Kalite Tutkusu</h3>
+                    <p>Kullandığımız her materyalde en üst kaliteyi hedefleriz. Detaylar bizim için sadece detay değil, tasarımın kendisidir.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="vision-card">
+                    <div class="vision-icon"><i class="flaticon-star"></i></div>
+                    <h3>Vizyonumuz</h3>
+                    <p>Global moda dünyasında, özgün tasarımları ve müşteri memnuniyetiyle tanınan prestijli bir marka olmak.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="vision-card">
+                    <div class="vision-icon"><i class="flaticon-heart-box"></i></div>
+                    <h3>Müşteri Odaklılık</h3>
+                    <p>Siz sadece bir müşteri değil, Veor ailesinin bir parçasısınız. Mutluluğunuz bizim en büyük başarımızdır.</p>
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <h2>2k+</h2>
+                    <p>Mutlu Müşteri</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <h2>150+</h2>
+                    <p>Özel Tasarım</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <h2>24/7</h2>
+                    <p>Destek</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <h2>%100</h2>
+                    <p>Müşteri Memnuniyeti</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 text-center" style="background-color: #080808;">
+    <div class="container">
+        <h3 class="text-white mb-4">Tarzınızı Keşfetmeye Hazır Mısınız?</h3>
+        <a href="/VeorCollection/Products" class="theme-btn btn-style-one">
+            Koleksiyonu İncele <span class="icon flaticon-right-arrow"></span>
+        </a>
     </div>
 </section>

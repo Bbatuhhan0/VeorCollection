@@ -16,15 +16,25 @@ namespace VeorCollection.Controllers
             _context = context;
         }
 
+        // --- GÜNCELLENEN INDEX METODU (Ana Sayfa) ---
         public IActionResult Index()
         {
-            return View();
+            // Veritabanından en son eklenen 8 ürünü çekiyoruz.
+            // OrderByDescending(p => p.Id) -> En yüksek ID (en yeni) en üstte gelir.
+            var recentProducts = _context.Products
+                                         .OrderByDescending(p => p.Id)
+                                         .Take(8)
+                                         .ToList();
+
+            // Listeyi View'a gönderiyoruz.
+            return View(recentProducts);
         }
 
-        // --- GÜNCELLENEN PRODUCTS METODU ---
-        public IActionResult Products(int? categoryId, List<int>? f)
+        // --- ÜRÜNLER LİSTESİ ---
+        // --- GÜNCELLENEN PRODUCTS METODU (Sayfalama Destekli) ---
+        public IActionResult Products(int? categoryId, List<int>? f, int page = 1)
         {
-            // 1. Ürünleri ve özelliklerini çek (Burada değişiklik yok)
+            // 1. Temel Sorgu
             var productsQuery = _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.AttributeValues)
@@ -38,7 +48,7 @@ namespace VeorCollection.Controllers
                 ViewBag.SeciliCategoryId = categoryId.Value;
             }
 
-            // 3. Dinamik Özellik Filtresi (AND Mantığı)
+            // 3. Özellik Filtresi
             if (f != null && f.Any())
             {
                 var selectedValues = _context.ProductAttributeValues
@@ -46,112 +56,88 @@ namespace VeorCollection.Controllers
                     .Select(v => new { v.Id, v.ProductAttributeId })
                     .ToList();
 
-                var groupedFilters = selectedValues
-                    .GroupBy(v => v.ProductAttributeId)
-                    .ToList();
+                var groupedFilters = selectedValues.GroupBy(v => v.ProductAttributeId).ToList();
 
                 foreach (var group in groupedFilters)
                 {
                     var groupValueIds = group.Select(x => x.Id).ToList();
                     productsQuery = productsQuery.Where(p => p.AttributeValues.Any(av => groupValueIds.Contains(av.Id)));
                 }
-
                 ViewBag.SelectedFilters = f;
             }
 
-            // --- SIDEBAR ÖZELLİK AYARI (BURASI DEĞİŞTİ) ---
+            // 4. SAYFALAMA MANTIĞI (YENİ EKLENEN KISIM)
+            int pageSize = 9; // Her sayfada kaç ürün olacak?
+            var totalItems = productsQuery.Count(); // Toplam ürün sayısı
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            // Varsayılan olarak listeyi BOŞ başlatıyoruz. 
-            // Böylece "Tüm Ürünler" seçiliyken hiçbir filtre görünmez.
+            // Geçersiz sayfa numarası önlemi
+            if (page < 1) page = 1;
+            if (totalPages > 0 && page > totalPages) page = totalPages;
+
+            var pagedProducts = productsQuery
+                .OrderByDescending(p => p.Id) // En yeniler en üstte
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // View'a Sayfalama Bilgilerini Gönder
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            // 5. Sidebar Özelliklerini Hazırla
             List<ProductAttribute> attributesToShow = new List<ProductAttribute>();
-
-            // SADECE bir kategori seçildiyse filtreleri doldur
             if (categoryId.HasValue)
             {
                 attributesToShow = _context.ProductAttributes
                     .Include(a => a.Values)
                     .Include(a => a.CategoryAttributes)
-                    .Where(a =>
-                        !a.CategoryAttributes.Any() || // Genel özellikler (her yerde görünsün diyenler)
-                        a.CategoryAttributes.Any(ca => ca.CategoryId == categoryId.Value)) // Bu kategoriye özel olanlar
+                    .Where(a => !a.CategoryAttributes.Any() || a.CategoryAttributes.Any(ca => ca.CategoryId == categoryId.Value))
                     .ToList();
             }
 
-            // View'a gönder
             ViewBag.Attributes = attributesToShow;
             ViewBag.Categories = _context.Categories.ToList();
 
-            return View(productsQuery.ToList());
+            return View(pagedProducts);
         }
 
-        // Ürün Detay Sayfası
-        [HttpGet]
-        public async Task<IActionResult> ShopDetail(int id)
+        public IActionResult ShopDetail(int id)
         {
-            // 1. Ürünü, Kategorisini ve Özelliklerini (Attribute) getiriyoruz.
-            // "Include" yapıları sayesinde ilişkili tüm veriler tek seferde gelir.
-            var product = await _context.Products
+            if (id <= 0) return RedirectToAction("Products");
+
+            var product = _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.AttributeValues)
-                    .ThenInclude(av => av.ProductAttribute) // Özelliğin adını (Örn: Beden) almak için
-                .FirstOrDefaultAsync(p => p.Id == id);
+                    .ThenInclude(av => av.ProductAttribute)
+                .AsNoTracking()
+                .FirstOrDefault(p => p.Id == id);
 
-            if (product == null) return NotFound();
-
-            // 2. Benzer Ürünler (Aynı kategorideki diğer 4 ürün)
-            var relatedProducts = await _context.Products
-                .Where(p => p.CategoryId == product.CategoryId && p.Id != id) // Kendisi hariç
-                .OrderByDescending(p => p.CreatedDate) // En yeniler
-                .Take(4)
-                .ToListAsync();
-
-            ViewBag.RelatedProducts = relatedProducts;
+            if (product == null) return RedirectToAction("Products");
 
             return View(product);
         }
 
-        // Blog Listeleme Sayfası
         public IActionResult Blog()
         {
             var blogs = _context.Blogs.OrderByDescending(b => b.CreatedDate).ToList();
             return View(blogs);
         }
 
-        // Blog Detay Sayfası
         public IActionResult BlogDetail(int id)
         {
             var blog = _context.Blogs.Find(id);
             if (blog == null) return RedirectToAction("Blog");
 
-            // Sidebar için son 3 blog yazısını çekiyoruz (Mevcut blog hariç)
             ViewBag.RecentBlogs = _context.Blogs
-                .Where(b => b.Id != id) // Şu an okunan blog listede çıkmasın
+                .Where(b => b.Id != id)
                 .OrderByDescending(b => b.CreatedDate)
                 .Take(3)
                 .ToList();
 
             return View("blogdetail", blog);
         }
+
         public IActionResult About() { return View(); }
-
-        // Seed Data
-        public IActionResult SeedData()
-        {
-            if (!_context.ProductAttributes.Any())
-            {
-                var genderAttr = new ProductAttribute { Name = "Cinsiyet" };
-                _context.ProductAttributes.Add(genderAttr);
-                _context.SaveChanges();
-
-                _context.ProductAttributeValues.AddRange(
-                    new ProductAttributeValue { Value = "Erkek", ProductAttributeId = genderAttr.Id },
-                    new ProductAttributeValue { Value = "Kadın", ProductAttributeId = genderAttr.Id },
-                    new ProductAttributeValue { Value = "Unisex", ProductAttributeId = genderAttr.Id }
-                );
-                _context.SaveChanges();
-                return Content("Başarılı: Örnek özellikler eklendi.");
-            }
-            return Content("Bilgi: Veriler zaten var.");
-        }
     }
 }
