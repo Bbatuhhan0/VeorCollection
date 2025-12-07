@@ -1,84 +1,192 @@
 ﻿@model IEnumerable<VeorCollection.Models.Blog>
 @{
     Layout = "AnaLayout";
+    ViewData["Title"] = "Veor Blog";
 }
 
 <style>
-    /* ...Senin CSS kodların burada aynen kalacak... */
-    body, html {
-        background-color: #000000 !important;
-        color: #ffffff !important;
+    /* Premium Blog Styles */
+    body {
+        background-color: #050505 !important;
+        color: #fff;
     }
 
-    .page-title {
-        background-color: #dabd82 !important;
-        background-image: none !important;
+    .blog-header-section {
+        padding: 80px 0 40px;
+        text-align: center;
+        background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
     }
 
-        .page-title h2, .page-title .bread-crumb li, .page-title .bread-crumb li a {
-            color: #000000 !important;
+    .blog-header-title {
+        font-family: 'Playfair Display', serif; /* Eğer font yoksa serif */
+        font-size: 3rem;
+        color: #dabd82;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+    }
+
+    .blog-header-subtitle {
+        color: #888;
+        font-size: 1.1rem;
+        font-weight: 300;
+    }
+
+    /* Blog Card Design */
+    .blog-card {
+        background-color: #0f0f0f;
+        border: 1px solid #222;
+        transition: all 0.4s ease;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .blog-card:hover {
+            border-color: #dabd82;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(218, 189, 130, 0.1);
         }
 
-    .news-block .inner-box {
-        background-color: #0a0a0a !important;
-        border: 1px solid #333 !important;
+    .blog-img-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding-top: 66%; /* 3:2 Aspect Ratio */
     }
 
-        .news-block .inner-box:hover {
-            border-color: #dabd82 !important;
+        .blog-img-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
         }
 
-    .news-block .lower-content h5 a {
-        color: #000 !important;
+    .blog-card:hover .blog-img-wrapper img {
+        transform: scale(1.1);
     }
 
-    .theme-btn.btn-style-one {
-        background-color: #ffffff !important;
-        color: #000000 !important;
+    .blog-date-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(0,0,0,0.8);
+        color: #dabd82;
+        padding: 5px 12px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid #dabd82;
+        z-index: 2;
     }
 
-        .theme-btn.btn-style-one:hover {
-            background-color: #dabd82 !important;
+    .blog-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .blog-tag {
+        color: #dabd82;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .blog-title {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        line-height: 1.4;
+    }
+
+        .blog-title a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .blog-title a:hover {
+                color: #dabd82;
+            }
+
+    .blog-desc {
+        color: #aaa;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+
+    .blog-read-more {
+        color: #fff;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        border-bottom: 1px solid #333;
+        padding-bottom: 3px;
+        transition: all 0.3s;
+        align-self: flex-start;
+    }
+
+        .blog-read-more:hover {
+            color: #dabd82;
+            border-color: #dabd82;
         }
 </style>
 
-<section class="page-title">
-    <div class="auto-container">
-        <h2>Blog Yazıları</h2>
-        <ul class="bread-crumb clearfix">
-            <li><a href="/VeorCollection/Index">Ana Sayfa</a></li>
-            <li>Blog Listesi</li>
-        </ul>
+<div class="page-wrapper">
+    <div class="blog-header-section">
+        <div class="auto-container">
+            <h1 class="blog-header-title">VEOR MAGAZINE</h1>
+            <p class="blog-header-subtitle">Moda, Stil ve Yaşama Dair En Yeniler</p>
+        </div>
     </div>
-</section>
 
-<div class="sidebar-page-container">
-    <div class="auto-container">
-        <div class="row clearfix">
-
-            @foreach (var item in Model)
-            {
-                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                    <div class="news-block">
-                        <div class="inner-box">
-                            <div class="image">
-                                <div class="tag">@item.MainTag</div>
+    <section class="sidebar-page-container pt-5 pb-5">
+        <div class="auto-container">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="blog-card">
+                            <div class="blog-img-wrapper">
+                                <span class="blog-date-badge">@item.CreatedDate.ToString("dd MMM yyyy")</span>
                                 <a href="/VeorCollection/BlogDetail/@item.Id">
-                                    <img src="@item.ImageUrl" alt="@item.Title" style="height: 250px; object-fit: cover;">
+                                    <img src="@item.ImageUrl" alt="@item.Title">
                                 </a>
                             </div>
-                            <div class="lower-content">
-                                <h5><a href="/VeorCollection/BlogDetail/@item.Id">@item.Title</a></h5>
-                                <div class="text">@item.CreatedDate.ToString("dd MMMM yyyy")</div>
-                                <a href="/VeorCollection/BlogDetail/@item.Id" class="theme-btn btn-style-one">
-                                    İncele <span class="icon flaticon-right-arrow"></span>
+                            <div class="blog-content">
+                                <div class="blog-tag">@item.MainTag</div>
+                                <h3 class="blog-title">
+                                    <a href="/VeorCollection/BlogDetail/@item.Id">@item.Title</a>
+                                </h3>
+                                <p class="blog-desc">
+                                    @if (!string.IsNullOrEmpty(item.ShortDescription))
+                                    {
+                                        @item.ShortDescription
+                                    }
+                                    else
+                                    {
+                                        @(item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)
+                                    }
+                                </p>
+                                <a href="/VeorCollection/BlogDetail/@item.Id" class="blog-read-more">
+                                    Devamını Oku <i class="fa fa-angle-right ms-2" style="margin-left:5px;"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-
+                }
+            </div>
         </div>
-    </div>
+    </section>
 </div>

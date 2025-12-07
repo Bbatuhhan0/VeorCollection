@@ -1,158 +1,440 @@
 ﻿@model VeorCollection.Models.Blog
 @{
     Layout = "AnaLayout";
+    ViewData["Title"] = Model.Title;
 }
 
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-    body, html, .page-wrapper, .sidebar-page-container {
-        background-color: #000000 !important;
-        color: #ffffff !important;
+    /* --- GENEL AYARLAR --- */
+    body {
+        background-color: #050505 !important;
+        color: #cfcfcf !important;
+        font-family: 'Jost', sans-serif; /* Okunabilir, modern gövde fontu */
     }
 
-    .page-title {
-        background-color: #dabd82 !important;
-        background-image: none !important;
+    /* Okuma İlerleme Çubuğu */
+    #reading-progress-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: transparent;
+        z-index: 9999;
     }
 
-        .page-title h2 {
-            color: #000000 !important;
+    #reading-progress-bar {
+        height: 100%;
+        background: #dabd82; /* Veor Altın Rengi */
+        width: 0%;
+        transition: width 0.1s;
+    }
+
+    /* --- HERO BÖLÜMÜ (KAPAK) --- */
+    .article-hero {
+        position: relative;
+        width: 100%;
+        height: 70vh; /* Ekranın %70'ini kaplasın */
+        min-height: 500px;
+        overflow: hidden;
+    }
+
+    .article-hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.4); /* Yazının okunması için resmi karart */
+        transform: scale(1);
+        transition: transform 10s ease; /* Yavaş zoom efekti */
+    }
+
+    .article-hero:hover .article-hero-bg {
+        transform: scale(1.05);
+    }
+
+    .article-hero-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 80px 0;
+        background: linear-gradient(to top, #050505 0%, transparent 100%);
+        text-align: center;
+        z-index: 2;
+    }
+
+    .hero-category {
+        display: inline-block;
+        border: 1px solid #dabd82;
+        color: #dabd82;
+        padding: 8px 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 25px;
+        transition: all 0.3s;
+    }
+
+        .hero-category:hover {
+            background: #dabd82;
+            color: #000;
         }
 
-    .blog-detail .inner-box {
-        background-color: transparent !important;
+    .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        color: #fff;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        text-shadow: 0 5px 15px rgba(0,0,0,0.5);
     }
 
-    .blog-detail .lower-content h3, .blog-detail .lower-content h4 {
-        color: #ffffff !important;
+    .hero-meta {
+        font-size: 1rem;
+        color: #a0a0a0;
+        font-weight: 300;
+        letter-spacing: 1px;
     }
 
-    .blog-detail .lower-content p {
-        color: #cccccc !important;
+        .hero-meta i {
+            color: #dabd82;
+            margin-right: 5px;
+        }
+
+    /* --- İÇERİK ALANI --- */
+    .content-wrapper {
+        position: relative;
+        max-width: 800px; /* İdeal okuma genişliği */
+        margin: 0 auto;
+        padding: 60px 20px;
     }
 
-    .blog-detail .image .post-date {
-        background-color: #dabd82 !important;
-        color: #000000 !important;
+    /* Sol Taraf Yapışkan Paylaşım Butonları */
+    .sticky-share {
+        position: absolute;
+        left: -80px;
+        top: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
 
-    blockquote {
-        background-color: #1a1a1a !important;
-        border-left: 4px solid #dabd82 !important;
-        color: #ffffff !important;
+    .share-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 1px solid #333;
+        color: #888;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        background: #0a0a0a;
     }
 
-    .sidebar-widget-two {
-        background-color: #0a0a0a !important;
-        border: 1px solid #333 !important;
+        .share-btn:hover {
+            border-color: #dabd82;
+            color: #dabd82;
+            transform: translateX(5px);
+        }
+
+    /* Makale Metni Tipografisi */
+    .article-body {
+        font-size: 1.15rem; /* Biraz daha büyük font */
+        line-height: 1.9; /* Rahat okuma için geniş satır aralığı */
+        color: #dcdcdc;
     }
 
-    .sidebar-title-two h5 {
-        color: #dabd82 !important;
-        border-bottom: 1px solid #333;
+        /* Drop Cap (İlk Harf Büyütme) */
+        .article-body > p:first-of-type::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 0.8;
+            float: left;
+            margin-right: 15px;
+            color: #dabd82;
+            padding-top: 5px;
+        }
+
+        .article-body h2, .article-body h3, .article-body h4 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .article-body h2 {
+            font-size: 2rem;
+            border-bottom: 1px solid #222;
+            padding-bottom: 15px;
+        }
+
+        .article-body p {
+            margin-bottom: 25px;
+        }
+
+        .article-body strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .article-body blockquote {
+            position: relative;
+            margin: 40px 0;
+            padding: 30px 40px;
+            background: #111;
+            border-left: 3px solid #dabd82;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+            .article-body blockquote::before {
+                content: '\201C'; /* Tırnak işareti */
+                font-size: 4rem;
+                color: #333;
+                position: absolute;
+                top: 0px;
+                left: 10px;
+                font-family: serif;
+            }
+
+        .article-body img {
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Liste Stilleri */
+        .article-body ul, .article-body ol {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 1px solid #333;
+            margin-left: 10px;
+        }
+
+        .article-body li {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+    /* --- YAZAR KARTI --- */
+    .author-card {
+        margin-top: 60px;
+        padding: 30px;
+        background: #0a0a0a;
+        border: 1px solid #222;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        transition: border-color 0.3s;
     }
 
-    .social-list li a {
-        color: #dabd82 !important;
+        .author-card:hover {
+            border-color: #444;
+        }
+
+    .author-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #222;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #dabd82;
+        flex-shrink: 0;
+        border: 2px solid #333;
+    }
+
+    .author-info h5 {
+        color: #fff;
+        margin-bottom: 5px;
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+    }
+
+    .author-info span {
+        color: #dabd82;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .author-info p {
+        color: #999;
+        font-size: 0.95rem;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* --- ETİKETLER --- */
+    .article-tags {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #222;
+    }
+
+    .tag-cloud a {
+        display: inline-block;
+        padding: 6px 15px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background: #111;
+        color: #aaa;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: 1px solid transparent;
+    }
+
+        .tag-cloud a:hover {
+            color: #dabd82;
+            border-color: #dabd82;
+            background: transparent;
+        }
+
+    /* --- RESPONSIVE AYARLAR --- */
+    @@media (max-width: 991px) {
+        .sticky-share {
+            position: static;
+            flex-direction: row;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+        }
     }
 </style>
 
-<section class="page-title">
-    <div class="auto-container">
-        <h2>@Model.Title</h2>
-        <ul class="bread-crumb clearfix">
-            <li><a href="/VeorCollection/Index">Ana Sayfa</a></li>
-            <li><a href="/VeorCollection/Blog">Blog</a></li>
-            <li>Detay</li>
-        </ul>
-    </div>
-</section>
+<div id="reading-progress-container">
+    <div id="reading-progress-bar"></div>
+</div>
 
-<div class="sidebar-page-container">
-    <div class="auto-container">
-        <div class="row clearfix">
+<div class="page-wrapper">
 
-            <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
-                <div class="blog-detail">
-                    <div class="inner-box">
-                        <div class="image">
-                            <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid" />
-                            <div class="post-date">
-                                @Model.CreatedDate.Day <br> @Model.CreatedDate.ToString("MMM")
-                            </div>
-                        </div>
-                        <div class="lower-content mt-4">
-                            <div class="tags mb-3">
-                                <span style="color:#dabd82;"># Etiketler:</span>
-                                <span style="color:#ccc;">@Model.MainTag</span>
-                                @if (!string.IsNullOrEmpty(Model.OtherTags))
-                                {
-                                    @foreach (var tag in Model.OtherTags.Split(','))
-                                    {
-                                        <span style="color:#ccc;">, @tag</span>
-                                    }
-                                }
-                            </div>
-
-                            <h3>@Model.Title</h3>
-
-                            <div class="text-content">
-                                @Html.Raw(Model.Content)
-                            </div>
-
-                            <blockquote class="mt-4">
-                                Moda geçicidir, stil kalıcıdır.
-                                <span class="designation">Veor Collection</span>
-                                <span class="quote-icon flaticon-quote-2"></span>
-                            </blockquote>
-                        </div>
-                    </div>
+    <header class="article-hero">
+        <div class="article-hero-bg" style="background-image: url('@Model.ImageUrl');"></div>
+        <div class="article-hero-content">
+            <div class="container">
+                <a href="/VeorCollection/Blog" class="hero-category">@Model.MainTag</a>
+                <h1 class="hero-title">@Model.Title</h1>
+                <div class="hero-meta">
+                    <span><i class="fa fa-clock-o"></i> @Model.CreatedDate.ToString("dd MMMM yyyy")</span>
+                    <span class="mx-3">•</span>
+                    <span><i class="fa fa-user"></i> @Model.Author</span>
+                    <span class="mx-3">•</span>
+                    <span><i class="fa fa-book"></i> 5 Dakika Okuma</span>
                 </div>
             </div>
-
-            <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12">
-                <aside class="sidebar sticky-top">
-                    <div class="sidebar-inner">
-
-                        <div class="sidebar-widget-two social-widget">
-                            <div class="sidebar-title-two">
-                                <h5>Bizi Takip Edin</h5>
-                            </div>
-                            <div class="widget-content">
-                                <ul class="social-list">
-                                    <li><span class="icon fa fa-instagram"></span> Instagram <a href="#">Takip Et</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-widget-two post-widget">
-                            <div class="sidebar-title-two">
-                                <h5>Son Yazılar</h5>
-                            </div>
-                            <div class="widget-content">
-
-                                @if (ViewBag.RecentBlogs != null)
-                                {
-                                    foreach (var item in (List<VeorCollection.Models.Blog>)ViewBag.RecentBlogs)
-                                    {
-                                        <div class="post">
-                                            <div class="thumb">
-                                                <a href="/VeorCollection/BlogDetail/@item.Id">
-                                                    <img src="@item.ImageUrl" alt="@item.Title" style="width:80px; height:80px; object-fit:cover; border-radius:5px;">
-                                                </a>
-                                            </div>
-                                            <div class="category">@item.MainTag</div>
-                                            <h6><a href="/VeorCollection/BlogDetail/@item.Id">@item.Title</a></h6>
-                                        </div>
-                                    }
-                                }
-
-                            </div>
-                        </div>
-
-                    </div>
-                </aside>
-            </div>
-
         </div>
+    </header>
+
+    <div class="content-wrapper">
+
+        <div class="sticky-share d-none d-lg-flex">
+            <a href="#" class="share-btn" title="Facebook'ta Paylaş"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="share-btn" title="Twitter'da Paylaş"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="share-btn" title="Pinterest'te Paylaş"><i class="fa fa-pinterest"></i></a>
+            <a href="#" class="share-btn" title="Bağlantıyı Kopyala"><i class="fa fa-link"></i></a>
+        </div>
+
+        <article class="article-body">
+            @Html.Raw(Model.Content)
+        </article>
+
+        @if (!string.IsNullOrEmpty(Model.OtherTags))
+        {
+            <div class="article-tags">
+                <div class="tag-cloud">
+                    <span>ETİKETLER:</span>
+                    @foreach (var tag in Model.OtherTags.Split(','))
+                    {
+                        <a href="#">#@tag.Trim()</a>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="author-card">
+            <div class="author-avatar">
+                <span>V</span>
+            </div>
+            <div class="author-info">
+                <span>Editör</span>
+                <h5>@Model.Author</h5>
+                <p>Veor Collection içerik ekibi tarafından moda, stil ve lüks yaşam üzerine kürate edilmiş özel içerik.</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-5 mb-5">
+            <a href="/VeorCollection/Blog" class="btn btn-outline-light px-5 py-3" style="border-radius:0; border-color:#333; letter-spacing:1px; font-size:0.9rem;">
+                <i class="fa fa-long-arrow-left me-2"></i> TÜM YAZILARA DÖN
+            </a>
+        </div>
+
     </div>
+
+    @if (ViewBag.RecentBlogs != null)
+    {
+        <div style="background-color: #0a0a0a; padding: 80px 0; border-top: 1px solid #1a1a1a;">
+            <div class="container">
+                <div class="section-header text-center mb-5">
+                    <h3 style="font-family:'Playfair Display', serif; color:#fff; font-size:2rem;">İlginizi Çekebilir</h3>
+                    <div style="width:60px; height:2px; background:#dabd82; margin:15px auto;"></div>
+                </div>
+
+                <div class="row">
+                    @foreach (var item in (List<VeorCollection.Models.Blog>)ViewBag.RecentBlogs)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="blog-card-mini h-100" style="background:#000; border:1px solid #222; transition:all 0.3s;">
+                                <div style="position:relative; padding-top:60%; overflow:hidden;">
+                                    <img src="@item.ImageUrl" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                </div>
+                                <div class="p-4">
+                                    <div style="color:#dabd82; font-size:0.75rem; text-transform:uppercase; margin-bottom:10px;">@item.MainTag</div>
+                                    <h5 style="font-family:'Playfair Display', serif; font-size:1.2rem; margin-bottom:0;">
+                                        <a href="/VeorCollection/BlogDetail/@item.Id" style="color:#fff; text-decoration:none;">@item.Title</a>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+<script>
+    window.onscroll = function() { updateProgressBar() };
+
+    function updateProgressBar() {
+        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        document.getElementById("reading-progress-bar").style.width = scrolled + "%";
+    }
+</script>

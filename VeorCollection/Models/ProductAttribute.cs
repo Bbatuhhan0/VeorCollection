@@ -10,11 +10,10 @@ namespace VeorCollection.Models
 
         [Required]
         [Display(Name = "Özellik Adı")]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty; // Hata veren kısım düzeltildi
 
         public virtual ICollection<ProductAttributeValue> Values { get; set; } = new List<ProductAttributeValue>();
 
-        // YENİ: Bu özellik hangi kategorilere ait? (Boşsa tüm kategorilerde görünür)
         public virtual ICollection<CategoryAttribute> CategoryAttributes { get; set; } = new List<CategoryAttribute>();
     }
 }

@@ -338,26 +338,29 @@ namespace VeorCollection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBlog(Blog blog, IFormFile? imageFile)
         {
-            // 1. Resim Seçilip Seçilmediğini Kontrol Et
-            // Veritabanı hatası almamak için resim yüklenmesini zorunlu kılıyoruz.
+            // 1. Resim Kontrolü
             if (imageFile == null || imageFile.Length == 0)
             {
                 ModelState.AddModelError("ImageUrl", "Lütfen bir kapak resmi yükleyin.");
             }
             else
             {
-                // 2. Dosya Uzantı Kontrolü (Güvenlik için)
+                // Dosya uzantı ve boyut kontrolü (Örn: Max 5MB)
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
                 var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
 
                 if (!allowedExtensions.Contains(extension))
                 {
-                    ModelState.AddModelError("ImageUrl", "Sadece .jpg, .jpeg, .png veya .webp formatında resim yükleyebilirsiniz.");
+                    ModelState.AddModelError("ImageUrl", "Sadece .jpg, .jpeg, .png veya .webp formatları kabul edilir.");
+                }
+                else if (imageFile.Length > 5 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("ImageUrl", "Resim boyutu 5MB'dan büyük olamaz.");
                 }
                 else
                 {
-                    // 3. Resmi Sunucuya Kaydetme
-                    var newImageName = Guid.NewGuid() + extension;
+                    // Resmi Kaydet
+                    var newImageName = $"blog_{Guid.NewGuid()}{extension}";
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/blog");
 
                     if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
@@ -368,26 +371,22 @@ namespace VeorCollection.Controllers
                         await imageFile.CopyToAsync(stream);
                     }
 
-                    // Resim yolunu modele ata
                     blog.ImageUrl = "/img/blog/" + newImageName;
-
-                    // ImageUrl artık dolu olduğu için validasyon hatasını temizle
+                    // Model validasyonu için ImageUrl hatasını temizle
                     ModelState.Remove("ImageUrl");
                 }
             }
 
-            // 4. Veritabanına Kayıt
             if (ModelState.IsValid)
             {
                 blog.CreatedDate = DateTime.Now;
                 _context.Blogs.Add(blog);
-                await _context.SaveChangesAsync(); // Hata burada oluşuyordu, artık ImageUrl dolu olduğu için oluşmayacak.
-
-                TempData["Message"] = "Blog başarıyla eklendi.";
+                await _context.SaveChangesAsync();
+                TempData["Message"] = "Blog yazısı başarıyla yayınlandı.";
                 return RedirectToAction("Blogs");
             }
 
-            // Hata varsa formu tekrar göster (Hatalar ekranda görünecektir)
+            // Hata varsa sayfayı tekrar göster
             return View(blog);
         }
 

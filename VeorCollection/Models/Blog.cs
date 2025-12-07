@@ -9,23 +9,29 @@ namespace VeorCollection.Models
 
         [Required(ErrorMessage = "Başlık zorunludur.")]
         [Display(Name = "Blog Başlığı")]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty; // <-- DÜZELTİLDİ: Başlangıç değeri atandı
+
+        [Display(Name = "Kısa Açıklama (Listede görünür)")]
+        [Required(ErrorMessage = "Kısa açıklama zorunludur.")]
+        [StringLength(300, ErrorMessage = "Kısa açıklama en fazla 300 karakter olabilir.")]
+        public string ShortDescription { get; set; } = string.Empty; // <-- DÜZELTİLDİ
 
         [Display(Name = "Kapak Resmi")]
-        public string ImageUrl { get; set; } // Resim dosya yolu
+        public string? ImageUrl { get; set; } // '?' olduğu için buna değer atamaya gerek yok, boş kalabilir.
 
-        [Required(ErrorMessage = "Ana Etiket (Kategori) zorunludur.")]
-        [Display(Name = "Ana Etiket (Örn: Moda, Trend)")]
-        public string MainTag { get; set; } // Listeleme sayfasında resmin üzerindeki etiket
+        [Required(ErrorMessage = "Kategori (Etiket) zorunludur.")]
+        [Display(Name = "Ana Etiket (Örn: Moda)")]
+        public string MainTag { get; set; } = string.Empty; // <-- DÜZELTİLDİ
 
         [Display(Name = "Diğer Etiketler (Virgülle ayırın)")]
-        public string? OtherTags { get; set; } // Detay sayfasındaki etiketler
+        public string? OtherTags { get; set; }
 
         [Required(ErrorMessage = "İçerik zorunludur.")]
-        [Display(Name = "İçerik")]
-        public string Content { get; set; } // HTML Editörden gelecek uzun yazı
+        [Display(Name = "Blog İçeriği")]
+        public string Content { get; set; } = string.Empty; // <-- DÜZELTİLDİ
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public string Author { get; set; } = "Admin";
+
+        public string Author { get; set; } = "Veor Editör"; // Buna zaten değer atamışsınız, bu doğru.
     }
 }
