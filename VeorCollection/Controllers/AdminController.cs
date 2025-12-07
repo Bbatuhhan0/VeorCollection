@@ -335,45 +335,62 @@ namespace VeorCollection.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken] // Güvenlik önlemi
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBlog(Blog blog, IFormFile? imageFile)
         {
-            if (imageFile != null)
+            // 1. Resim Seçilip Seçilmediğini Kontrol Et
+            // Veritabanı hatası almamak için resim yüklenmesini zorunlu kılıyoruz.
+            if (imageFile == null || imageFile.Length == 0)
             {
-                // 1. Dosya Uzantı Kontrolü (Sadece resim dosyaları)
+                ModelState.AddModelError("ImageUrl", "Lütfen bir kapak resmi yükleyin.");
+            }
+            else
+            {
+                // 2. Dosya Uzantı Kontrolü (Güvenlik için)
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
                 var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
 
                 if (!allowedExtensions.Contains(extension))
                 {
                     ModelState.AddModelError("ImageUrl", "Sadece .jpg, .jpeg, .png veya .webp formatında resim yükleyebilirsiniz.");
-                    return View(blog);
                 }
-
-                // 2. Benzersiz Dosya Adı
-                var newImageName = Guid.NewGuid() + extension;
-                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/blog");
-
-                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
-
-                var location = Path.Combine(folderPath, newImageName);
-                using (var stream = new FileStream(location, FileMode.Create))
+                else
                 {
-                    await imageFile.CopyToAsync(stream);
+                    // 3. Resmi Sunucuya Kaydetme
+                    var newImageName = Guid.NewGuid() + extension;
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/blog");
+
+                    if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+                    var location = Path.Combine(folderPath, newImageName);
+                    using (var stream = new FileStream(location, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    // Resim yolunu modele ata
+                    blog.ImageUrl = "/img/blog/" + newImageName;
+
+                    // ImageUrl artık dolu olduğu için validasyon hatasını temizle
+                    ModelState.Remove("ImageUrl");
                 }
-                blog.ImageUrl = "/img/blog/" + newImageName;
             }
 
+            // 4. Veritabanına Kayıt
             if (ModelState.IsValid)
             {
                 blog.CreatedDate = DateTime.Now;
                 _context.Blogs.Add(blog);
-                await _context.SaveChangesAsync();
-                TempData["Message"] = "Blog başarıyla eklendi."; // Kullanıcıya mesaj
+                await _context.SaveChangesAsync(); // Hata burada oluşuyordu, artık ImageUrl dolu olduğu için oluşmayacak.
+
+                TempData["Message"] = "Blog başarıyla eklendi.";
                 return RedirectToAction("Blogs");
             }
+
+            // Hata varsa formu tekrar göster (Hatalar ekranda görünecektir)
             return View(blog);
         }
+
 
         public IActionResult DeleteBlog(int id)
         {
