@@ -1,917 +1,481 @@
-﻿@{
+﻿@model List<VeorCollection.Models.Product>
+
+@{
     Layout = "AnaLayout";
 }
 
 <style>
+    /* ... (Senin gönderdiğin tüm stiller burada geçerli) ... */
 
-	/* anasayfa profil yüksekliği */
+    .main-slider-carousel .slide {
+        height: 700px;
+    }
 
-	.main-slider-carousel .slide {
-		height: 700px;
-	}
+        .main-slider-carousel .slide .image-layer {
+            height: 100%;
+        }
 
-		.main-slider-carousel .slide .image-layer {
-			height: 100%;
-		}
+    body {
+        background-color: #000000 !important;
+        color: #ffffff;
+    }
 
-	/* 1. Sayfa Arka Planını Siyah Yapma */
-	body {
-		background-color: #000000 !important; /* Sayfanın arka planını siyah yapar */
-		color: #ffffff; /* Sayfadaki varsayılan metin rengini beyaz yapar */
-	}
+    .main-menu .navigation li.dropdown ul {
+        background-color: #000000 !important;
+        border: 1px solid #333;
+    }
 
-	/* 4. AÇILIR MENÜ (DROPDOWN) DÜZELTMESİ */
+        .main-menu .navigation li.dropdown ul li a {
+            color: #ffffff !important;
+            background-color: transparent !important;
+        }
 
-	/* Açılır menünün arka planını siyah yapar */
-	.main-menu .navigation li.dropdown ul {
-		background-color: #000000 !important;
-		/* Temanızın varsayılan kenarlığını kaldırabilir veya
-						uygun bir renkle değiştirebilirsiniz: */
-		border: 1px solid #333; /* Çok koyu gri bir kenarlık */
-	}
+            .main-menu .navigation li.dropdown ul li a:hover {
+                color: #dabd82 !important;
+                background-color: transparent !important;
+            }
 
-		/* Açılır menüdeki linklerin (li > a) rengini beyaz yapar */
-		.main-menu .navigation li.dropdown ul li a {
-			color: #ffffff !important;
-			/* Varsa, varsayılan hover arka planını kaldırır */
-			background-color: transparent !important;
-		}
+    .featured-section {
+        margin-top: 30px;
+        margin-bottom: 31px;
+    }
 
-			/* Açılır menüdeki linklerin (li > a) hover rengini ayarlar */
-			.main-menu .navigation li.dropdown ul li a:hover {
-				color: #dabd82 !important;
-				/* Hover'da da arka planın değişmediğinden emin olur */
-				background-color: transparent !important;
-			}
+    .sec-title h2 {
+        color: #ffffff !important;
+    }
 
-	/* 5. FEATURED VE BRAND BÖLÜMLERİ ARASINA BOŞLUK EKLEME */
-	.featured-section {
-		margin-top: 30px; /* Üstteki slider'dan ayırmak için üst boşluk eklendi */
-		/* İhtiyacınıza göre bu değeri artırıp azaltabilirsiniz */
-		margin-bottom: 31px;
-	}
+    .feature-block .content h2 {
+        color: #ffffff;
+    }
 
-	/* 3. Siyah Arka Plan İçin Ek Düzeltmeler (Yazıların Görünmesi) */
+    .feature-block .content .text {
+        color: #dddddd;
+    }
 
-	/* Ana bölüm başlıkları (Örn: "Products your choich !") */
-	.sec-title h2 {
-		color: #ffffff !important;
-	}
+    .sale-block .overlay-inner h5 a {
+        color: #ffffff;
+    }
 
-	/* "Featured" bölümü (Free Shipping, Payment Secure vb.) */
-	.feature-block .content h2 {
-		color: #ffffff;
-	}
+        .sale-block .overlay-inner h5 a:hover {
+            color: #dabd82;
+        }
 
-	.feature-block .content .text {
-		color: #dddddd; /* Ana metinden biraz daha soluk */
-	}
+    .sale-block .overlay-inner .off {
+        color: #ffffff;
+    }
 
-	/* "Sale" bölümü yazıları */
-	.sale-block .overlay-inner h5 a {
-		color: #ffffff;
-	}
+    .counter-block .inner-box h2 {
+        color: #ffffff;
+    }
 
-		.sale-block .overlay-inner h5 a:hover {
-			color: #dabd82;
-		}
+    .shop-item .lower-content h6 a {
+        color: #ffffff;
+    }
 
-	.sale-block .overlay-inner .off {
-		color: #ffffff;
-	}
+        .shop-item .lower-content h6 a:hover {
+            color: #dabd82;
+        }
 
-	/* "Counter" bölümü (5k+ Fashion Product...) */
-	.counter-block .inner-box h2 {
-		color: #ffffff;
-	}
+    .shop-item .lower-content .price {
+        color: #dddddd;
+    }
 
-	/* "Products" bölümü filtreleri */
-	.products-section-three .filters .filter-tabs li {
-		color: #ffffff;
-	}
+    .testimonial-block .inner-box .text {
+        color: #000000 !important;
+    }
 
-		.products-section-three .filters .filter-tabs li:hover,
-		.products-section-three .filters .filter-tabs li.active {
-			color: #dabd82; /* Aktif ve hover rengi */
-		}
+    .theme-btn.btn-style-one {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #ffffff !important;
+        transition: all 0.3s ease;
+    }
 
-	/* Ürün kartı metinleri */
-	.shop-item .lower-content h6 a {
-		color: #ffffff;
-	}
+        .theme-btn.btn-style-one:hover {
+            background-color: #dabd82 !important;
+            color: #000000 !important;
+            border-color: #dabd82 !important;
+        }
 
-		.shop-item .lower-content h6 a:hover {
-			color: #dabd82;
-		}
+    .brand-section {
+        margin-bottom: -70px;
+    }
 
-	.shop-item .lower-content .price {
-		color: #dddddd;
-	}
+        .brand-section .outer-container {
+            background-color: #000000 !important;
+        }
 
-	/* "Testimonial" (Müşteri Yorumları) bölümü */
-	.testimonial-block .inner-box .text {
-		color: #000000 !important; /* Kullanıcı isteği üzerine siyaha çevrildi */
-	}
+        .brand-section .animation_mode h1 {
+            color: #ffffff !important;
+        }
 
-	/* 6. BUTON STİLİ (Shop Now) - (Ters Çevrilmiş Efekt) */
-	.theme-btn.btn-style-one {
-		background-color: #ffffff !important; /* Arka plan beyaz */
-		color: #000000 !important; /* Yazı siyah */
-		border-color: #ffffff !important; /* Kenarlık beyaz */
-		transition: all 0.3s ease; /* Yumuşak geçiş efekti */
-	}
+    .sale-section {
+        margin-top: 10px;
+    }
 
-		/* Butonun üzerine gelindiğinde (hover) */
-		.theme-btn.btn-style-one:hover {
-			background-color: #dabd82 !important; /* Arka plan rengi */
-			color: #000000 !important; /* Yazı rengi (siyah daha iyi okunur) */
-			border-color: #dabd82 !important; /* Kenarlık rengi */
-		}
+    .testimonial-section .owl-nav {
+        transform: translateY(0) !important;
+        top: 50% !important;
+        margin-top: -15px !important;
+    }
 
-	/*2 tablo yükseklik*/
+    .testimonial-section .owl-dots {
+        display: none !important;
+    }
 
-	.brand-section {
-		margin-bottom: -70px; /* -32px idi, sale-section'ı yukarı çekmek için artırıldı */
-	}
+    .testimonial-section {
+        padding-top: 45px !important;
+        padding-bottom: 43px !important;
+    }
 
-	/* 7. YORUM VE SAYFALAMA BÖLÜMÜ DÜZENLEMESİ */
-	/* Genel sayfalama elemanları için renkleri ayarlar */
-	.styled-pagination li a,
-	.page-pagination li a {
-		color: #ffffff !important; /* Sayfa numaraları ve oklar beyaz olsun */
-		background-color: transparent !important; /* Arka plan şeffaf olsun */
-		border-color: #555 !important; /* Hafif bir kenarlık ekler */
-	}
+    /* === YENİ ÜRÜN KARTI İÇİN EK STİLLER === */
+    .product-card-custom {
+        background-color: #121212;
+        border: 1px solid #222;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        position: relative;
+    }
 
-		/* Aktif sayfa ve hover efekti */
-		.styled-pagination li.active a,
-		.styled-pagination li a:hover,
-		.page-pagination li.active a,
-		.page-pagination li a:hover {
-			color: #dabd82 !important; /* Aktif ve üzerine gelinen sayfa numaraları bu renkte olsun */
-			border-color: #dabd82 !important; /* Aktif ve üzerine gelinenin kenarlığı bu renkte olsun */
-			/* İsterseniz aktif veya hover'a arka plan rengi verebilirsiniz:
-			background-color: rgba(218, 189, 130, 0.1) !important;
-			*/
-		}
+        .product-card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(218, 189, 130, 0.1);
+            border-color: #dabd82;
+        }
 
-			/* Aktif sayfanın altındaki çizgi */
-			.styled-pagination li.active a:after,
-			.page-pagination li.active a:after {
-				background-color: #dabd82 !important; /* Çizginin rengi */
-			}
+    .card-img-wrap {
+        position: relative;
+        overflow: hidden;
+        height: 350px; /* Resim yüksekliği sabitlendi */
+    }
 
-	/* 8. BRAND SECTION ARKA PLAN VE YAZI RENGİ (Düzeltildi) */
-	/* 'brand-section' içindeki 'outer-container'ın arka planını siyah yapar */
-	.brand-section .outer-container {
-		background-color: #000000 !important;
-	}
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
 
-	/* .brand-section içindeki 'Design. Brand. Quality' metninin rengi */
-	.brand-section .animation_mode h1 {
-		color: #ffffff !important; /* Yazı rengini beyaz yapar */
-	}
+    .product-card-custom:hover .card-img-wrap img {
+        transform: scale(1.05);
+    }
 
-	.sale-section {
-		margin-top: 10px; /* Yazı rengini beyaz yapar */
-	}
+    .hover-btn-container {
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        transition: bottom 0.3s ease;
+        display: flex;
+        justify-content: center;
+    }
 
-	/* ... (Mevcut 8 kuralınız burada) ... */
-	/* 9. TESTIMONIAL (YORUM) OK-SAYFALAMA ÇAKIŞMASI DÜZELTMESİ */
-	.testimonial-section .owl-nav {
-		/* Okları (01, 02, 03) yazan mavi çubuğun üstüne gelmeyecek şekilde
-			   biraz yukarı kaydıralım. */
-		transform: translateY(-40px); /* Okları 40px yukarı taşır. */
-		/* Eğer -40px yetmez veya fazla gelirse, bu değeri artırıp (örn: -50px)
-			   azaltarak (örn: -30px) tam istediğiniz yere getirebilirsiniz. */
-	}
+    .product-card-custom:hover .hover-btn-container {
+        bottom: 0;
+    }
 
-	/* ... (Mevcut 9 kuralınız burada) ... */
-	/* 10. TESTIMONIAL (YORUM) SAYFALAMA NOKTALARINI GİZLEME */
-	.testimonial-section .owl-dots {
-		display: none !important; /* Sayfalama noktalarını tamamen gizler */
-	}
+    .btn-quick-view {
+        background-color: #dabd82;
+        color: #000;
+        font-weight: 700;
+        padding: 8px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        width: 100%;
+        text-align: center;
+    }
 
-	/* Okların yukarı kaydırılmasına artık gerek kalmayabilir,
-		   çünkü alttaki çubuk gitti. Önceki transform değerini sıfırlayalım
-		   veya ayarlayalım. */
-	.testimonial-section .owl-nav {
-		transform: translateY(0) !important; /* Okları orijinal dikey konumuna geri getirir */
-		top: 50% !important; /* Yorum bloğunun dikey ortasına hizalar */
-		margin-top: -15px !important; /* Ok ikonlarının tam ortalanması için ufak ayar */
-	}
+        .btn-quick-view:hover {
+            background-color: #fff;
+            color: #000;
+        }
 
-		/* 11. TESTIMONIAL (YORUM) OKLARINI BİRBİRİNE YAKLAŞTIRMA */
-		.testimonial-section .owl-nav .owl-prev {
-			/* Sol oku soldan ayırıp merkeze doğru iter. */
-			/* 'auto' yaparak sağdaki okla hizalanmasını kolaylaştırabiliriz */
-			left: auto !important;
-			right: -60px !important; /* Sağ okun 60px soluna yerleşecek */
-		}
+    .product-details {
+        padding: 15px;
+        text-align: center;
+    }
 
-		.testimonial-section .owl-nav .owl-next {
-			/* Sağ oku sağ kenardan biraz ayırır. */
-			right: 10px !important;
-		}
+    .product-name a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: 0.3s;
+    }
 
-	/* 12. TESTIMONIAL (YORUM) BÖLÜMÜ YÜKSEKLİĞİNİ AZALTMA */
-	.testimonial-section {
-		/* Muhtemelen temanızda 100px veya 120px gibi yüksek değerler var.
-			   Bunları ezip daha makul bir seviyeye çekelim. */
-		padding-top: 45px !important;
-		padding-bottom: 43px !important;
-	}
+        .product-name a:hover {
+            color: #dabd82;
+        }
 
+    .product-price-new {
+        color: #dabd82;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-top: 5px;
+    }
 </style>
 
+<section class="main-slider">
+    <div class="main-slider-carousel owl-carousel owl-theme">
+        <div class="slide">
+            <div class="image-layer" style="background-image: url(/img/anasayfa9.jpg)"></div>
+            <div class="auto-container">
+                <div class="content-box">
+                    <div class="box-inner">
+                        <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
+                        <div class="title">2025 Collection</div>
+                        <h1>Bard of Beauty Collection</h1>
+                        <div class="price">Starting From <span>$23.99</span></div>
+                        <a href="/VeorCollection/Products" class="shop-now">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="image-layer" style="background-image: url(/img/anasayfa11.jpg)"></div>
+            <div class="auto-container">
+                <div class="content-box">
+                    <div class="box-inner">
+                        <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
+                        <div class="title">2025 Collection</div>
+                        <h1>Best of the Best Collection</h1>
+                        <div class="price">Starting From <span>$360.99</span></div>
+                        <a href="/VeorCollection/Products" class="shop-now">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="image-layer" style="background-image: url(/img/anasayfa13.jpg)"></div>
+            <div class="auto-container">
+                <div class="content-box">
+                    <div class="box-inner">
+                        <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
+                        <div class="title">2025 Collection</div>
+                        <h1>Best Fashion Collection</h1>
+                        <div class="price">Starting From <span>$860.99</span></div>
+                        <a href="/VeorCollection/Products" class="shop-now">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="featured-section">
+    <div class="vector-layer-two" style="background-image: url(/html/assets/images/icons/feature.png)"></div>
+    <div class="auto-container">
+        <div class="inner-container">
+            <div class="row clearfix">
+                <div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="inner-box">
+                        <div class="content">
+                            <div class="icon flaticon-fast"></div>
+                            <h2>Free Shipping</h2>
+                            <div class="text">Free shipping over $100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="inner-box">
+                        <div class="content">
+                            <div class="icon flaticon-padlock"></div>
+                            <h2>Payment Secure</h2>
+                            <div class="text">Got 100% Payment Safe</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="inner-box">
+                        <div class="content">
+                            <div class="icon flaticon-headphones-1"></div>
+                            <h2>Support 24/7</h2>
+                            <div class="text">Top quialty 24/7 Support</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                    <div class="inner-box">
+                        <div class="content">
+                            <div class="icon flaticon-wallet"></div>
+                            <h2>100% Money Back</h2>
+                            <div class="text">Cutomers Money Backs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="brand-section">
+    <div class="outer-container">
+        <div class="animation_mode">
+            <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+            <img src="img/küçükicon.png" alt="icon">
+            <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+            <img src="img/küçükicon.png" alt="icon">
+            <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+            <img src="img/küçükicon.png" alt="icon">
+            <h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
+            <img src="img/küçükicon.png" alt="icon">
+        </div>
+    </div>
+</section>
+<section class="sale-section">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <div class="sale-block col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-box">
+                    <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
+                    <div class="image d-flex justify-content-between align-items-center">
+                        <img src="img/Erkekşişe1.jpg" alt="Erkek Parfüm">
+                        <div class="overlay-box">
+                            <div class="overlay-inner">
+                                <div class="off">Get 30% off</div>
+                                <h5><a href="/VeorCollection/Products">Be together in the moment <br> with 24Shot calling</a></h5>
+                                <a class="buy-now" href="/VeorCollection/Products">buy now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sale-block col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-box">
+                    <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
+                    <div class="image d-flex justify-content-between align-items-center">
+                        <img src="img/kadınşişe1.jpg" alt="Kadın Parfüm">
+                        <div class="overlay-box">
+                            <div class="overlay-inner">
+                                <div class="off">Get 30% off</div>
+                                <h5><a href="/VeorCollection/Products">Be together in the moment <br> with 24Shot calling</a></h5>
+                                <a class="buy-now" href="/VeorCollection/Products">buy now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="products-section-three" style="padding: 60px 0;">
+    <div class="auto-container">
+        <div class="sec-title">
+            <h2><span>Products </span> your choice !</h2>
+        </div>
 
-		<!-- Main Section -->
-		<section class="main-slider">
-			<div class="main-slider-carousel owl-carousel owl-theme">
+        <div class="row clearfix">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="product-card-custom">
+                            <div class="card-img-wrap">
+                                <a href="/VeorCollection/ShopDetail/@item.Id">
+                                    <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/img/no-image.png" : item.ImageUrl)" alt="@item.Name">
+                                </a>
+                                <div class="hover-btn-container">
+                                    <a href="/VeorCollection/ShopDetail/@item.Id" class="btn-quick-view">İNCELE</a>
+                                </div>
+                            </div>
+                            <div class="product-details">
+                                <h6 class="product-name">
+                                    <a href="/VeorCollection/ShopDetail/@item.Id">@item.Name</a>
+                                </h6>
+                                <div class="product-price-new">@item.Price.ToString("C2")</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <h4 class="text-white-50">Henüz ürün eklenmemiş.</h4>
+                </div>
+            }
+        </div>
 
-				<!-- Slide One -->
-				<div class="slide">
-					<!-- Ct Dot Animated -->
-					<div class="ct-dot-animated">
-						<div class="ct-dot-container">
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-						</div>
-					</div>
-					<!-- End Ct Dot Animated -->
-					<div class="image-layer" style="background-image: url(/img/anasayfa9.jpg)"></div>
-					<div class="auto-container">
+        <div class="button-box text-center mt-5">
+            <a href="/VeorCollection/Products" class="theme-btn btn-style-one">
+                Shop Now <span class="icon flaticon-right-arrow"></span>
+            </a>
+        </div>
+    </div>
+</section>
+<section class="testimonial-section">
+    <div class="pattern-layer" style="background-image: url(/html/assets/images/background/pattern-3.png)"></div>
+    <div class="auto-container">
+        <div class="inner-container">
+            <div class="pattern-layer-two" style="background-image: url(/html/assets/images/background/pattern-4.png)"></div>
+            <div class="single-item-carousel owl-carousel owl-theme">
 
-						<!-- Content Column -->
-						<div class="content-box">
-							<div class="box-inner">
-								<div class="vector-icon-three" style="background-image: url(/html/assets/images/main-slider/vector-3.png)"></div>
-								<div class="sale-box">
-									SALE
-									<span>30<i>% OFF</i></span>
-								</div>
-								<div class="title">2023 Collection</div>
-								<h1>Bard of Beauty Collection</h1>
-								<div class="price">Starting From <span>$23.99</span></div>
-								<a href="shop-detail.html" class="shop-now">Shop Now</a>
-							</div>
-						</div>
+                <div class="testimonial-block">
+                    <div class="inner-box">
+                        <div class="row clearfix">
+                            <div class="image-column col-lg-4 col-md-12 col-sm-12">
+                                <div class="inner-column">
+                                    <div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
+                                    <div class="image"><img src="~/img/basakbulutyorum.jpg" alt="yorum1"></div>
+                                </div>
+                            </div>
+                            <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                                <div class="inner-column">
+                                    <div class="rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></div>
+                                    <div class="text">Kalıcılığı mükemmel! 🌸 Kargom çok hızlı geldi, şişenin zarafetine de bayıldım 🤍</div>
+                                    <div class="quote-icon flaticon-quote"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					</div>
-				</div>
-				<!-- End Slide One -->
-				<!-- Slide Two -->
-				<div class="slide">
-					<!-- Ct Dot Animated -->
-					<div class="ct-dot-animated">
-						<div class="ct-dot-container">
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-						</div>
-					</div>
-					<!-- End Ct Dot Animated -->
-					<div class="image-layer" style="background-image: url(img/anasayfa11.jpg)"></div>
-					<div class="auto-container">
+                <div class="testimonial-block">
+                    <div class="inner-box">
+                        <div class="row clearfix">
+                            <div class="image-column col-lg-4 col-md-12 col-sm-12">
+                                <div class="inner-column">
+                                    <div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
+                                    <div class="image"><img src="~/img/beratyorum1.jpg" alt="yorum2"></div>
+                                </div>
+                            </div>
+                            <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                                <div class="inner-column">
+                                    <div class="rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></div>
+                                    <div class="text">Arkadaşıma hediye ve kendime aldım, kalıcılık, koku, paketleme harikaydı çok memnun kaldık.</div>
+                                    <div class="quote-icon flaticon-quote"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-						<!-- Content Column -->
-						<div class="content-box">
-							<div class="box-inner">
-								<div class="vector-icon-three" style="background-image: url(/html/assets/images/main-slider/vector-3.png)"></div>
-								<div class="sale-box">
-									SALE
-									<span>30<i>% OFF</i></span>
-								</div>
-								<div class="title">2023 Collection</div>
-								<h1>Best of the Best Collection</h1>
-								<div class="price">Starting From <span>$360.99</span></div>
-								<a href="shop-detail.html" class="shop-now">Shop Now</a>
-							</div>
-						</div>
+                <div class="testimonial-block">
+                    <div class="inner-box">
+                        <div class="row clearfix">
+                            <div class="image-column col-lg-4 col-md-12 col-sm-12">
+                                <div class="inner-column">
+                                    <div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
+                                    <div class="image"><img src="~/img/ogztvyrnyorum.jpg" alt="yorum3"></div>
+                                </div>
+                            </div>
+                            <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                                <div class="inner-column">
+                                    <div class="rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></div>
+                                    <div class="text">Victoria Secret bare vanillia aldım, ürün iyi paketlenmişti, kokunun kalıcılığından çok memnunum..</div>
+                                    <div class="quote-icon flaticon-quote"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					</div>
-				</div>
-				<!-- End Slide Two -->
-				<!-- Slide Three -->
-				<div class="slide">
-					<!-- Ct Dot Animated -->
-					<div class="ct-dot-animated">
-						<div class="ct-dot-container">
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-							<div class="ct-dot-item">
-								<span></span>
-							</div>
-						</div>
-					</div>
-					<!-- End Ct Dot Animated -->
-			<div class="image-layer" style="background-image: url(img/anasayfa13.jpg)"></div>
-					<div class="auto-container">
-
-						<!-- Content Column -->
-						<div class="content-box">
-							<div class="box-inner">
-								<div class="vector-icon-three" style="background-image: url(/html/assets/images/main-slider/vector-3.png)"></div>
-								<div class="sale-box">
-									SALE
-									<span>30<i>% OFF</i></span>
-								</div>
-								<div class="title">2023 Collection</div>
-								<h1>Best Fashion Collection</h1>
-								<div class="price">Starting From <span>$860.99</span></div>
-								<a href="shop-detail.html" class="shop-now">Shop Now</a>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<!-- End Slide Three -->
-
-			</div>
-
-		</section>
-		<!-- End Main Section -->
-		<!-- Featured Section -->
-		<section class="featured-section">
-			<div class="vector-layer-two" style="background-image: url(/html/assets/images/icons/feature.png)"></div>
-			<div class="auto-container">
-				<div class="inner-container">
-					<div class="row clearfix">
-
-						<!-- Feature Block -->
-						<div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="content">
-									<div class="icon flaticon-fast"></div>
-									<h2>Free Shipping</h2>
-									<div class="text">Free shipping over $100</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Feature Block -->
-						<div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="content">
-									<div class="icon flaticon-padlock"></div>
-									<h2>Payment Secure</h2>
-									<div class="text">Got 100% Payment Safe</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Feature Block -->
-						<div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="content">
-									<div class="icon flaticon-headphones-1"></div>
-									<h2>Support 24/7</h2>
-									<div class="text">Top quialty 24/7 Support</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Feature Block -->
-						<div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="content">
-									<div class="icon flaticon-wallet"></div>
-									<h2>100% Money Back</h2>
-									<div class="text">Cutomers Money Backs</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Featured Section -->
-	
-		<!-- veor collection for men for woman sidebar -->
-		<section class="brand-section">
-			<div class="outer-container">
-				<div class="animation_mode">
-					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-					<img src="img/küçükicon.png" alt="24short-img">
-					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-					<img src="img/küçükicon.png" alt="24short-img">
-					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-					<img src="img/küçükicon.png" alt="24short-img">
-					<h1>Sadece <strong> koku</strong> değil bir <strong> imza.</strong></h1>
-					<img src="img/küçükicon.png" alt="24short-img">
-				</div>
-			</div>
-		</section>
-		<!-- End Brand Section -->
-		<!-- Sale Section -->
-		<section class="sale-section">
-			<div class="auto-container">
-				<div class="row clearfix">
-
-					<!-- Sale Block -->
-					<div class="sale-block col-xl-6 col-lg-6 col-md-12 col-sm-12">
-						<div class="inner-box">
-							<div class="sale-box">
-								SALE
-								<span>30<i>% OFF</i></span>
-							</div>
-							<div class="image d-flex justify-content-between align-items-center">
-						<img src="img/Erkekşişe1.jpg" alt="24short-img">
-								<div class="overlay-box">
-									<div class="overlay-inner">
-										<div class="off">Get 30% off</div>
-										<h5><a href="shop-detail.html">Be together in the moment <br> with 24Shot calling</a></h5>
-										<a class="buy-now" href="shop-detail.html">buy now</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Sale Block -->
-					<div class="sale-block col-xl-6 col-lg-6 col-md-12 col-sm-12">
-						<div class="inner-box">
-							<div class="sale-box">
-								SALE
-								<span>30<i>% OFF</i></span>
-							</div>
-							<div class="image d-flex justify-content-between align-items-center">
-						<img src="img/kadınşişe1.jpg" alt="24short-img">
-								<div class="overlay-box">
-									<div class="overlay-inner">
-										<div class="off">Get 30% off</div>
-										<h5><a href="shop-detail.html">Be together in the moment <br> with 24Shot calling</a></h5>
-										<a class="buy-now" href="shop-detail.html">buy now</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</section>
-		<!-- End Sale Section -->
-	
-		<!-- Counter Section -->
-		<section class="conteynır">
-		@* 	<div class="auto-container">
-				<div class="inner-container justify-content-between align-items-center">
-					<!-- Counter Boxed -->
-					<div class="counter-boxed">
-						<div class="row clearfix">
-
-							<!-- Counter Column -->
-							<div class="counter-block col-lg-3 col-md-3 col-sm-3">
-								<div class="inner-box">
-									<div class="counter"><span class="odometer" data-count="5"></span>k+</div>
-									<h2 class="counter-text">Fashion Product For All</h2>
-								</div>
-							</div>
-
-							<!-- Counter Column -->
-							<div class="counter-block col-lg-3 col-md-3 col-sm-3">
-								<div class="inner-box">
-									<div class="counter"><span class="odometer" data-count="37"></span>k</div>
-									<h2 class="counter-text">Best Sell For Product</h2>
-								</div>
-							</div>
-
-							<!-- Counter Column -->
-							<div class="counter-block col-lg-3 col-md-3 col-sm-3">
-								<div class="inner-box">
-									<div class="counter"><span class="odometer" data-count="2438"></span>k</div>
-									<h2 class="counter-text">Totale Sell of Product</h2>
-								</div>
-							</div>
-
-							<!-- Counter Column -->
-							<div class="counter-block col-lg-3 col-md-3 col-sm-3">
-								<div class="inner-box">
-									<div class="counter"><span class="odometer" data-count="940"></span>k</div>
-									<h2 class="counter-text">Our Satiesfiyed Clients</h2>
-								</div>
-							</div>
-
-						</div>
-					</div>
-					<!-- End Counter Boxed -->
-
-				</div>
-			</div> *@
-		</section>
-		<!-- End Counter Section -->
-		
-		<!-- Products Section Three -->
-		<section class="products-section-three">
-			<div class="auto-container">
-				<!-- Sec Title -->
-				<div class="sec-title">
-					<h2><span>Products </span> your choich !</h2>
-				</div>
-
-				<!-- MixitUp Galery -->
-				<div class="mixitup-gallery">
-
-
-
-					<div class="filter-list row clearfix">
-
-						<!-- Shop Item -->
-						<div class="shop-item mix music photography col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/17.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Shop Item -->
-						<div class="shop-item mix sports col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/18.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Shop Item -->
-						<div class="shop-item mix photography bestseller col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/19.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Shop Item -->
-						<div class="shop-item mix music col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/20.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Shop Item -->
-						<div class="shop-item mix sports bestseller col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/21.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Shop Item -->
-						<div class="shop-item mix music photography col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/22.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Shop Item -->
-						<div class="shop-item mix sports bestseller col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/23.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Shop Item -->
-						<div class="shop-item mix music photography col-lg-3 col-md-6 col-sm-12">
-							<div class="inner-box">
-								<div class="image">
-									<a href="shop-detail.html"><img src="~/html/assets/images/resource/products/24.png" alt="24short-img"></a>
-									<span class="tag flaticon-heart"></span>
-									<div class="cart-box text-center">
-										<a class="cart" href="#">Add to Cart</a>
-									</div>
-								</div>
-								<div class="lower-content">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="light fa fa-star"></span>
-									</div>
-									<h6><a href="shop-detail.html">masks 95 percent 0.3-μm <br> particles</a></h6>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="price"><span>$239.52</span> $362.00</div>
-										<!-- Quantity Box -->
-										<div class="quantity-box">
-											<div class="item-quantity">
-												<input class="qty-spinner" type="text" value="1" name="quantity">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-					<!-- Button Box -->
-					<div class="button-box text-center">
-						<a href="shop.html" class="theme-btn btn-style-one">
-							Shop Now <span class="icon flaticon-right-arrow"></span>
-						</a>
-					</div>
-
-				</div>
-			</div>
-		</section>
-		<!-- End Products Section Three -->
-		
-		<!-- Testimonial Section -->
-		<section class="testimonial-section">
-			<div class="pattern-layer" style="background-image: url(/html/assets/images/background/pattern-3.png)"></div>
-			<div class="auto-container">
-				<div class="inner-container">
-					<div class="pattern-layer-two" style="background-image: url(/html/assets/images/background/pattern-4.png)"></div>
-					<div class="single-item-carousel owl-carousel owl-theme">
-
-						<!-- Testimonial Block -->
-						<div class="testimonial-block">
-							<div class="inner-box">
-								<div class="row clearfix">
-									<!-- Image Column -->
-									<div class="image-column col-lg-4 col-md-12 col-sm-12">
-										<div class="inner-column">
-											<div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
-											<div class="image">
-												<img src="~/img/basakbulutyorum.jpg" alt="24short-img">
-											</div>
-										</div>
-									</div>
-									<!-- Content Column -->
-									<div class="content-column col-lg-8 col-md-12 col-sm-12">
-										<div class="inner-column">
-											<div class="rating">
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-											</div>
-											<div class="text">Kalıcılığı mükemmel! 🌸 Kargom çok hızlı geldi, şişenin zarafetine de bayıldım 🤍</span> </div>
-											<div class="quote-icon flaticon-quote"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Testimonial Block -->
-						<div class="testimonial-block">
-							<div class="inner-box">
-								<div class="row clearfix">
-									<!-- Image Column -->
-									<div class="image-column col-lg-4 col-md-12 col-sm-12">
-										<div class="inner-column">
-											<div class="arrow-layer" style="background-image: url(/html/assets/images/icons/arrow-2.png)"></div>
-											<div class="image">
-												<img src="img/beratyorum1.jpg" alt="24short-img">
-											</div>
-										</div>
-									</div>
-									<!-- Content Column -->
-									<div class="content-column col-lg-8 col-md-12 col-sm-12">
-										<div class="inner-column">
-											<div class="rating">
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-											</div>
-									<div class="text">Arkadaşıma hediye ve kendime aldım, kalıcılık, koku, paketleme harikaydı çok memnun kaldık. En göze batan özelliği ise kalıcılığı oldu esans oranlarını yüksek tutmaları cömertliği için teşekkürler👏</div>
-											<div class="quote-icon flaticon-quote"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="testimonial-block">
-					<div class="inner-box">
-						<div class="row clearfix">
-							<!-- Image Column -->
-							<div class="image-column col-lg-4 col-md-12 col-sm-12">
-								<div class="inner-column">
-									<div class="arrow-layer" style="background-image: url(img/ogztvyrnyorum)"></div>
-									<div class="image">
-										<img src="img/ogztvyrnyorum.jpg" alt="24short-img">
-									</div>
-								</div>
-							</div>
-							<!-- Content Column -->
-							<div class="content-column col-lg-8 col-md-12 col-sm-12">
-								<div class="inner-column">
-									<div class="rating">
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-									</div>
-									<div class="text">Victoria Secret bare vanillia aldım, ürün iyi paketlenmişti, kokunun kalıcılığından çok memnunum..</div>
-									<div class="quote-icon flaticon-quote"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Testimonial Section -->
-	
-
-
-
-
-
+            </div>
+        </div>
+    </div>
+</section>
