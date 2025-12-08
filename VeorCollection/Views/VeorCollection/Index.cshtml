@@ -6,7 +6,7 @@
 }
 
 <style>
-    /* MEVCUT STİLLERİNİZ (AYNEN KORUNDU) */
+    /* --- MEVCUT STİLLERİNİZ --- */
     .main-slider-carousel .slide {
         height: 700px;
     }
@@ -52,13 +52,11 @@
         color: #dddddd;
     }
 
+    /* Sale Block Link Renkleri - Temel Ayarlar */
     .sale-block .overlay-inner h5 a {
-        color: #ffffff;
+        text-decoration: none;
+        transition: all 0.3s ease;
     }
-
-        .sale-block .overlay-inner h5 a:hover {
-            color: #dabd82;
-        }
 
     .sale-block .overlay-inner .off {
         color: #ffffff;
@@ -146,7 +144,7 @@
         padding-bottom: 43px !important;
     }
 
-    /* YENİ EKLENEN ÜRÜN KARTI STİLİ (Dinamik kısım için) */
+    /* ÜRÜN KARTI STİLİ */
     .product-card-custom {
         background-color: #121212;
         border: 1px solid #222;
@@ -167,7 +165,7 @@
     .card-img-wrap {
         position: relative;
         overflow: hidden;
-        height: 350px; /* Resim yüksekliği sabit */
+        height: 350px;
         background-color: #000;
     }
 
@@ -240,12 +238,80 @@
         font-size: 1.2rem;
         margin-top: 10px;
     }
+
+    .row.clearfix {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* --- GÜNCELLENMİŞ: FIRSAT KOLEKSİYONU (SOLA HİZALI & OKUNAKLI BEYAZ YAZI) --- */
+
+    /* 1. Kapsayıcı: Sola Hizalama ve Gradient Arka Plan */
+    .sale-block .overlay-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center; /* Dikey Ortalama */
+        align-items: flex-start; /* Sola Yaslama */
+        padding-left: 40px; /* Soldan boşluk */
+        /* ÇÖZÜM: Soldan Sağa Siyah Gradient (Yazının arkasını karartır) */
+        /* Sol taraf %80 siyah, sağa doğru şeffaflaşıyor */
+        background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+    }
+
+    /* 2. İç Yapı (Çerçevesiz) */
+    .sale-block .overlay-inner {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        width: auto;
+        max-width: 70%;
+    }
+
+        /* 3. Başlık Rengi ve Gölgesi */
+        .sale-block .overlay-inner h5 a {
+            color: #ffffff !important; /* BEYAZ */
+            font-weight: 800;
+            font-size: 1.8rem;
+            /* Metin Gölgesi: Siyah, kalın ve belirgin */
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+        }
+
+            .sale-block .overlay-inner h5 a:hover {
+                color: #dabd82 !important; /* Hover rengi */
+            }
+
+        /* 4. Açıklama Rengi ve Gölgesi */
+        .sale-block .overlay-inner .text-description {
+            color: #ffffff !important; /* BEYAZ */
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            /* Metin Gölgesi */
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+        }
+
+        /* Başlık boşluk ayarı */
+        .sale-block .overlay-inner h5 {
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+    /* -------------------------------------------------------- */
+
 </style>
 
 <section class="main-slider">
     <div class="main-slider-carousel owl-carousel owl-theme">
         <div class="slide">
-            <div class="image-layer" style="background-image: url(/img/anasayfa9.jpg)"></div>
+            <div class="image-layer" style="background-image: url(/img/websitebanner.png)"></div>
             <div class="auto-container">
                 <div class="content-box">
                     <div class="box-inner">
@@ -301,16 +367,6 @@
                         </div>
                     </div>
                 </div>
-                <!--
-                <div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                    <div class="inner-box">
-                        <div class="content">
-                            <div class="icon flaticon-padlock"></div>
-                            <h2>Payment Secure</h2>
-                            <div class="text">Got 100% Payment Safe</div>
-                        </div>
-                    </div>
-                </div>...-->
                 <div class="feature-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
@@ -351,37 +407,45 @@
 
 <section class="sale-section">
     <div class="auto-container">
+        <div class="sec-title centered">
+        </div>
+
         <div class="row clearfix">
+
             <div class="sale-block col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-box">
-                    <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
+
                     <div class="image d-flex justify-content-between align-items-center">
-                        <img src="/img/Erkekşişe1.jpg" alt="24short-img">
+                        <img src="/img/Erkekşişe1.jpg" alt="Veor Collection Erkek Parfümleri Koleksiyonu">
+
                         <div class="overlay-box">
                             <div class="overlay-inner">
-                                <div class="off">Get 30% off</div>
-                                <h5><a href="/VeorCollection/Products">Be together in the moment <br> with 24Shot calling</a></h5>
-                                <a class="buy-now" href="/VeorCollection/Products">buy now</a>
+                                <h5><a href="/VeorCollection/Products?category=erkek">Erkek Parfümleri</a></h5>
+                                <div class="text-description">Tüm Erkek Parfümlerini Keşfet</div>
+                                <a class="buy-now" href="/VeorCollection/Products?category=erkek">HEMEN GÖRÜNTÜLE</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="sale-block col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-box">
-                    <div class="sale-box">SALE <span>30<i>% OFF</i></span></div>
+
                     <div class="image d-flex justify-content-between align-items-center">
-                        <img src="/img/kadınşişe1.jpg" alt="24short-img">
+                        <img src="/img/kadınşişe1.jpg" alt="Veor Collection Kadın Parfümleri Koleksiyonu">
+
                         <div class="overlay-box">
                             <div class="overlay-inner">
-                                <div class="off">Get 30% off</div>
-                                <h5><a href="/VeorCollection/Products">Be together in the moment <br> with 24Shot calling</a></h5>
-                                <a class="buy-now" href="/VeorCollection/Products">buy now</a>
+                                <h5><a href="/VeorCollection/Products?category=kadın">Kadın Parfümleri</a></h5>
+                                <div class="text-description">Tüm Kadın Parfümlerini Keşfet</div>
+                                <a class="buy-now" href="/VeorCollection/Products?category=kadın">HEMEN GÖRÜNTÜLE</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -432,6 +496,7 @@
         </div>
     </div>
 </section>
+
 <section class="testimonial-section">
     <div class="pattern-layer" style="background-image: url(/html/assets/images/background/pattern-3.png)"></div>
     <div class="auto-container">
