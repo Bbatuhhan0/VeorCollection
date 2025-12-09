@@ -46,7 +46,7 @@
 
                         <div class="mb-3">
                             <label asp-for="ShortDescription" class="form-label fw-bold">Kısa Açıklama (Liste Görünümü)</label>
-                            <textarea asp-for="ShortDescription" class="form-control" rows="2"></textarea>
+                            <textarea asp-for="ShortDescription" id="summernoteShort" class="form-control" rows="2"></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -145,6 +145,7 @@
 <script>
     // Summernote Başlatıcı
     document.addEventListener("DOMContentLoaded", function() {
+        // Detaylı Açıklama (Mevcut)
         if ($('#summernote').length > 0) {
             $('#summernote').summernote({
                 placeholder: 'Ürün hikayesi, kumaş bilgisi vb...',
@@ -156,6 +157,20 @@
                   ['para', ['ul', 'ol', 'paragraph']],
                   ['insert', ['link']],
                   ['view', ['fullscreen', 'help']]
+                ]
+            });
+        }
+
+        // KISA AÇIKLAMA (YENİ)
+        if ($('#summernoteShort').length > 0) {
+            $('#summernoteShort').summernote({
+                placeholder: 'Ürün için kısa bir özet giriniz...',
+                tabsize: 2,
+                height: 120, // Daha kısa yükseklik
+                toolbar: [
+                  ['font', ['bold', 'underline', 'clear']], // Basitleştirilmiş araç çubuğu
+                  ['para', ['ul', 'ol']],
+                  ['view', ['codeview']]
                 ]
             });
         }
